@@ -97,9 +97,8 @@ class Card:
 
 
 # Faith, Oct 7 2026: "change the title to just show for 2 seconds" (was 4 s) and "last slide
-# can just show for 3 seconds" (was 6 s).
-TITLE_CARD = Card(("A 3D-printed arm learns to put a tube in a rack,",
-                   "from my demonstrations"), 2.0)
+# can just show for 3 seconds" (was 6 s). Also Oct 7: name the arm "LeRobot SO-101", not "3D-printed".
+TITLE_CARD = Card(("A LeRobot SO-101 arm learns to put a tube in a rack",), 2.0)   # Oct 7: one line, no "from my demonstrations"
 # "about 1 in 4" is the v2 sheet's seated fraction, 11 S rows of 40 valid trials; the suite
 # recomputes it from the sheet (seated_fraction / rate_phrase) so this literal cannot drift.
 END_CARD = Card(("Succeeds about 1 in 4 times.",

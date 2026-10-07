@@ -283,7 +283,7 @@ def test_clip_list_is_the_structure_faith_approved_on_sep_22():
 def test_title_and_end_cards_exist_and_the_end_card_states_the_rate_and_the_link():
     assert dc.TITLE_CARD.seconds > 0 and dc.END_CARD.seconds > 0
     title = " ".join(dc.TITLE_CARD.lines).lower()
-    assert "tube" in title and "rack" in title and "demonstrations" in title
+    assert "tube" in title and "rack" in title   # Oct 7: Faith dropped "from my demonstrations"
     end = " ".join(dc.END_CARD.lines)
     assert dc.REPO_URL in end
     assert dc.REPO_URL == "github.com/FaithQin/so101-tube-insertion"
@@ -474,6 +474,16 @@ def test_title_card_shows_for_two_seconds():
     assert dc.TITLE_CARD.seconds == 2.0
     assert dc.card_frame_count(dc.TITLE_CARD.seconds) == 40
 
+
+
+# Faith, Oct 7 2026: "for the demo video don't say 'a 3D printed arm' ... just say LeRobot SO-101
+# arms". The arm is named by its official name, and nothing on a card sells it by price or build.
+def test_title_card_names_the_arm_lerobot_so101_and_nothing_else():
+    assert dc.TITLE_CARD.lines[0] == "A LeRobot SO-101 arm learns to put a tube in a rack"
+    assert len(dc.TITLE_CARD.lines) == 1, "Oct 7: the title card is one line, no 'from my demonstrations'"
+    for line in dc.TITLE_CARD.lines + dc.END_CARD.lines:
+        for banned in ("3D", "printed", "$"):
+            assert banned.lower() not in line.lower(), (banned, line)
 
 def test_end_card_shows_for_three_seconds():
     assert dc.END_CARD.seconds == 3.0

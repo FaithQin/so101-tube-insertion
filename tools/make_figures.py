@@ -15,6 +15,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib.transforms import offset_copy  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 
@@ -28,6 +29,19 @@ SURFACE, INK, INK2, MUTED, GRID, AXIS = "#fcfcfb", "#0b0b0b", "#52514e", "#89878
 A, B, V3C, V2C = "#2a78d6", "#eb6834", "#1baf7a", "#898781"
 COLOR = {"ACT-A": A, "ACT-B": B}
 
+TITLE_FONT_PT = 12.5
+SUBTITLE_FONT_PT = 9
+
+# fig1 is the public README's headline figure (tests/test_fig1_layout.py).
+FIG1_TITLE = "Where each arm's 20 trials got to"
+FIG1_SUBTITLE = ("v2 paired eval, Aug 25 2026 · share of trials reaching at least each stage"
+                 " · live scores (the video re-scoring pass never ran)")
+# Header baselines, in points above the top of the plot. Oct 7: at the shared
+# frame() spacing the title sat about 8 pt above the subtitle and the two read
+# as one cramped block. 20 pt between baselines is 1.6 title heights.
+FIG1_SUBTITLE_PAD_PT = 10
+FIG1_TITLE_PAD_PT = 30
+
 plt.rcParams.update({
     "font.family": "sans-serif",
     "font.sans-serif": ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"],
@@ -37,17 +51,28 @@ plt.rcParams.update({
 })
 
 
-def frame(ax, title, subtitle, ygrid=True):
+def frame(ax, title, subtitle, ygrid=True, title_pad_pt=18, subtitle_pad_pt=None):
+    """Clean the axes and set the left title and the gray subtitle under it.
+
+    With subtitle_pad_pt the subtitle baseline sits that many points above the
+    plot, independent of the plot's height. Without it, the original placement
+    that fig2 and fig3 were rendered with.
+    """
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
     if ygrid:
         ax.grid(axis="y", color=GRID, linewidth=0.8)
         ax.set_axisbelow(True)
-    ax.set_title(title, loc="left", fontsize=12.5, color=INK, fontweight="semibold", pad=18)
-    ax.text(0, 1.03, subtitle, transform=ax.transAxes, fontsize=9, color=INK2, va="bottom")
+    ax.set_title(title, loc="left", fontsize=TITLE_FONT_PT, color=INK, fontweight="semibold", pad=title_pad_pt)
+    if subtitle_pad_pt is None:
+        ax.text(0, 1.03, subtitle, transform=ax.transAxes, fontsize=SUBTITLE_FONT_PT, color=INK2, va="bottom")
+    else:
+        ax.text(0, 1, subtitle, fontsize=SUBTITLE_FONT_PT, color=INK2, va="baseline",
+                transform=offset_copy(ax.transAxes, fig=ax.figure, y=subtitle_pad_pt, units="points"))
 
 
-def fig1_stage_split(rows):
+def draw_fig1(rows):
+    """Build fig1 without saving it, so the layout test can measure it."""
     cum = fd.stage_cumulative(rows)
     labels = ["reached the tube", "held it", "carried it to the rack", "seated it"]
     x = np.arange(len(fd.STAGES))
@@ -63,10 +88,14 @@ def fig1_stage_split(rows):
     ax.set_xticks(x, labels)
     ax.set_ylim(0, 112)
     ax.set_yticks([0, 25, 50, 75, 100], ["0", "25", "50", "75", "100%"])
-    frame(ax, "Where each arm's 20 trials got to",
-          "v2 paired eval, Aug 25 2026 · share of trials reaching at least each stage · live scoring, every trial on video")
+    frame(ax, FIG1_TITLE, FIG1_SUBTITLE, title_pad_pt=FIG1_TITLE_PAD_PT, subtitle_pad_pt=FIG1_SUBTITLE_PAD_PT)
     ax.legend(frameon=False, loc="upper right", fontsize=9)
     fig.tight_layout()
+    return fig, ax, cum
+
+
+def fig1_stage_split(rows):
+    fig, ax, cum = draw_fig1(rows)
     fig.savefig(OUT / "fig1_stage_split.png")
     plt.close(fig)
     return cum

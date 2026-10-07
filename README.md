@@ -1,6 +1,6 @@
 # so101-tube-insertion
 
-**Does giving an imitation policy the servos' own load and current readings help it put a test tube into a rack, on a $300 3D-printed arm?**
+**Does giving an imitation policy the servos' own load and current readings help it put a test tube into a rack, on a LeRobot SO-101 arm?**
 
 This is the record of one summer's attempt to answer that on real hardware: a paired A/B evaluation, the pre-registered protocol that followed it, the failure taxonomy, the things I believed and then measured to be false, and the tooling that made any of the numbers believable.
 
@@ -10,7 +10,7 @@ This is the record of one summer's attempt to answer that on real hardware: a pa
 
 ![Where each arm's 20 trials got to, from live scores](analysis/figures/fig1_stage_split.png)
 
-**Demo video (41 s).** [Watch it on the releases page](https://github.com/FaithQin/so101-tube-insertion/releases). One run that works, one that recovers at the rack, and the three ways it fails. The frame-by-frame audit of every clip is in [`analysis/demo_cut/EDL.md`](analysis/demo_cut/EDL.md).
+**Demo video (41 s).** [Watch it on the releases page](https://github.com/FaithQin/so101-tube-insertion/releases). First-try success, recovery, and three ways it fails the task. The frame-by-frame audit of every clip is in [`analysis/demo_cut/EDL.md`](analysis/demo_cut/EDL.md).
 
 [![The run that works, frame by frame](analysis/demo_cut/C01_trial_B_v2_20260825_203323.png)](https://github.com/FaithQin/so101-tube-insertion/releases)
 
@@ -41,7 +41,7 @@ Where the trials did teach me something is in where things went wrong. 27 of the
 
 ## 2. What it took to believe any number
 
-**Replay as arbiter.** A deterministic replay of a known-good demonstration separates the plant from the policy. Without it, "my imitation policy is bad" can't be falsified on a $300 arm. From Aug 23 a replay had to seat before every block, and from Sep 1 no trial counted without a passing replay on the same power cycle. The replay caught an elbow fault on Aug 29, certified the plant on Sep 3 after two days with no seat, and on Sep 6 it stopped seating on its own, which is how the worn elbow gearbox in section 4 was found.
+**Replay as arbiter.** A deterministic replay of a known-good demonstration separates the plant from the policy. Without it, "my imitation policy is bad" can't be falsified on a hobby-servo arm. From Aug 23 a replay had to seat before every block, and from Sep 1 no trial counted without a passing replay on the same power cycle. The replay caught an elbow fault on Aug 29, certified the plant on Sep 3 after two days with no seat, and on Sep 6 it stopped seating on its own, which is how the worn elbow gearbox in section 4 was found.
 
 **Gates that abort in code.** On Aug 29 an hour of bench time went to checks that only printed a warning. Since then, if a condition should stop a launch it stops it in code, and if it shouldn't, it isn't in the launcher. Thresholds live in [`tools/preflight.py`](tools/preflight.py), [`tools/home_gate.py`](tools/home_gate.py) and [`tools/cert_gate.py`](tools/cert_gate.py).
 
@@ -176,7 +176,7 @@ These are the five bets I'd carry into a next study. For each one I say where it
 - Across-day variance is large. The same v2-A policy went 8 of 10 on Aug 29 (five of them with the chunk lock on) and 6 of 20 on Aug 25.
 - The arm isn't useful today.
 
-**Positioning.** FACTR 2 (arXiv:2606.12406) is the closest neighbour: raw motor current, ACT, insertion. I designed v4 with FACTR 2 in view, as a low-cost replication attempt on a $300 arm with servo telemetry instead of joint-torque hardware. v4 has no A/B result. Phaser (arXiv:2605.29407) puts force sensors on a deformable task, mostly in a failure detector, and no ablation there isolates the force channel. robomimic section 4.3 is the confound both of those and this one carry.
+**Positioning.** FACTR 2 (arXiv:2606.12406) is the closest neighbour: raw motor current, ACT, insertion. I designed v4 with FACTR 2 in view, as a low-cost replication attempt on an SO-101 arm with servo telemetry instead of joint-torque hardware. v4 has no A/B result. Phaser (arXiv:2605.29407) puts force sensors on a deformable task, mostly in a failure detector, and no ablation there isolates the force channel. robomimic section 4.3 is the confound both of those and this one carry.
 
 ---
 
@@ -231,4 +231,4 @@ A 3D-printed SO-ARM101 pair, leader and follower, with Feetech HX-30HM servos on
 
 ### License
 
-Apache-2.0. Snapshot of the private working repository at commit `5ff8ab9`. See [`PROVENANCE.md`](PROVENANCE.md).
+Apache-2.0. Snapshot of the private working repository at commit `ab11025`. See [`PROVENANCE.md`](PROVENANCE.md).

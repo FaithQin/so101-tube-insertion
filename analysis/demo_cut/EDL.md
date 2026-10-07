@@ -30,7 +30,7 @@ Policy for the non-sheet source: B2V-A-02 is ACT-A on v3 (`analysis/figures/numb
 
 | card | seconds | text |
 |---|---|---|
-| title | 2 | A 3D-printed arm learns to put a tube in a rack, / from my demonstrations |
+| title | 2 | A LeRobot SO-101 arm learns to put a tube in a rack |
 | end | 3 | Succeeds about 1 in 4 times. / Full results and failure breakdown: / github.com/FaithQin/so101-tube-insertion |
 
 ## Events per source (seconds, video time)
