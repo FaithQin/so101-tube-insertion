@@ -1,0 +1,36 @@
+{
+  "repo_id": "faithqin/pi05-tube-A-v3_2026-08-30_03-06-05",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "host": "macOS-26.5.2-arm64-arm-64bit",
+  "n_action_steps": 50,
+  "fps": 20,
+  "budget_s": 2.5,
+  "image_towers": [
+    "observation.images.base_0_rgb",
+    "observation.images.left_wrist_0_rgb",
+    "observation.images.right_wrist_0_rgb",
+    "observation.images.empty_camera_0"
+  ],
+  "load_s": 117.3253829581663,
+  "samples_s": [
+    0.668622791999951,
+    0.6704577079508454,
+    0.6755917919799685,
+    0.6778476249892265,
+    0.670182874891907,
+    0.6697074170224369,
+    0.6699691249523312,
+    0.6780527499504387
+  ],
+  "stats": {
+    "n": 8,
+    "mean": 0.6725540104671381,
+    "p50": 0.6703202914213762,
+    "p90": 0.6779091624775901,
+    "max": 0.6780527499504387,
+    "min": 0.668622791999951
+  },
+  "verdict": "FITS",
+  "synthetic": true
+}

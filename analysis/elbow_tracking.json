@@ -1,0 +1,55 @@
+{
+  "dataset": "faithqin/so101-tube-insert-v3_20260827_110242",
+  "episode": 0,
+  "load_onset_tick": 0,
+  "fault_deg": 1.5,
+  "report": {
+    "shoulder_pan": {
+      "free_mean": NaN,
+      "free_max": NaN,
+      "loaded_mean": 2.2081257342918788,
+      "loaded_max": 12.492991624027198
+    },
+    "shoulder_lift": {
+      "free_mean": NaN,
+      "free_max": NaN,
+      "loaded_mean": 6.543822157606473,
+      "loaded_max": 20.000001173753006
+    },
+    "elbow_flex": {
+      "free_mean": NaN,
+      "free_max": NaN,
+      "loaded_mean": 5.637853673780186,
+      "loaded_max": 22.912500664823085
+    },
+    "wrist_flex": {
+      "free_mean": NaN,
+      "free_max": NaN,
+      "loaded_mean": 3.957021360874888,
+      "loaded_max": 27.327192172198238
+    },
+    "wrist_roll": {
+      "free_mean": NaN,
+      "free_max": NaN,
+      "loaded_mean": 2.4921030710693617,
+      "loaded_max": 20.747253334129255
+    },
+    "gripper": {
+      "free_mean": NaN,
+      "free_max": NaN,
+      "loaded_mean": 2.2487960015028774,
+      "loaded_max": 20.510610860556383
+    }
+  },
+  "verdict": {
+    "status": "FAULT",
+    "joints": [
+      "shoulder_pan",
+      "elbow_flex",
+      "wrist_flex",
+      "wrist_roll",
+      "gripper"
+    ],
+    "load_locked": true
+  }
+}

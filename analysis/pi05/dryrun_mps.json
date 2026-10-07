@@ -1,0 +1,62 @@
+{
+  "repo_id": "faithqin/pi05-tube-A-v3_2026-08-30_03-06-05",
+  "dataset": "faithqin/so101-tube-insert-v3-noload",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "threshold": 0.25,
+  "mean_norm_err": 0.03545149639782641,
+  "mean_baseline_err": 0.09870117141031942,
+  "relative_skill": 0.3591800977766296,
+  "diagnosis": "Policy error (0.035) beats the trivial baseline (0.099) by 2.8x -- real skill on training frames. The pipeline delivers observations the way training did.",
+  "verdict": "PLUMBING OK",
+  "rows": [
+    {
+      "episode": 12,
+      "frame": 19,
+      "sane": true,
+      "why": "ok",
+      "norm_err": 0.04867931509992079,
+      "baseline_err": 0.08503263045587468
+    },
+    {
+      "episode": 49,
+      "frame": 62,
+      "sane": true,
+      "why": "ok",
+      "norm_err": 0.023115184266302824,
+      "baseline_err": 0.06510707340493516
+    },
+    {
+      "episode": 32,
+      "frame": 98,
+      "sane": true,
+      "why": "ok",
+      "norm_err": 0.05925305797645498,
+      "baseline_err": 0.02271904829800464
+    },
+    {
+      "episode": 18,
+      "frame": 124,
+      "sane": true,
+      "why": "ok",
+      "norm_err": 0.012982812780415852,
+      "baseline_err": 0.10569302169237704
+    },
+    {
+      "episode": 29,
+      "frame": 150,
+      "sane": true,
+      "why": "ok",
+      "norm_err": 0.048419316700869956,
+      "baseline_err": 0.20767163835024663
+    },
+    {
+      "episode": 43,
+      "frame": 174,
+      "sane": true,
+      "why": "ok",
+      "norm_err": 0.020259291562994042,
+      "baseline_err": 0.1059836162604784
+    }
+  ]
+}

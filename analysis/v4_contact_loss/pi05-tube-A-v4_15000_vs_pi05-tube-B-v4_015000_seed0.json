@@ -1,0 +1,4216 @@
+{
+ "contact_z": 2.0,
+ "stride": 6,
+ "seed": 0,
+ "holdout": [
+  11,
+  19,
+  25,
+  31,
+  35,
+  50,
+  51,
+  57
+ ],
+ "A": {
+  "repo": "faithqin/pi05-tube-A-v4",
+  "step": 15000,
+  "split": {
+   "contact": {
+    "mean": 0.05457283890971183,
+    "n": 79
+   },
+   "free": {
+    "mean": 0.06094086445930801,
+    "n": 267
+   }
+  },
+  "rows": [
+   {
+    "episode": 11,
+    "frame": 0,
+    "loss": 0.07424067705869675,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 6,
+    "loss": 0.13621926307678223,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 12,
+    "loss": 0.04658006504178047,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 18,
+    "loss": 0.07403591275215149,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 24,
+    "loss": 0.35721004009246826,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 30,
+    "loss": 0.05094209313392639,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 36,
+    "loss": 0.08532987534999847,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 42,
+    "loss": 0.1825258880853653,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 48,
+    "loss": 0.03350473567843437,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 54,
+    "loss": 0.025360438972711563,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 60,
+    "loss": 0.02256043255329132,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 66,
+    "loss": 0.04501466453075409,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 72,
+    "loss": 0.06403958052396774,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 78,
+    "loss": 0.14377416670322418,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 84,
+    "loss": 0.038765907287597656,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 90,
+    "loss": 0.09293881058692932,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 96,
+    "loss": 0.06763994693756104,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 102,
+    "loss": 0.08288529515266418,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 108,
+    "loss": 0.06147492304444313,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 114,
+    "loss": 0.18554364144802094,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 120,
+    "loss": 0.06456758826971054,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 126,
+    "loss": 0.04491787031292915,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 132,
+    "loss": 0.0748027041554451,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 138,
+    "loss": 0.022358395159244537,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 144,
+    "loss": 0.04838643968105316,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 150,
+    "loss": 0.05725594237446785,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 156,
+    "loss": 0.036796778440475464,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 162,
+    "loss": 0.11547685414552689,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 168,
+    "loss": 0.13104593753814697,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 174,
+    "loss": 0.039052773267030716,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 180,
+    "loss": 0.03418591991066933,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 186,
+    "loss": 0.02573540434241295,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 192,
+    "loss": 0.10395341366529465,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 198,
+    "loss": 0.10946633666753769,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 204,
+    "loss": 0.06548722833395004,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 210,
+    "loss": 0.118623748421669,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 216,
+    "loss": 0.1825498640537262,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 222,
+    "loss": 0.25020313262939453,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 228,
+    "loss": 0.21378758549690247,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 234,
+    "loss": 0.23535630106925964,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 240,
+    "loss": 0.10927867144346237,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 246,
+    "loss": 0.01641296036541462,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 252,
+    "loss": 0.019955620169639587,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 258,
+    "loss": 0.014637578278779984,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 264,
+    "loss": 0.03255104646086693,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 270,
+    "loss": 0.02013086900115013,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 276,
+    "loss": 0.002551871119067073,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 282,
+    "loss": 0.0005074765649624169,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 288,
+    "loss": 0.0010507697006687522,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 294,
+    "loss": 0.0030341148376464844,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 300,
+    "loss": 0.000711084168870002,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 306,
+    "loss": 0.00077997543849051,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 0,
+    "loss": 0.0927000567317009,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 6,
+    "loss": 0.03206091746687889,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 12,
+    "loss": 0.18845076858997345,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 18,
+    "loss": 0.06937254220247269,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 24,
+    "loss": 0.07911759614944458,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 30,
+    "loss": 0.08847334235906601,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 36,
+    "loss": 0.04148164764046669,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 42,
+    "loss": 0.041825950145721436,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 48,
+    "loss": 0.04966949671506882,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 54,
+    "loss": 0.053628452122211456,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 60,
+    "loss": 0.023809777572751045,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 66,
+    "loss": 0.013953806832432747,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 72,
+    "loss": 0.024277936667203903,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 78,
+    "loss": 0.030113987624645233,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 84,
+    "loss": 0.02541859820485115,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 90,
+    "loss": 0.01573081687092781,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 96,
+    "loss": 0.07532427459955215,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 102,
+    "loss": 0.03854814171791077,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 108,
+    "loss": 0.05418267846107483,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 114,
+    "loss": 0.0869375616312027,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 120,
+    "loss": 0.20753540098667145,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 126,
+    "loss": 0.06840837746858597,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 132,
+    "loss": 0.3493380844593048,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 138,
+    "loss": 0.0525837205350399,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 144,
+    "loss": 0.18231898546218872,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 150,
+    "loss": 0.052390530705451965,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 156,
+    "loss": 0.021217787638306618,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 162,
+    "loss": 0.013715132139623165,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 168,
+    "loss": 0.007766081020236015,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 174,
+    "loss": 0.002962925238534808,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 180,
+    "loss": 0.001238183001987636,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 186,
+    "loss": 0.004775995388627052,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 192,
+    "loss": 0.000433564797276631,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 198,
+    "loss": 0.00047945111873559654,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 204,
+    "loss": 0.0005023641278967261,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 210,
+    "loss": 0.0008027419680729508,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 216,
+    "loss": 0.00071058509638533,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 0,
+    "loss": 0.26119521260261536,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 6,
+    "loss": 0.07649191468954086,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 12,
+    "loss": 0.15313929319381714,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 18,
+    "loss": 0.08843059837818146,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 24,
+    "loss": 0.11539998650550842,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 30,
+    "loss": 0.07539951801300049,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 36,
+    "loss": 0.045015349984169006,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 42,
+    "loss": 0.08332248032093048,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 48,
+    "loss": 0.02675495482981205,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 54,
+    "loss": 0.05206553265452385,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 60,
+    "loss": 0.04758894443511963,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 66,
+    "loss": 0.015221579000353813,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 72,
+    "loss": 0.018305333331227303,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 78,
+    "loss": 0.020631777122616768,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 84,
+    "loss": 0.10404056310653687,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 90,
+    "loss": 0.037145037204027176,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 96,
+    "loss": 0.08880008012056351,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 102,
+    "loss": 0.0244272593408823,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 108,
+    "loss": 0.030062513425946236,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 114,
+    "loss": 0.09199483692646027,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 120,
+    "loss": 0.09521957486867905,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 126,
+    "loss": 0.05004863068461418,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 132,
+    "loss": 0.06095227599143982,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 138,
+    "loss": 0.0650482177734375,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 144,
+    "loss": 0.0969683825969696,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 150,
+    "loss": 0.20609311759471893,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 156,
+    "loss": 0.2333802580833435,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 162,
+    "loss": 0.4921347200870514,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 168,
+    "loss": 0.09864170104265213,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 174,
+    "loss": 0.12104591727256775,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 180,
+    "loss": 0.05490563064813614,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 186,
+    "loss": 0.05470132827758789,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 192,
+    "loss": 0.03926120325922966,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 198,
+    "loss": 0.18758836388587952,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 204,
+    "loss": 0.09485258162021637,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 210,
+    "loss": 0.05894745513796806,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 216,
+    "loss": 0.10673584043979645,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 222,
+    "loss": 0.0634194016456604,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 228,
+    "loss": 0.07922195643186569,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 234,
+    "loss": 0.09414879977703094,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 240,
+    "loss": 0.10793811082839966,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 246,
+    "loss": 0.03723204880952835,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 252,
+    "loss": 0.029642630368471146,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 258,
+    "loss": 0.0370195098221302,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 264,
+    "loss": 0.0010684917215257883,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 270,
+    "loss": 0.0014327868120744824,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 276,
+    "loss": 0.0005201504100114107,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 282,
+    "loss": 0.000732462271116674,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 288,
+    "loss": 0.001092888880521059,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 0,
+    "loss": 0.017645515501499176,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 6,
+    "loss": 0.05885070189833641,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 12,
+    "loss": 0.05800049751996994,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 18,
+    "loss": 0.08794558048248291,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 24,
+    "loss": 0.08208101242780685,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 30,
+    "loss": 0.03906026482582092,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 36,
+    "loss": 0.07714152336120605,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 42,
+    "loss": 0.058084700256586075,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 48,
+    "loss": 0.034548625349998474,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 54,
+    "loss": 0.03677302598953247,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 60,
+    "loss": 0.060659389942884445,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 66,
+    "loss": 0.03194515407085419,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 72,
+    "loss": 0.022514915093779564,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 78,
+    "loss": 0.02313149906694889,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 84,
+    "loss": 0.04428693279623985,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 90,
+    "loss": 0.04309818893671036,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 96,
+    "loss": 0.05297263711690903,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 102,
+    "loss": 0.04041725769639015,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 108,
+    "loss": 0.019734488800168037,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 114,
+    "loss": 0.026081224903464317,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 120,
+    "loss": 0.03498160466551781,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 126,
+    "loss": 0.0599236898124218,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 132,
+    "loss": 0.035877201706171036,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 138,
+    "loss": 0.024319149553775787,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 144,
+    "loss": 0.00515199638903141,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 150,
+    "loss": 0.003426700597628951,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 156,
+    "loss": 0.0195282232016325,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 162,
+    "loss": 0.013723216019570827,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 168,
+    "loss": 0.06252938508987427,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 174,
+    "loss": 0.04510479047894478,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 180,
+    "loss": 0.02579190395772457,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 186,
+    "loss": 0.0399155430495739,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 192,
+    "loss": 0.17543503642082214,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 198,
+    "loss": 0.024047480896115303,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 204,
+    "loss": 0.2470591813325882,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 210,
+    "loss": 0.0766155943274498,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 216,
+    "loss": 0.03153131529688835,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 222,
+    "loss": 0.05503040924668312,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 228,
+    "loss": 0.012597259134054184,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 234,
+    "loss": 0.016840025782585144,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 240,
+    "loss": 0.003125164657831192,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 246,
+    "loss": 0.0020568191539496183,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 252,
+    "loss": 0.0011594801908358932,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 258,
+    "loss": 0.003817407414317131,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 264,
+    "loss": 0.0004847415548283607,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 270,
+    "loss": 0.00032739879679866135,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 276,
+    "loss": 0.0005295056034810841,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 282,
+    "loss": 0.0009283937979489565,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 0,
+    "loss": 0.04571053758263588,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 6,
+    "loss": 0.065364308655262,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 12,
+    "loss": 0.04459211602807045,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 18,
+    "loss": 0.0898405984044075,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 24,
+    "loss": 0.08825305104255676,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 30,
+    "loss": 0.09246040880680084,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 36,
+    "loss": 0.020331380888819695,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 42,
+    "loss": 0.03699975088238716,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 48,
+    "loss": 0.033513057976961136,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 54,
+    "loss": 0.0645204558968544,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 60,
+    "loss": 0.12376932799816132,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 66,
+    "loss": 0.08239129185676575,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 72,
+    "loss": 0.022800616919994354,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 78,
+    "loss": 0.05313968285918236,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 84,
+    "loss": 0.07102656364440918,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 90,
+    "loss": 0.02501366287469864,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 96,
+    "loss": 0.03468994423747063,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 102,
+    "loss": 0.05067691206932068,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 108,
+    "loss": 0.040355656296014786,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 114,
+    "loss": 0.08376220613718033,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 120,
+    "loss": 0.034648895263671875,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 126,
+    "loss": 0.03860475495457649,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 132,
+    "loss": 0.44350337982177734,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 138,
+    "loss": 0.121599480509758,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 144,
+    "loss": 0.03266708552837372,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 150,
+    "loss": 0.03717890754342079,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 156,
+    "loss": 0.1246420294046402,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 162,
+    "loss": 0.02607409656047821,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 168,
+    "loss": 0.10339803248643875,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 174,
+    "loss": 0.031667474657297134,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 180,
+    "loss": 0.019894393160939217,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 186,
+    "loss": 0.02633783593773842,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 192,
+    "loss": 0.015162026509642601,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 198,
+    "loss": 0.1684631109237671,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 204,
+    "loss": 0.003872503060847521,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 210,
+    "loss": 0.006686830893158913,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 216,
+    "loss": 0.012015615589916706,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 222,
+    "loss": 0.0031710234470665455,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 228,
+    "loss": 0.0005236619617789984,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 234,
+    "loss": 0.000557964900508523,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 240,
+    "loss": 0.0006754889036528766,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 246,
+    "loss": 0.0015147539088502526,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 0,
+    "loss": 0.4878802001476288,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 6,
+    "loss": 0.058184828609228134,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 12,
+    "loss": 0.13971354067325592,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 18,
+    "loss": 0.08602271974086761,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 24,
+    "loss": 0.05208403989672661,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 30,
+    "loss": 0.08672429621219635,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 36,
+    "loss": 0.08849568665027618,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 42,
+    "loss": 0.08342459797859192,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 48,
+    "loss": 0.04984895884990692,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 54,
+    "loss": 0.06999371200799942,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 60,
+    "loss": 0.03340655565261841,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 66,
+    "loss": 0.04171144589781761,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 72,
+    "loss": 0.03155115246772766,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 78,
+    "loss": 0.026118982583284378,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 84,
+    "loss": 0.05674873664975166,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 90,
+    "loss": 0.040122609585523605,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 96,
+    "loss": 0.051338791847229004,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 102,
+    "loss": 0.025758683681488037,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 108,
+    "loss": 0.04136452451348305,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 114,
+    "loss": 0.10037798434495926,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 120,
+    "loss": 0.028967950493097305,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 126,
+    "loss": 0.026527825742959976,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 132,
+    "loss": 0.03420343995094299,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 138,
+    "loss": 0.02161058783531189,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 144,
+    "loss": 0.02895415760576725,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 150,
+    "loss": 0.036150503903627396,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 156,
+    "loss": 0.04181809350848198,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 162,
+    "loss": 0.041133467108011246,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 168,
+    "loss": 0.013638842850923538,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 174,
+    "loss": 0.09421057254076004,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 180,
+    "loss": 0.02526090294122696,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 186,
+    "loss": 0.10638389736413956,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 192,
+    "loss": 0.03099525161087513,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 198,
+    "loss": 0.21095390617847443,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 204,
+    "loss": 0.14103536307811737,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 210,
+    "loss": 0.07471811026334763,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 216,
+    "loss": 0.11161443591117859,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 222,
+    "loss": 0.06515014171600342,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 228,
+    "loss": 0.04433349892497063,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 234,
+    "loss": 0.03546945005655289,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 240,
+    "loss": 0.018049977719783783,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 246,
+    "loss": 0.030403681099414825,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 252,
+    "loss": 0.014473807066679,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 258,
+    "loss": 0.02336311899125576,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 264,
+    "loss": 0.003664981573820114,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 270,
+    "loss": 0.0005484547582454979,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 276,
+    "loss": 0.001063463743776083,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 282,
+    "loss": 0.008598584681749344,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 288,
+    "loss": 0.001105760456994176,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 294,
+    "loss": 0.0008695521391928196,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 0,
+    "loss": 0.06246088072657585,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 6,
+    "loss": 0.01350608840584755,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 12,
+    "loss": 0.23204855620861053,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 18,
+    "loss": 0.07260347902774811,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 24,
+    "loss": 0.1944272220134735,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 30,
+    "loss": 0.03388555720448494,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 36,
+    "loss": 0.18339113891124725,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 42,
+    "loss": 0.02045806683599949,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 48,
+    "loss": 0.019183803349733353,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 54,
+    "loss": 0.026478029787540436,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 60,
+    "loss": 0.013552919961512089,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 66,
+    "loss": 0.08441374450922012,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 72,
+    "loss": 0.019045859575271606,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 78,
+    "loss": 0.0683831200003624,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 84,
+    "loss": 0.06474152952432632,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 90,
+    "loss": 0.1478843241930008,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 96,
+    "loss": 0.10642855614423752,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 102,
+    "loss": 0.05945555493235588,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 108,
+    "loss": 0.09487051516771317,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 114,
+    "loss": 0.09325908869504929,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 120,
+    "loss": 0.038343723863363266,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 126,
+    "loss": 0.04477297514677048,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 132,
+    "loss": 0.08185581117868423,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 138,
+    "loss": 0.06274142116308212,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 144,
+    "loss": 0.04512849077582359,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 150,
+    "loss": 0.04896417260169983,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 156,
+    "loss": 0.008461170829832554,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 162,
+    "loss": 0.025865739211440086,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 168,
+    "loss": 0.004012808203697205,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 174,
+    "loss": 0.0034683479461818933,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 180,
+    "loss": 0.0022086568642407656,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 186,
+    "loss": 0.002025265945121646,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 192,
+    "loss": 0.0009845583699643612,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 198,
+    "loss": 0.0007564245606772602,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 0,
+    "loss": 0.06935511529445648,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 6,
+    "loss": 0.05619703605771065,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 12,
+    "loss": 0.06825855374336243,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 18,
+    "loss": 0.06226586177945137,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 24,
+    "loss": 0.04704345762729645,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 30,
+    "loss": 0.029396435245871544,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 36,
+    "loss": 0.02364169992506504,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 42,
+    "loss": 0.03265416622161865,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 48,
+    "loss": 0.01636744849383831,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 54,
+    "loss": 0.008924138732254505,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 60,
+    "loss": 0.019778573885560036,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 66,
+    "loss": 0.005136297550052404,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 72,
+    "loss": 0.011811086907982826,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 78,
+    "loss": 0.006738244090229273,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 84,
+    "loss": 0.014732815325260162,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 90,
+    "loss": 0.010327650234103203,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 96,
+    "loss": 0.026592906564474106,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 102,
+    "loss": 0.11735275387763977,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 108,
+    "loss": 0.053280916064977646,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 114,
+    "loss": 0.04940337687730789,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 120,
+    "loss": 0.03382069617509842,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 126,
+    "loss": 0.017920425161719322,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 132,
+    "loss": 0.1021026074886322,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 138,
+    "loss": 0.11916086077690125,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 144,
+    "loss": 0.048153407871723175,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 150,
+    "loss": 0.023347944021224976,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 156,
+    "loss": 0.006941983010619879,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 162,
+    "loss": 0.0015056274132803082,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 168,
+    "loss": 0.002055908553302288,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 174,
+    "loss": 0.00227734656073153,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 180,
+    "loss": 0.0006704730913043022,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 186,
+    "loss": 0.0028974039014428854,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 192,
+    "loss": 0.001813373644836247,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 198,
+    "loss": 0.0015403523575514555,
+    "contact": false
+   }
+  ]
+ },
+ "B": {
+  "repo": "faithqin/pi05-tube-B-v4",
+  "step": 15000,
+  "split": {
+   "contact": {
+    "mean": 0.052154856960913994,
+    "n": 79
+   },
+   "free": {
+    "mean": 0.05956417249039527,
+    "n": 267
+   }
+  },
+  "rows": [
+   {
+    "episode": 11,
+    "frame": 0,
+    "loss": 0.06166165694594383,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 6,
+    "loss": 0.06144849210977554,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 12,
+    "loss": 0.0467844195663929,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 18,
+    "loss": 0.06942006945610046,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 24,
+    "loss": 0.316110223531723,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 30,
+    "loss": 0.06405854225158691,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 36,
+    "loss": 0.09864353388547897,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 42,
+    "loss": 0.37109455466270447,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 48,
+    "loss": 0.37014850974082947,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 54,
+    "loss": 0.015418156050145626,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 60,
+    "loss": 0.021594349294900894,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 66,
+    "loss": 0.03830929473042488,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 72,
+    "loss": 0.04501497372984886,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 78,
+    "loss": 0.13731196522712708,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 84,
+    "loss": 0.0663609653711319,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 90,
+    "loss": 0.10542448610067368,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 96,
+    "loss": 0.049732763320207596,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 102,
+    "loss": 0.07241278141736984,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 108,
+    "loss": 0.07434208691120148,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 114,
+    "loss": 0.03693461790680885,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 120,
+    "loss": 0.18374140560626984,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 126,
+    "loss": 0.02460620552301407,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 132,
+    "loss": 0.07679252326488495,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 138,
+    "loss": 0.00958634726703167,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 144,
+    "loss": 0.039287958294153214,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 150,
+    "loss": 0.1441197246313095,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 156,
+    "loss": 0.13393773138523102,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 162,
+    "loss": 0.19189125299453735,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 168,
+    "loss": 0.07634788006544113,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 174,
+    "loss": 0.02961563505232334,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 180,
+    "loss": 0.04489621892571449,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 186,
+    "loss": 0.043017975986003876,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 192,
+    "loss": 0.12733326852321625,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 198,
+    "loss": 0.09068668633699417,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 204,
+    "loss": 0.0799039974808693,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 210,
+    "loss": 0.10429676622152328,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 216,
+    "loss": 0.2127702385187149,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 222,
+    "loss": 0.11091665923595428,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 228,
+    "loss": 0.13687188923358917,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 234,
+    "loss": 0.23545484244823456,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 240,
+    "loss": 0.09294521808624268,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 246,
+    "loss": 0.022700704634189606,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 252,
+    "loss": 0.025145674124360085,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 258,
+    "loss": 0.008518503978848457,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 264,
+    "loss": 0.03375162184238434,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 270,
+    "loss": 0.013444236479699612,
+    "contact": true
+   },
+   {
+    "episode": 11,
+    "frame": 276,
+    "loss": 0.0014051597099751234,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 282,
+    "loss": 0.0006108643719926476,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 288,
+    "loss": 0.0008274728315882385,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 294,
+    "loss": 0.002725917147472501,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 300,
+    "loss": 0.0006115264841355383,
+    "contact": false
+   },
+   {
+    "episode": 11,
+    "frame": 306,
+    "loss": 0.0007193449418991804,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 0,
+    "loss": 0.08524041622877121,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 6,
+    "loss": 0.03544413670897484,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 12,
+    "loss": 0.19897489249706268,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 18,
+    "loss": 0.060470011085271835,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 24,
+    "loss": 0.08784066140651703,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 30,
+    "loss": 0.0986635610461235,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 36,
+    "loss": 0.05323120951652527,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 42,
+    "loss": 0.06255221366882324,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 48,
+    "loss": 0.03435962274670601,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 54,
+    "loss": 0.018249399960041046,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 60,
+    "loss": 0.03512444347143173,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 66,
+    "loss": 0.01870713010430336,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 72,
+    "loss": 0.01085212454199791,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 78,
+    "loss": 0.02949192188680172,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 84,
+    "loss": 0.03608523681759834,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 90,
+    "loss": 0.0510656014084816,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 96,
+    "loss": 0.0689409151673317,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 102,
+    "loss": 0.03855321928858757,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 108,
+    "loss": 0.0474550686776638,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 114,
+    "loss": 0.09203707426786423,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 120,
+    "loss": 0.20864054560661316,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 126,
+    "loss": 0.03606672212481499,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 132,
+    "loss": 0.35528528690338135,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 138,
+    "loss": 0.0686090737581253,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 144,
+    "loss": 0.05389538034796715,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 150,
+    "loss": 0.03689838573336601,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 156,
+    "loss": 0.03597154840826988,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 162,
+    "loss": 0.02138507179915905,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 168,
+    "loss": 0.00967805553227663,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 174,
+    "loss": 0.0033942661248147488,
+    "contact": true
+   },
+   {
+    "episode": 19,
+    "frame": 180,
+    "loss": 0.0036632900591939688,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 186,
+    "loss": 0.006221144925802946,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 192,
+    "loss": 0.000603850232437253,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 198,
+    "loss": 0.0006095331627875566,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 204,
+    "loss": 0.002408519620075822,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 210,
+    "loss": 0.0006749785388819873,
+    "contact": false
+   },
+   {
+    "episode": 19,
+    "frame": 216,
+    "loss": 0.0006913142860867083,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 0,
+    "loss": 0.19411827623844147,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 6,
+    "loss": 0.072604700922966,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 12,
+    "loss": 0.16250525414943695,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 18,
+    "loss": 0.0775047019124031,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 24,
+    "loss": 0.054378941655159,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 30,
+    "loss": 0.08593764156103134,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 36,
+    "loss": 0.05869052931666374,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 42,
+    "loss": 0.06498362869024277,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 48,
+    "loss": 0.01715303212404251,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 54,
+    "loss": 0.017294419929385185,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 60,
+    "loss": 0.009217396378517151,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 66,
+    "loss": 0.008194995112717152,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 72,
+    "loss": 0.009612733498215675,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 78,
+    "loss": 0.017843790352344513,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 84,
+    "loss": 0.20342925190925598,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 90,
+    "loss": 0.04010256752371788,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 96,
+    "loss": 0.021945098415017128,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 102,
+    "loss": 0.14107286930084229,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 108,
+    "loss": 0.020919587463140488,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 114,
+    "loss": 0.07324541360139847,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 120,
+    "loss": 0.04768158867955208,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 126,
+    "loss": 0.03362147882580757,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 132,
+    "loss": 0.03448987007141113,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 138,
+    "loss": 0.09843114763498306,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 144,
+    "loss": 0.12565991282463074,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 150,
+    "loss": 0.25134575366973877,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 156,
+    "loss": 0.42859935760498047,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 162,
+    "loss": 0.4113025963306427,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 168,
+    "loss": 0.33033227920532227,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 174,
+    "loss": 0.0845494195818901,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 180,
+    "loss": 0.033408209681510925,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 186,
+    "loss": 0.046972598880529404,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 192,
+    "loss": 0.03146268427371979,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 198,
+    "loss": 0.16526652872562408,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 204,
+    "loss": 0.13602598011493683,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 210,
+    "loss": 0.07640457898378372,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 216,
+    "loss": 0.05288604274392128,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 222,
+    "loss": 0.09228428453207016,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 228,
+    "loss": 0.05538494139909744,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 234,
+    "loss": 0.060073669999837875,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 240,
+    "loss": 0.09061012417078018,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 246,
+    "loss": 0.020731545984745026,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 252,
+    "loss": 0.020825767889618874,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 258,
+    "loss": 0.009176132269203663,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 264,
+    "loss": 0.002479046117514372,
+    "contact": true
+   },
+   {
+    "episode": 25,
+    "frame": 270,
+    "loss": 0.0008611378143541515,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 276,
+    "loss": 0.0004883806686848402,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 282,
+    "loss": 0.000986556289717555,
+    "contact": false
+   },
+   {
+    "episode": 25,
+    "frame": 288,
+    "loss": 0.001062154769897461,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 0,
+    "loss": 0.034491270780563354,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 6,
+    "loss": 0.042086418718099594,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 12,
+    "loss": 0.046631839126348495,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 18,
+    "loss": 0.13636301457881927,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 24,
+    "loss": 0.12957435846328735,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 30,
+    "loss": 0.023418249562382698,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 36,
+    "loss": 0.051706988364458084,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 42,
+    "loss": 0.02572866901755333,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 48,
+    "loss": 0.03944821283221245,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 54,
+    "loss": 0.03171860799193382,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 60,
+    "loss": 0.039127785712480545,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 66,
+    "loss": 0.018038086593151093,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 72,
+    "loss": 0.019310245290398598,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 78,
+    "loss": 0.015101226978003979,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 84,
+    "loss": 0.06715314090251923,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 90,
+    "loss": 0.0330185629427433,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 96,
+    "loss": 0.04366274178028107,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 102,
+    "loss": 0.030558981001377106,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 108,
+    "loss": 0.01802731491625309,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 114,
+    "loss": 0.022385749965906143,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 120,
+    "loss": 0.056889813393354416,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 126,
+    "loss": 0.012369679287075996,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 132,
+    "loss": 0.05458247661590576,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 138,
+    "loss": 0.01810281164944172,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 144,
+    "loss": 0.007730482611805201,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 150,
+    "loss": 0.007307731546461582,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 156,
+    "loss": 0.07631344348192215,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 162,
+    "loss": 0.01903926022350788,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 168,
+    "loss": 0.056286852806806564,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 174,
+    "loss": 0.049888238310813904,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 180,
+    "loss": 0.013453717343509197,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 186,
+    "loss": 0.03467274829745293,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 192,
+    "loss": 0.10977892577648163,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 198,
+    "loss": 0.013878729194402695,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 204,
+    "loss": 0.07007794082164764,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 210,
+    "loss": 0.06376106292009354,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 216,
+    "loss": 0.023934561759233475,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 222,
+    "loss": 0.057243380695581436,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 228,
+    "loss": 0.006388870999217033,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 234,
+    "loss": 0.017270797863602638,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 240,
+    "loss": 0.002421667566522956,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 246,
+    "loss": 0.0021175825968384743,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 252,
+    "loss": 0.0010673729702830315,
+    "contact": true
+   },
+   {
+    "episode": 31,
+    "frame": 258,
+    "loss": 0.0035191199276596308,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 264,
+    "loss": 0.0007086737896315753,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 270,
+    "loss": 0.0006678227800875902,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 276,
+    "loss": 0.0010037460597231984,
+    "contact": false
+   },
+   {
+    "episode": 31,
+    "frame": 282,
+    "loss": 0.0006400186684913933,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 0,
+    "loss": 0.03510240092873573,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 6,
+    "loss": 0.055325355380773544,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 12,
+    "loss": 0.052284419536590576,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 18,
+    "loss": 0.06023215875029564,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 24,
+    "loss": 0.05382658168673515,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 30,
+    "loss": 0.04343489557504654,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 36,
+    "loss": 0.04093597084283829,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 42,
+    "loss": 0.020803576335310936,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 48,
+    "loss": 0.031919676810503006,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 54,
+    "loss": 0.054204050451517105,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 60,
+    "loss": 0.09528431296348572,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 66,
+    "loss": 0.09241858869791031,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 72,
+    "loss": 0.03448526933789253,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 78,
+    "loss": 0.04324327036738396,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 84,
+    "loss": 0.07593289762735367,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 90,
+    "loss": 0.03508434817194939,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 96,
+    "loss": 0.013992671854794025,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 102,
+    "loss": 0.0699927806854248,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 108,
+    "loss": 0.01882893033325672,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 114,
+    "loss": 0.08634670823812485,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 120,
+    "loss": 0.04767560586333275,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 126,
+    "loss": 0.03542298823595047,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 132,
+    "loss": 0.38676324486732483,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 138,
+    "loss": 0.09942296892404556,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 144,
+    "loss": 0.031031809747219086,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 150,
+    "loss": 0.030966954305768013,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 156,
+    "loss": 0.10854362696409225,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 162,
+    "loss": 0.15870845317840576,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 168,
+    "loss": 0.05280037969350815,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 174,
+    "loss": 0.32188543677330017,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 180,
+    "loss": 0.025457611307501793,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 186,
+    "loss": 0.02976866066455841,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 192,
+    "loss": 0.011333991773426533,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 198,
+    "loss": 0.0055203731171786785,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 204,
+    "loss": 0.0013777888379991055,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 210,
+    "loss": 0.0027119230944663286,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 216,
+    "loss": 0.012880399823188782,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 222,
+    "loss": 0.002076685195788741,
+    "contact": true
+   },
+   {
+    "episode": 35,
+    "frame": 228,
+    "loss": 0.00088515505194664,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 234,
+    "loss": 0.000590741925407201,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 240,
+    "loss": 0.0008568408084101975,
+    "contact": false
+   },
+   {
+    "episode": 35,
+    "frame": 246,
+    "loss": 0.0008906724397093058,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 0,
+    "loss": 0.30008530616760254,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 6,
+    "loss": 0.06063874810934067,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 12,
+    "loss": 0.09849155694246292,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 18,
+    "loss": 0.08121981471776962,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 24,
+    "loss": 0.048730164766311646,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 30,
+    "loss": 0.06567802280187607,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 36,
+    "loss": 0.07165602594614029,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 42,
+    "loss": 0.0449569970369339,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 48,
+    "loss": 0.02850598469376564,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 54,
+    "loss": 0.05913778394460678,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 60,
+    "loss": 0.022774362936615944,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 66,
+    "loss": 0.026633072644472122,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 72,
+    "loss": 0.020055405795574188,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 78,
+    "loss": 0.05646871030330658,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 84,
+    "loss": 0.0923568457365036,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 90,
+    "loss": 0.03355719894170761,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 96,
+    "loss": 0.025921974331140518,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 102,
+    "loss": 0.029979299753904343,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 108,
+    "loss": 0.04876912385225296,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 114,
+    "loss": 0.08921382576227188,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 120,
+    "loss": 0.02619139663875103,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 126,
+    "loss": 0.027329813688993454,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 132,
+    "loss": 0.009668322280049324,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 138,
+    "loss": 0.026982689276337624,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 144,
+    "loss": 0.08459153771400452,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 150,
+    "loss": 0.04483441635966301,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 156,
+    "loss": 0.04034167528152466,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 162,
+    "loss": 0.06823612749576569,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 168,
+    "loss": 0.02584506757557392,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 174,
+    "loss": 0.10372336208820343,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 180,
+    "loss": 0.05271681398153305,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 186,
+    "loss": 0.10037848353385925,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 192,
+    "loss": 0.0745139867067337,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 198,
+    "loss": 0.19772295653820038,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 204,
+    "loss": 0.10809534788131714,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 210,
+    "loss": 0.07577560842037201,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 216,
+    "loss": 0.10906057059764862,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 222,
+    "loss": 0.050471581518650055,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 228,
+    "loss": 0.04043332487344742,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 234,
+    "loss": 0.027813555672764778,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 240,
+    "loss": 0.01797877997159958,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 246,
+    "loss": 0.014233894646167755,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 252,
+    "loss": 0.01637924835085869,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 258,
+    "loss": 0.019287224858999252,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 264,
+    "loss": 0.0022756452672183514,
+    "contact": true
+   },
+   {
+    "episode": 50,
+    "frame": 270,
+    "loss": 0.0007422588532790542,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 276,
+    "loss": 0.0004602951812557876,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 282,
+    "loss": 0.006937752012163401,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 288,
+    "loss": 0.0006092580151744187,
+    "contact": false
+   },
+   {
+    "episode": 50,
+    "frame": 294,
+    "loss": 0.0011319654295220971,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 0,
+    "loss": 0.0748450979590416,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 6,
+    "loss": 0.03149067610502243,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 12,
+    "loss": 0.06482433527708054,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 18,
+    "loss": 0.06492302566766739,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 24,
+    "loss": 0.037278544157743454,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 30,
+    "loss": 0.03154274821281433,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 36,
+    "loss": 0.18581272661685944,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 42,
+    "loss": 0.0058901552110910416,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 48,
+    "loss": 0.03285164758563042,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 54,
+    "loss": 0.026807770133018494,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 60,
+    "loss": 0.023273242637515068,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 66,
+    "loss": 0.07516831904649734,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 72,
+    "loss": 0.01592007465660572,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 78,
+    "loss": 0.07753204554319382,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 84,
+    "loss": 0.07182420045137405,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 90,
+    "loss": 0.14902520179748535,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 96,
+    "loss": 0.11357630789279938,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 102,
+    "loss": 0.05455202981829643,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 108,
+    "loss": 0.07064421474933624,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 114,
+    "loss": 0.10136595368385315,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 120,
+    "loss": 0.13819050788879395,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 126,
+    "loss": 0.067148856818676,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 132,
+    "loss": 0.08228686451911926,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 138,
+    "loss": 0.11392645537853241,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 144,
+    "loss": 0.03655305132269859,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 150,
+    "loss": 0.012985816225409508,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 156,
+    "loss": 0.007523991633206606,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 162,
+    "loss": 0.02422267012298107,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 168,
+    "loss": 0.004316375590860844,
+    "contact": true
+   },
+   {
+    "episode": 51,
+    "frame": 174,
+    "loss": 0.0023312014527618885,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 180,
+    "loss": 0.0014460429083555937,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 186,
+    "loss": 0.001447739894501865,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 192,
+    "loss": 0.0007166183204390109,
+    "contact": false
+   },
+   {
+    "episode": 51,
+    "frame": 198,
+    "loss": 0.0011310133850201964,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 0,
+    "loss": 0.05116882175207138,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 6,
+    "loss": 0.04048597440123558,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 12,
+    "loss": 0.04359506443142891,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 18,
+    "loss": 0.05185897275805473,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 24,
+    "loss": 0.03599485009908676,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 30,
+    "loss": 0.03260491043329239,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 36,
+    "loss": 0.03654235601425171,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 42,
+    "loss": 0.025181127712130547,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 48,
+    "loss": 0.013534779660403728,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 54,
+    "loss": 0.007300494704395533,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 60,
+    "loss": 0.022391600534319878,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 66,
+    "loss": 0.016723955050110817,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 72,
+    "loss": 0.005415560677647591,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 78,
+    "loss": 0.012642108835279942,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 84,
+    "loss": 0.0097575094550848,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 90,
+    "loss": 0.011365476064383984,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 96,
+    "loss": 0.019254466518759727,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 102,
+    "loss": 0.09667225927114487,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 108,
+    "loss": 0.05637321621179581,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 114,
+    "loss": 0.03957333788275719,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 120,
+    "loss": 0.024524981155991554,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 126,
+    "loss": 0.06774966418743134,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 132,
+    "loss": 0.09878953546285629,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 138,
+    "loss": 0.11130562424659729,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 144,
+    "loss": 0.03592819347977638,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 150,
+    "loss": 0.005071490537375212,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 156,
+    "loss": 0.002953935880213976,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 162,
+    "loss": 0.002624230459332466,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 168,
+    "loss": 0.0031415061093866825,
+    "contact": true
+   },
+   {
+    "episode": 57,
+    "frame": 174,
+    "loss": 0.0016618937952443957,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 180,
+    "loss": 0.0004611518234014511,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 186,
+    "loss": 0.0022739346604794264,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 192,
+    "loss": 0.0009951802203431726,
+    "contact": false
+   },
+   {
+    "episode": 57,
+    "frame": 198,
+    "loss": 0.001158387865871191,
+    "contact": false
+   }
+  ]
+ },
+ "pair": {
+  "n_paired": 346,
+  "contact": {
+   "n": 79,
+   "A": 0.05457283890971183,
+   "B": 0.052154856960913994,
+   "B_minus_A": -0.0024179819487978385,
+   "frames_B_better": 46
+  },
+  "free": {
+   "n": 267,
+   "A": 0.06094086445930801,
+   "B": 0.05956417249039527,
+   "B_minus_A": -0.0013766919689127402,
+   "frames_B_better": 157
+  }
+ }
+}

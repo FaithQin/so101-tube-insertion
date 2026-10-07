@@ -1,0 +1,84 @@
+--- /opt/homebrew/Caskroom/miniforge/base/envs/lerobot/lib/python3.12/site-packages/lerobot/rollout/context.py.bak-20260831	2026-08-31 01:03:02
++++ /opt/homebrew/Caskroom/miniforge/base/envs/lerobot/lib/python3.12/site-packages/lerobot/rollout/context.py	2026-08-31 01:03:02
+@@ -22,6 +22,7 @@
+ from __future__ import annotations
+ 
+ import logging
++import os
+ from copy import copy
+ from dataclasses import dataclass, field
+ from threading import Event
+@@ -353,14 +354,68 @@
+     # mode the .vel/LeKiwi comment above describes. Widen the filter ONLY
+     # when the loaded policy's observation.state is wider than the .pos/.vel
+     # keys provide, so 6-dim policies (ACT-A) keep the stock behavior.
++    # LOCAL PATCH (capstone) — CAPSTONE_STATE_ROUTING marker.
++    # Reference implementation + rationale: tools/state_routing.py in the
++    # Robotics Capstone repo; unit tests in tests/test_state_routing.py.
++    #
++    # Revised Aug 31 2026 for two failures of the naive "declared width > stock
++    # width" rule:
++    #
++    # (a) PADDING IS NOT DIMENSIONALITY. pi0/pi0.5 declare
++    #     observation.state.shape == max_state_dim (32) regardless of what they
++    #     trained on. pi05-tube-A-v3 trained on the 6-dim noload dataset and
++    #     pads 6->32, so dims 6-31 are zero in every training frame. The naive
++    #     rule sees 32 > 6, routes load+current in, and feeds the policy real
++    #     values in coordinates it learned as always-zero. Shapes line up, so
++    #     NOTHING CRASHES — a silent distribution shift that presents as "the
++    #     policy doesn't work".
++    #
++    # (b) RECORDING NEEDS WIDE EVEN UNDER A NARROW POLICY. dataset_features is
++    #     built from this same filtered dict (below), so DAgger collecting under
++    #     6-dim ACT-A writes a 6-dim dataset with load/current dropped at the
++    #     source — unretrofittable, and it forecloses the B-side twin forever.
++    #     CAPSTONE_FORCE_WIDE_STATE=1 forces wide; =0 forces narrow; unset infers.
+     _state_suffixes = (".pos", ".vel")
+     _policy_state = getattr(policy_config, "input_features", {}).get("observation.state")
+-    if _policy_state is not None:
+-        _n_stock = sum(
+-            1 for k, v in all_obs_features.items() if v is float and k.endswith(_state_suffixes)
++    _n_stock = sum(
++        1 for k, v in all_obs_features.items() if v is float and k.endswith(_state_suffixes)
++    )
++    _max_state_dim = getattr(policy_config, "max_state_dim", None)
++
++    _raw_force = os.environ.get("CAPSTONE_FORCE_WIDE_STATE")
++    if _raw_force is None or _raw_force.strip() == "":
++        _force = None
++    elif _raw_force.strip().lower() in ("1", "true", "yes", "on"):
++        _force = True
++    elif _raw_force.strip().lower() in ("0", "false", "no", "off"):
++        _force = False
++    else:
++        # Never fall back to inference: a typo must not quietly become
++        # "record 6-dim" during a session believed to be recording 18.
++        raise ValueError(
++            f"CAPSTONE_FORCE_WIDE_STATE={_raw_force!r} is not a boolean "
++            f"(use 1/true/yes/on or 0/false/no/off, or unset it to infer)"
+         )
+-        if _policy_state.shape[0] > _n_stock:
+-            _state_suffixes = (".pos", ".vel", ".load", ".current")
++
++    if _force is not None:
++        _widen = _force
++    elif _policy_state is None:
++        _widen = False
++    elif _max_state_dim is not None and _policy_state.shape[0] == _max_state_dim:
++        _widen = False  # padded, not wide — see (a)
++    else:
++        _widen = _policy_state.shape[0] > _n_stock
++
++    logger.info(
++        "CAPSTONE_STATE_ROUTING: policy_state=%s max_state_dim=%s n_stock=%d force=%s -> %s",
++        None if _policy_state is None else _policy_state.shape[0],
++        _max_state_dim,
++        _n_stock,
++        _force,
++        "WIDE (pos+vel+load+current)" if _widen else "narrow (pos+vel)",
++    )
++    if _widen:
++        _state_suffixes = (".pos", ".vel", ".load", ".current")
+     observation_features_hw = {
+         k: v
+         for k, v in all_obs_features.items()

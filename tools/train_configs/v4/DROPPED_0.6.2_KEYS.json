@@ -1,0 +1,15 @@
+{
+ "pi05-tube-A-v4": [
+  "checkpoint_format",
+  "parallelism",
+  "accelerator",
+  "ema",
+  "dataset.exclude_episodes",
+  "policy.use_visual_memory",
+  "policy.use_proprioceptive_memory",
+  "policy.memory_frames",
+  "policy.memory_stride",
+  "policy.memory_temporal_attention_every",
+  "policy.rtc_training_max_delay"
+ ]
+}

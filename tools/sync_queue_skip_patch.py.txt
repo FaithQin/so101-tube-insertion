@@ -1,0 +1,50 @@
+# Reference for the LOCAL PATCH to lerobot's sync inference engine.
+# Dies on any `pip install -U lerobot` — re-apply by hand afterwards.
+#
+# File: <site-packages>/lerobot/rollout/inference/sync.py
+# Locate site-packages: python -c "import lerobot, os; print(os.path.dirname(lerobot.__file__))"
+#
+# WHY: SyncInferenceEngine.get_action ran the full image preprocessing
+# pipeline (two cameras, one of them 720p) on EVERY control tick, even though
+# ACT serves ~99/100 ticks straight from its pre-computed action queue and
+# select_action ignores the observation entirely on those ticks. On MPS this
+# capped the 30 fps control loop at ~15.7 Hz (2.6 Hz on CPU). Upstream's own
+# header comment in sync.py describes this exact fix as a TODO ("candidate
+# fix: ... saves per-tick pre/post work"); this patch applies it restricted
+# to the provably safe case: queue-based ACT with temporal ensembling OFF.
+# (With ensembling on, select_action DOES consume every observation — the
+# guard below falls through to the full path in that case.)
+#
+# VERIFIED Aug 15 2026 (offline smoke, act-tube-A and act-tube-B on MPS):
+# queue-served ticks 0.2 ms mean, full inference 47 ms once per 100 ticks,
+# amortized engine cost 0.7 ms/tick. Before patch: ~50 ms every tick.
+#
+# HOW TO RE-APPLY: in get_action, immediately after the `if obs_frame is
+# None: return None` guard and BEFORE the `observation = copy(obs_frame)`
+# line, insert the block between the BEGIN/END markers:
+
+    def get_action(self, obs_frame: dict | None) -> torch.Tensor | None:
+        """Run the full inference pipeline on ``obs_frame`` and return an action tensor."""
+        if obs_frame is None:
+            return None
+        # --- BEGIN LOCAL PATCH (capstone) ---
+        # LOCAL PATCH (capstone): when ACT's action queue holds pre-computed
+        # actions, select_action ignores the observation entirely -- so skip the
+        # expensive per-tick image preprocessing (two cameras, one 720p) that
+        # was capping the control loop at ~15 Hz on MPS. This is the "candidate
+        # fix" described in the header comment, restricted to the safe case:
+        # queue-based ACT with temporal ensembling off.
+        queue = getattr(self._policy, "_action_queue", None)
+        ensemble = getattr(getattr(self._policy, "config", None), "temporal_ensemble_coeff", None)
+        if queue is not None and len(queue) > 0 and ensemble is None:
+            with torch.inference_mode():
+                action = queue.popleft()
+                action = self._postprocessor(action)
+            action_tensor = action.squeeze(0).cpu()
+            action_dict = make_robot_action(action_tensor, self._dataset_features)
+            return torch.tensor([action_dict[k] for k in self._ordered_action_keys])
+        # --- END LOCAL PATCH ---
+        # (unchanged upstream code continues: observation = copy(obs_frame) ...)
+
+# UPSTREAM CANDIDATE: upstream sync.py's header TODO admits this cost; see
+# the handoff roadmap — this is one of the planned lerobot contributions.

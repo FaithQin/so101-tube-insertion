@@ -1,0 +1,185 @@
+{
+  "C01": {
+    "n_frames": 409,
+    "duration_s": 20.45,
+    "grasp_close": 2.6,
+    "close_2": 8.9,
+    "n_closes": 2,
+    "last_pick_close": 2.6,
+    "v4_grasp_index": 4.2,
+    "pick_exit": 5.4,
+    "pick_exit_2": null,
+    "rack_entry": 6.15,
+    "home_return": 9.4,
+    "lift_reversals": 3,
+    "final": "SEAT",
+    "final_cap": [
+      529,
+      464
+    ],
+    "seat_runs": [
+      [
+        8.4,
+        20.4,
+        12.05
+      ]
+    ],
+    "held_to_end": true,
+    "infra_start_seated": false,
+    "seat_hold_start": 8.4,
+    "seat_run_3_end": null,
+    "cap_displaced": 4.25,
+    "cap_lost_after_rack": null,
+    "run_id": "trial_B_v2_20260825_203323",
+    "rollout_dir": "rollout_trial_B_v2_20260825_203323_20260825_203331"
+  },
+  "C02": {
+    "n_frames": 727,
+    "duration_s": 36.35,
+    "grasp_close": 2.95,
+    "close_2": 8.45,
+    "n_closes": 3,
+    "last_pick_close": 8.45,
+    "v4_grasp_index": 4.25,
+    "pick_exit": 11.05,
+    "pick_exit_2": null,
+    "rack_entry": 11.85,
+    "home_return": 16.55,
+    "lift_reversals": 5,
+    "final": "SEAT",
+    "final_cap": [
+      530,
+      465
+    ],
+    "seat_runs": [
+      [
+        15.3,
+        36.3,
+        21.05
+      ]
+    ],
+    "held_to_end": true,
+    "infra_start_seated": false,
+    "seat_hold_start": 15.3,
+    "seat_run_3_end": null,
+    "cap_displaced": 11.5,
+    "cap_lost_after_rack": null,
+    "run_id": "trial_B_v2_20260825_201410",
+    "rollout_dir": "rollout_trial_B_v2_20260825_201410_20260825_201420"
+  },
+  "C03": {
+    "n_frames": 869,
+    "duration_s": 43.45,
+    "grasp_close": 2.35,
+    "close_2": 33.55,
+    "n_closes": 3,
+    "last_pick_close": null,
+    "v4_grasp_index": 33.6,
+    "pick_exit": null,
+    "pick_exit_2": null,
+    "rack_entry": null,
+    "home_return": null,
+    "lift_reversals": 38,
+    "final": "MISS",
+    "final_cap": [
+      362,
+      356
+    ],
+    "seat_runs": [],
+    "held_to_end": false,
+    "infra_start_seated": false,
+    "seat_hold_start": null,
+    "seat_run_3_end": null,
+    "cap_displaced": null,
+    "cap_lost_after_rack": null,
+    "run_id": "trial_A_v2_20260825_164252",
+    "rollout_dir": "rollout_trial_A_v2_20260825_164252_20260825_164259"
+  },
+  "C04": {
+    "n_frames": 874,
+    "duration_s": 43.7,
+    "grasp_close": 2.8,
+    "close_2": 11.1,
+    "n_closes": 11,
+    "last_pick_close": 2.8,
+    "v4_grasp_index": 3.45,
+    "pick_exit": 5.0,
+    "pick_exit_2": null,
+    "rack_entry": null,
+    "home_return": null,
+    "lift_reversals": 30,
+    "final": "MISS",
+    "final_cap": [
+      385,
+      329
+    ],
+    "seat_runs": [],
+    "held_to_end": false,
+    "infra_start_seated": false,
+    "seat_hold_start": null,
+    "seat_run_3_end": null,
+    "cap_displaced": 3.4,
+    "cap_lost_after_rack": null,
+    "run_id": "trial_A_v2_20260825_165236",
+    "rollout_dir": "rollout_trial_A_v2_20260825_165236_20260825_165243"
+  },
+  "C05": {
+    "n_frames": 874,
+    "duration_s": 43.7,
+    "grasp_close": 2.15,
+    "close_2": 7.3,
+    "n_closes": 10,
+    "last_pick_close": 2.15,
+    "v4_grasp_index": 2.9,
+    "pick_exit": 4.45,
+    "pick_exit_2": 24.8,
+    "rack_entry": 5.35,
+    "home_return": 14.95,
+    "lift_reversals": 34,
+    "final": "MISS",
+    "final_cap": [
+      367,
+      356
+    ],
+    "seat_runs": [
+      [
+        13.8,
+        13.8,
+        0.05
+      ],
+      [
+        14.15,
+        14.5,
+        0.4
+      ],
+      [
+        14.65,
+        15.2,
+        0.6
+      ],
+      [
+        19.95,
+        20.0,
+        0.1
+      ],
+      [
+        34.3,
+        34.5,
+        0.25
+      ],
+      [
+        34.65,
+        34.8,
+        0.2
+      ]
+    ],
+    "held_to_end": false,
+    "infra_start_seated": false,
+    "seat_hold_start": null,
+    "seat_run_3_end": 15.2,
+    "cap_displaced": 5.05,
+    "cap_lost_after_rack": 11.75,
+    "run_id": "B2V-A-02_20260830_233508",
+    "rollout_dir": "rollout_B2V-A-02_20260830_233508"
+  }
+}

@@ -1,0 +1,346 @@
+{
+  "fig1_stage_cumulative": {
+    "ACT-A": {
+      "n": 20,
+      "R": 1.0,
+      "G": 0.65,
+      "T": 0.4,
+      "S": 0.3
+    },
+    "ACT-B": {
+      "n": 20,
+      "R": 1.0,
+      "G": 0.25,
+      "T": 0.25,
+      "S": 0.25
+    }
+  },
+  "fig2_close_offsets": [
+    {
+      "trial": "1",
+      "policy": "ACT-A",
+      "close_offset_deg": 4.1,
+      "success": false
+    },
+    {
+      "trial": "2",
+      "policy": "ACT-A",
+      "close_offset_deg": 2.5,
+      "success": false
+    },
+    {
+      "trial": "3",
+      "policy": "ACT-A",
+      "close_offset_deg": -1.3,
+      "success": false
+    },
+    {
+      "trial": "4",
+      "policy": "ACT-A",
+      "close_offset_deg": 2.5,
+      "success": false
+    },
+    {
+      "trial": "5",
+      "policy": "ACT-A",
+      "close_offset_deg": 0.8,
+      "success": true
+    },
+    {
+      "trial": "6",
+      "policy": "ACT-B",
+      "close_offset_deg": 3.0,
+      "success": true
+    },
+    {
+      "trial": "7",
+      "policy": "ACT-B",
+      "close_offset_deg": 2.2,
+      "success": false
+    },
+    {
+      "trial": "8",
+      "policy": "ACT-B",
+      "close_offset_deg": 6.0,
+      "success": false
+    },
+    {
+      "trial": "9",
+      "policy": "ACT-B",
+      "close_offset_deg": 7.4,
+      "success": false
+    },
+    {
+      "trial": "10",
+      "policy": "ACT-B",
+      "close_offset_deg": 4.9,
+      "success": false
+    },
+    {
+      "trial": "11",
+      "policy": "ACT-B",
+      "close_offset_deg": 1.4,
+      "success": false
+    },
+    {
+      "trial": "12",
+      "policy": "ACT-B",
+      "close_offset_deg": 2.9,
+      "success": false
+    },
+    {
+      "trial": "13",
+      "policy": "ACT-B",
+      "close_offset_deg": 9.3,
+      "success": false
+    },
+    {
+      "trial": "14",
+      "policy": "ACT-B",
+      "close_offset_deg": 3.9,
+      "success": true
+    },
+    {
+      "trial": "15",
+      "policy": "ACT-B",
+      "close_offset_deg": 5.3,
+      "success": false
+    },
+    {
+      "trial": "16",
+      "policy": "ACT-A",
+      "close_offset_deg": 6.0,
+      "success": false
+    },
+    {
+      "trial": "17",
+      "policy": "ACT-A",
+      "close_offset_deg": 1.7,
+      "success": false
+    },
+    {
+      "trial": "18",
+      "policy": "ACT-A",
+      "close_offset_deg": 6.8,
+      "success": false
+    },
+    {
+      "trial": "19",
+      "policy": "ACT-A",
+      "close_offset_deg": -3.0,
+      "success": true
+    },
+    {
+      "trial": "20",
+      "policy": "ACT-A",
+      "close_offset_deg": 3.5,
+      "success": true
+    },
+    {
+      "trial": "21",
+      "policy": "ACT-A",
+      "close_offset_deg": 5.7,
+      "success": false
+    },
+    {
+      "trial": "22",
+      "policy": "ACT-A",
+      "close_offset_deg": 2.2,
+      "success": true
+    },
+    {
+      "trial": "23",
+      "policy": "ACT-A",
+      "close_offset_deg": 0.4,
+      "success": true
+    },
+    {
+      "trial": "24",
+      "policy": "ACT-A",
+      "close_offset_deg": 3.3,
+      "success": false
+    },
+    {
+      "trial": "25",
+      "policy": "ACT-A",
+      "close_offset_deg": 3.2,
+      "success": false
+    },
+    {
+      "trial": "26",
+      "policy": "ACT-B",
+      "close_offset_deg": 4.9,
+      "success": false
+    },
+    {
+      "trial": "27",
+      "policy": "ACT-B",
+      "close_offset_deg": 3.3,
+      "success": true
+    },
+    {
+      "trial": "28",
+      "policy": "ACT-B",
+      "close_offset_deg": 3.4,
+      "success": true
+    },
+    {
+      "trial": "29b",
+      "policy": "ACT-B",
+      "close_offset_deg": 2.2,
+      "success": false
+    },
+    {
+      "trial": "30",
+      "policy": "ACT-B",
+      "close_offset_deg": 3.5,
+      "success": false
+    },
+    {
+      "trial": "31",
+      "policy": "ACT-B",
+      "close_offset_deg": 1.5,
+      "success": false
+    },
+    {
+      "trial": "32",
+      "policy": "ACT-B",
+      "close_offset_deg": 0.6,
+      "success": true
+    },
+    {
+      "trial": "33",
+      "policy": "ACT-B",
+      "close_offset_deg": 5.9,
+      "success": false
+    },
+    {
+      "trial": "34",
+      "policy": "ACT-B",
+      "close_offset_deg": 2.2,
+      "success": false
+    },
+    {
+      "trial": "35",
+      "policy": "ACT-B",
+      "close_offset_deg": 2.6,
+      "success": false
+    },
+    {
+      "trial": "36",
+      "policy": "ACT-A",
+      "close_offset_deg": 1.1,
+      "success": false
+    },
+    {
+      "trial": "37",
+      "policy": "ACT-A",
+      "close_offset_deg": -2.0,
+      "success": false
+    },
+    {
+      "trial": "38",
+      "policy": "ACT-A",
+      "close_offset_deg": -1.3,
+      "success": true
+    },
+    {
+      "trial": "39",
+      "policy": "ACT-A",
+      "close_offset_deg": -1.6,
+      "success": false
+    },
+    {
+      "trial": "40",
+      "policy": "ACT-A",
+      "close_offset_deg": -0.9,
+      "success": false
+    }
+  ],
+  "fig3_durations": {
+    "v2": {
+      "n": 50,
+      "median": 11.899999618530273,
+      "p90": 15.795000267028811,
+      "max": 19.700000762939453,
+      "long_tail": 2
+    },
+    "v3": {
+      "n": 50,
+      "median": 10.100000381469727,
+      "p90": 11.989999675750735,
+      "max": 13.75,
+      "long_tail": 0
+    }
+  },
+  "fig4_final_positions": {
+    "points": [
+      {
+        "label": "B2-A-01",
+        "policy": "ACT-A",
+        "x": 284,
+        "y": 658,
+        "seat_runs": 3
+      },
+      {
+        "label": "B2-B-01",
+        "policy": "ACT-B",
+        "x": 370,
+        "y": 349,
+        "seat_runs": 0
+      },
+      {
+        "label": "B2-A-02",
+        "policy": "ACT-A",
+        "x": 363,
+        "y": 355,
+        "seat_runs": 0
+      },
+      {
+        "label": "B2R-A-01",
+        "policy": "ACT-A",
+        "x": 568,
+        "y": 715,
+        "seat_runs": 1
+      },
+      {
+        "label": "B2R-A-02",
+        "policy": "ACT-A",
+        "x": 373,
+        "y": 340,
+        "seat_runs": 0
+      },
+      {
+        "label": "B2V-A-01",
+        "policy": "ACT-A",
+        "x": 253,
+        "y": 653,
+        "seat_runs": 1
+      },
+      {
+        "label": "B2V-A-02",
+        "policy": "ACT-A",
+        "x": 367,
+        "y": 356,
+        "seat_runs": 6
+      },
+      {
+        "label": "B2V-B-01",
+        "policy": "ACT-B",
+        "x": 374,
+        "y": 347,
+        "seat_runs": 0
+      }
+    ],
+    "at_start_mark": 5,
+    "displaced": 3,
+    "seat_px": [
+      534,
+      464
+    ],
+    "start_px": [
+      363,
+      356
+    ]
+  }
+}

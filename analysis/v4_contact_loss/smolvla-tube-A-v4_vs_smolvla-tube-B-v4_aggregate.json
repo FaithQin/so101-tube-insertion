@@ -1,0 +1,26 @@
+{
+ "files": [
+  "analysis/v4_contact_loss/smolvla-tube-A-v4_vs_smolvla-tube-B-v4.json",
+  "analysis/v4_contact_loss/smolvla-tube-A-v4_vs_smolvla-tube-B-v4_seed1.json",
+  "analysis/v4_contact_loss/smolvla-tube-A-v4_vs_smolvla-tube-B-v4_seed2.json"
+ ],
+ "n_seeds": 3,
+ "n_episodes": 8,
+ "n_frames_contact": 79,
+ "n_frames_free": 267,
+ "per_episode": {
+  "11": -0.023934581420487825,
+  "19": -0.00163706271322789,
+  "25": 0.0023137381300330157,
+  "31": -0.0038547292281167988,
+  "35": 0.0028592726836601887,
+  "50": -0.023195368563756348,
+  "51": 0.0035153589832286045,
+  "57": -0.009074621699806867
+ },
+ "mean": -0.006625999228559241,
+ "se": 0.003976342155051281,
+ "episodes_B_better": 5,
+ "contact_frame_mean": -0.00658603693370389,
+ "free_mean": -0.005162167313308705
+}

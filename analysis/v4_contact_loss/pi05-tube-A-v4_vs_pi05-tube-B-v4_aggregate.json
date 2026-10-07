@@ -1,0 +1,26 @@
+{
+ "files": [
+  "analysis/v4_contact_loss/pi05-tube-A-v4_vs_pi05-tube-B-v4.json",
+  "analysis/v4_contact_loss/pi05-tube-A-v4_vs_pi05-tube-B-v4_seed1.json",
+  "analysis/v4_contact_loss/pi05-tube-A-v4_vs_pi05-tube-B-v4_seed2.json"
+ ],
+ "n_seeds": 3,
+ "n_episodes": 8,
+ "n_frames_contact": 79,
+ "n_frames_free": 267,
+ "per_episode": {
+  "11": -0.0010540549884791722,
+  "19": -0.006420079515212112,
+  "25": -0.005333921127021311,
+  "31": -0.009815162866178789,
+  "35": -0.00558997949378358,
+  "50": -0.0101675244125848,
+  "51": -0.0023479122202843426,
+  "57": -0.009037160450437414
+ },
+ "mean": -0.00622072438424769,
+ "se": 0.0011903381788655124,
+ "episodes_B_better": 8,
+ "contact_frame_mean": -0.0063727362032779305,
+ "free_mean": -0.0035153912891489627
+}

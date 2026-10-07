@@ -1,0 +1,145 @@
+# Regenerated Aug 16 2026 (evening) from live site-packages vs upstream v0.6.1.
+# SUPERSEDES the Aug 13 version: gripper Max_Torque_Limit is back to UPSTREAM 500
+# (300 made every bounded grip peg the cap and trip the 2s Protection_Time latch);
+# stall safety now = Protection_Time pin + send_action force-floor + _relieve_gripper.
+# Re-apply after any lerobot upgrade:
+#   patch -p1 -d $(python -c 'import lerobot,os;print(os.path.dirname(lerobot.__file__))') < tools/so_follower_load.patch
+--- a/robots/so_follower/so_follower.py
++++ b/robots/so_follower/so_follower.py
+@@ -76,9 +76,21 @@
+                 features[f"{cam}_depth"] = (self.cameras[cam].height, self.cameras[cam].width, 1)
+         return features
+ 
++    @property
++    def _load_ft(self) -> dict[str, type]:
++        # LOCAL PATCH (capstone): expose per-joint Present_Load / Present_Current in the
++        # observation. Values are sign-decoded raw servo units (load ±~1000, current in
++        # 6.5 mA steps), NOT calibration-normalized — dataset stats normalize them.
++        # Re-apply after any `pip install -U lerobot`; see the project notes and
++        # tools/so_follower_load.patch in the capstone repo.
++        return {
++            **{f"{motor}.load": float for motor in self.bus.motors},
++            **{f"{motor}.current": float for motor in self.bus.motors},
++        }
++
+     @cached_property
+     def observation_features(self) -> dict[str, type | tuple]:
+-        return {**self._motors_ft, **self._cameras_ft}
++        return {**self._motors_ft, **self._load_ft, **self._cameras_ft}
+ 
+     @cached_property
+     def action_features(self) -> dict[str, type]:
+@@ -166,7 +178,17 @@
+                 self.bus.write("D_Coefficient", motor, self.config.position_d_coefficient)
+ 
+                 if motor == "gripper":
+-                    self.bus.write("Max_Torque_Limit", motor, 500)  # 50% of max torque to avoid burnout
++                    # LOCAL PATCH (capstone): keep upstream's 500. The firmware latches
++                    # when output sits PEGGED at Max_Torque_Limit for Protection_Time
++                    # (2 s) -- lowering the cap to 300 made every bounded grip peg and
++                    # latch. The cap must exceed P * (closing lead + slack): 16*26=416.
++                    self.bus.write("Max_Torque_Limit", motor, 500)  # upstream: 500
++                    # LOCAL PATCH (capstone): pin the stall timer to stock 2 s. Diagnostics
++                    # may leave this EPROM register at 0 (instant trip) or 250; the HX-30HM
++                    # firmware latches on ANY saturated stall after Protection_Time and
++                    # ignores Protective_Torque entirely (measured Aug 13, grip_dashboard).
++                    # The real stall-avoidance is the force-floor in send_action() below.
++                    self.bus.write("Protection_Time", motor, 200)  # stock: 200 (= 2.0 s)
+                     self.bus.write("Protection_Current", motor, 250)  # 50% of max current to avoid burnout
+                     self.bus.write("Overload_Torque", motor, 25)  # 25% torque when overloaded
+ 
+@@ -176,14 +198,46 @@
+             self.bus.setup_motor(motor)
+             print(f"'{motor}' motor id set to {self.bus.motors[motor].id}")
+ 
+-    @check_if_not_connected
+-    def get_observation(self) -> RobotObservation:
+-        # Read arm position
+-        start = time.perf_counter()
++    def _relieve_gripper(self) -> None:
++        # LOCAL PATCH (capstone): the gripper's overload fault is NOT a latch -- it
++        # clears ~0.5 s after strain drops (measured Aug 14). During a fault every
++        # status-bearing read raises, but sync_write needs no status packet, so an
++        # "open slightly" command still gets through. Send it, give the servo a
++        # beat, and the fault clears on its own. All-night power cycles were the
++        # crash-with-strain-held death spiral, not a hardware latch.
++        relief = getattr(self, "_last_gripper_present", None)
++        target = (relief + 2.0) if relief is not None else 50.0
++        try:
++            self.bus.sync_write("Goal_Position", {"gripper": target})
++        except Exception:
++            pass
++        time.sleep(0.6)
++
++    def _read_bus_state(self) -> dict:
+         obs_dict = self.bus.sync_read("Present_Position", num_retry=self.config.num_read_retries)
++        if "gripper" in obs_dict:
++            self._last_gripper_present = obs_dict["gripper"]
+         obs_dict = {f"{motor}.pos": val for motor, val in obs_dict.items()}
++        loads = self.bus.sync_read("Present_Load", num_retry=self.config.num_read_retries)
++        currents = self.bus.sync_read("Present_Current", num_retry=self.config.num_read_retries)
++        obs_dict.update({f"{motor}.load": float(val) for motor, val in loads.items()})
++        obs_dict.update({f"{motor}.current": float(val) for motor, val in currents.items()})
++        return obs_dict
++
++    @check_if_not_connected
++    def get_observation(self) -> RobotObservation:
++        # Read arm position + load/current (LOCAL PATCH: 18-dim state; see _load_ft).
++        # LOCAL PATCH (capstone): one retry after gripper overload relief, instead of
++        # crashing the session while the grip strain is still being commanded.
++        start = time.perf_counter()
++        try:
++            obs_dict = self._read_bus_state()
++        except RuntimeError:
++            logger.warning(f"{self} bus read failed (gripper overload?) -- relieving and retrying")
++            self._relieve_gripper()
++            obs_dict = self._read_bus_state()
+         dt_ms = (time.perf_counter() - start) * 1e3
+-        logger.debug(f"{self} read state: {dt_ms:.1f}ms")
++        logger.debug(f"{self} read state+load: {dt_ms:.1f}ms")
+ 
+         # Capture images from cameras
+         for cam_key, cam in self.cameras.items():
+@@ -218,6 +272,42 @@
+ 
+         goal_pos = {key.removesuffix(".pos"): val for key, val in action.items() if key.endswith(".pos")}
+ 
++        # LOCAL PATCH (capstone): unconditional bounded closing lead on the gripper.
++        # This firmware latches the gripper ~Protection_Time (2 s) after a saturated
++        # stall and ignores Protective_Torque (measured Aug 13, tools/grip_dashboard.py:
++        # sustained error >= ~35 counts always latches; 14-28 counts never has). The
++        # commanded position may never be more than 1.5 normalized (~21 counts) below
++        # the present position: enough error to break static friction when closing in
++        # free air (~19 counts needed, measured), while stall demand stays P*~26 = 416,
++        # under the 500 torque cap so output never pegs (pegging for Protection_Time
++        # is what latches). Opening is unrestricted. Two earlier designs failed:
++        # a load-threshold floor oscillated, and lead 1.0 with cap 300 both crawled
++        # (under the friction deadband) and pegged (springback pushed demand past 300).
++        if "gripper" in goal_pos:
++            try:
++                present = self.bus.read("Present_Position", "gripper")
++                self._last_gripper_present = present
++                # Two-speed lead: fast chase (4.0, growbot MAX_LEAD) in free air for
++                # normal closing speed; tight bound (1.5) once contact is felt.
++                # Hysteresis band sits above the measured free-motion load bias
++                # (56-80) and below real grip load (~148): engage >=115, release <90.
++                # A mis-tuned tick costs one relief hiccup, not a session (recovery
++                # layer below), so this can be tuned empirically.
++                load = abs(self.bus.read("Present_Load", "gripper", normalize=False))
++                in_contact = getattr(self, "_grip_contact", False)
++                if load >= 115:
++                    in_contact = True
++                elif load < 90:
++                    in_contact = False
++                self._grip_contact = in_contact
++                lead = 1.5 if in_contact else 4.0
++                goal_pos["gripper"] = max(goal_pos["gripper"], present - lead)
++            except Exception:
++                # overload fault mid-grip: relieve strain and command the relief
++                # position; the fault clears ~0.5 s later and the loop continues.
++                self._relieve_gripper()
++                goal_pos["gripper"] = getattr(self, "_last_gripper_present", 50.0) + 2.0
++
+         # Cap goal position when too far away from present position.
+         # /!\ Slower fps expected due to reading from the follower.
+         if self.config.max_relative_target is not None:

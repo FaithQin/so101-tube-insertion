@@ -1,0 +1,41 @@
+# LOCAL PATCH #4 — rollout/context.py: route .load/.current into observation.state
+# Dies on any `pip install -U lerobot`. Re-apply by hand afterwards.
+#
+# File: <site-packages>/lerobot/rollout/context.py, in build_rollout_context,
+# at the `observation_features_hw = {...}` filter (~line 348 in 0.6.1).
+#
+# WHY: the stock filter keeps only camera tuples and scalar keys ending in
+# .pos/.vel, so the patched SOFollower's .load/.current features are silently
+# dropped from the policy-facing observation.state. ACT-B (trained on the
+# 18-dim so101-tube-insert dataset) then receives a 6-dim state against an
+# 18-dim normalizer: "RuntimeError: The size of tensor a (6) must match the
+# size of tensor b (18)". Found Aug 15 2026 during ACT-B's first hardware
+# smoke test. lerobot-record was never affected (different code path, builds
+# features straight from robot.observation_features) — which is why the
+# training dataset is a correct 18-dim.
+#
+# FIX (policy-aware, keeps ACT-A's 6-dim path stock): before the filter,
+# inspect the loaded policy's observation.state width; widen the suffix
+# tuple to include .load/.current only when the policy wants more dims than
+# .pos/.vel provide:
+#
+#     _state_suffixes = (".pos", ".vel")
+#     _policy_state = getattr(policy_config, "input_features", {}).get("observation.state")
+#     if _policy_state is not None:
+#         _n_stock = sum(
+#             1 for k, v in all_obs_features.items() if v is float and k.endswith(_state_suffixes)
+#         )
+#         if _policy_state.shape[0] > _n_stock:
+#             _state_suffixes = (".pos", ".vel", ".load", ".current")
+#     observation_features_hw = {
+#         k: v
+#         for k, v in all_obs_features.items()
+#         if isinstance(v, tuple) or (v is float and k.endswith(_state_suffixes))
+#     }
+#
+# Ordering note: dict comprehension preserves robot.observation_features
+# insertion order (pos x6, load x6, current x6) — the same layout
+# hw_to_dataset_features produced at record time, so the state vector lines
+# up with ACT-B's training normalization. Upstream-relevant: the stock
+# hardcoded suffix filter breaks ANY robot with nonstandard state channels;
+# same family as the LeKiwi .vel fix already in the file's comments.

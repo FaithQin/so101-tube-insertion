@@ -1,0 +1,21 @@
+act-tube-B-v4      6a9ca24f259f8e97255e4c2f  faithqin/act-tube-B-v4
+smolvla-tube-B-v4  6a9ca263259f8e97255e4c31  faithqin/smolvla-tube-B-v4
+act-tube-A-v4      6a9ca273259f8e97255e4c33  faithqin/act-tube-A-v4
+smolvla-tube-A-v4  6a9ca286e686246ca69a4810  faithqin/smolvla-tube-A-v4
+pi05-tube-A-v4     6a9ca38ce686246ca69a482c  faithqin/pi05-tube-A-v4
+pi05-tube-B-v4     6a9ce8afe686246ca69a4e48  faithqin/pi05-tube-B-v4
+# W&B: (W&B project, private)
+# launched 2026-09-05 23:14-23:22 UTC = 19:14-19:22 local (UTC-4) (h200, detached); watchers: tools/watch_hf_job.sh
+
+# Sep 6 02:58 UTC: pi05-tube-A-v4 COMPLETED — 3 h 35 min, 20k steps, final loss 0.030–0.032, 4 checkpoints + top-level on the Hub (9.35 GB).
+# Hold-out curves for all five runs: analysis/v4_holdout/<run>.json (tools/v4_holdout_loss.py). Total v4 training ≈ $34.5.
+# Sep 6: the five runs above were LAUNCHED with wandb.disable_artifact=false and v3's wandb.run_id
+# (both inherited field-for-field from the v3 configs). Every checkpoint was therefore uploaded to
+# W&B as well as the Hub -> 124.8 GB of W&B artifacts, quota exceeded. The configs in this folder
+# now carry disable_artifact=true and run_id=null (tests/test_train_configs_v4.py); the runs on the
+# Hub are unaffected. The reused run ids stayed harmless only because the W&B project name changed.
+# Sep 6 00:12 EDT (04:12 UTC; first log line 04:18 UTC): pi05-tube-B-v4 launched -- identical 20k recipe to pi05-tube-A-v4 (dataset faithqin/so101-tube-insert-v4, 18-dim state),
+#   wandb.disable_artifact=true, run_id=null; Faith's decision (same recipe + same checkpoint rule = the A/B control). Est. 3 h 35 min, ~$18.
+pi05-tube-B-v4 (2) 6a9d0550e686246ca69a4fbf  faithqin/pi05-tube-B-v4
+# Sep 6 02:40 EDT: pi05-tube-B-v4 RELAUNCHED (job 2) after job 1 (the first job) died at ~10k on 'Private repository storage limit reached'
+#   (HF free plan 100 GB private; account at 109.8 GB). Faith subscribed to HF PRO (1 TB) at 02:35; nothing deleted. Same recipe.
