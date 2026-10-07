@@ -1,6 +1,6 @@
 # Provenance
 
-This repository is a snapshot of a private working repository, copied on 2026-10-07 from its commit `15eadf1` by an allowlist. It has fresh history on purpose: the private history holds working notes, home camera frames and the blinding key of a study that is still sealed. Nothing here was written for this copy except `README.md`, `LICENSE`, `.gitignore` and this file.
+This repository is a snapshot of a private working repository, copied on 2026-10-07 from its commit `2f27e70` by an allowlist. It has fresh history on purpose: the private history holds working notes, home camera frames and the blinding key of a study that is still sealed. Nothing here was written for this copy except `README.md`, `LICENSE`, `.gitignore` and this file.
 
 **Copied:** 228 tracked files. **Left out:** 513 tracked files, in these classes: the blinding key and everything derived from it (schedules, ledgers, sealed consoles, raw rollouts, six tests, the v4 bench sheet, the v4 protocol text), working notes, personal and machine-specific files, bulk diagnostic frames, home camera frames, and every video (the demo video ships as a release asset).
 

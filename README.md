@@ -231,4 +231,4 @@ A 3D-printed SO-ARM101 pair, leader and follower, with Hiwonder HX-30HM servos o
 
 ### License
 
-Apache-2.0. Snapshot of the private working repository at commit `15eadf1`. See [`PROVENANCE.md`](PROVENANCE.md).
+Apache-2.0. Snapshot of the private working repository at commit `2f27e70`. See [`PROVENANCE.md`](PROVENANCE.md).

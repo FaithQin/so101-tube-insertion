@@ -39,10 +39,10 @@ needs_cache = pytest.mark.skipif(
     not (ROLLOUTS / "rollout_B2V-A-02_20260830_233508").is_dir(),
     reason="archived rollouts live only on the capstone Mac",
 )
-# Faith, Oct 7 2026: every on-screen word is set in Times New Roman, which ships with macOS.
-TIMES_NEW_ROMAN = Path("/System/Library/Fonts/Supplemental/Times New Roman.ttf")
-needs_font = pytest.mark.skipif(not TIMES_NEW_ROMAN.is_file(),
-                                reason="Times New Roman ships with macOS")
+# Faith, Oct 7 2026 (afternoon): every on-screen word is set in Arial, the deck's font, so the
+# video, clips and slides match. Arial ships with macOS.
+VIDEO_FONT = Path("/System/Library/Fonts/Supplemental/Arial.ttf")
+needs_font = pytest.mark.skipif(not VIDEO_FONT.is_file(), reason="Arial ships with macOS")
 
 
 # --- 3. event detectors -------------------------------------------------------------------
@@ -501,18 +501,18 @@ def test_cut_is_35_70_s_of_clips_plus_5_s_of_cards():
 
 
 @needs_font
-def test_the_video_font_is_times_new_roman_at_every_size_used():
-    assert Path(dc.FONT_PATH) == TIMES_NEW_ROMAN
+def test_the_video_font_is_arial_regular_at_every_size_used():
+    assert Path(dc.FONT_PATH) == VIDEO_FONT
     for size in (dc.SECTION_SIZE, dc.CAPTION_SIZE, dc.CARD_SIZE):
         font = dc._font(size)
-        assert font.getname() == ("Times New Roman", "Regular"), font.getname()
+        assert font.getname() == ("Arial", "Regular"), font.getname()
         assert font.size == size
 
 
 @needs_font
-def test_every_text_render_draws_in_times_new_roman(monkeypatch):
+def test_every_text_render_draws_in_arial(monkeypatch):
     """Spy on PIL's text call: the section title, the caption and every card line must each be
-    drawn with an explicit Times New Roman font, never PIL's default and never Helvetica."""
+    drawn with an explicit Arial font, never PIL's default and never a system fallback."""
     from PIL import ImageDraw
     drawn = []
     real_text = ImageDraw.ImageDraw.text
@@ -530,14 +530,14 @@ def test_every_text_render_draws_in_times_new_roman(monkeypatch):
                                      *dc.TITLE_CARD.lines, *dc.END_CARD.lines]
     for text, font in drawn:
         assert font is not None, f"{text!r} drawn in PIL's default font"
-        assert font.getname()[0] == "Times New Roman", (text, font.getname())
+        assert font.getname()[0] == "Arial", (text, font.getname())
 
 
 def test_a_missing_font_is_refused_not_swapped_for_another(monkeypatch):
     """A fallback chain (the old Helvetica -> Arial -> PIL default) would render a public video in
     a font nobody chose without a word. A missing font must stop the render."""
     dc._font.cache_clear()
-    monkeypatch.setattr(dc, "FONT_PATH", "/nonexistent/Times New Roman.ttf")
+    monkeypatch.setattr(dc, "FONT_PATH", "/nonexistent/Arial.ttf")
     try:
         with pytest.raises(OSError):
             dc._font(34)

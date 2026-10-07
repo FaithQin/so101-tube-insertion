@@ -8,7 +8,7 @@ cut). This tool touches no hardware: it reads rollout parquet and video from the
 Re-cut Sep 22 2026 for a stranger with 90 seconds (a PhD student or founder opening a
 cold-email link) who needs three answers: what is the task, does it work, how does it fail.
 Five clips between a title card and an end card, about 41 s (Oct 7: cards trimmed to 2 s and
-3 s, every on-screen word set in Times New Roman, at Faith's request). Everything that was on screen to
+3 s, every on-screen word set in Arial, at Faith's request). Everything that was on screen to
 satisfy a skeptical reviewer (dates, dataset versions, trial numbers, arm labels, run ids,
 operator resets) now lives only in EDL.md, which is the audit trail; captions are one line of
 at most eight plain words. The v2 A/B comparison was a null and is not a point this video makes.
@@ -529,7 +529,8 @@ def plan(events):
 # Faith, Oct 7 2026: Helvetica "feels very basic and plain but in a bad way, try Times New Roman".
 # One font, no fallback chain: a missing font stops the render instead of quietly swapping in
 # another face (the old Helvetica -> Arial -> PIL-default chain could do exactly that).
-FONT_PATH = "/System/Library/Fonts/Supplemental/Times New Roman.ttf"
+# Oct 7 afternoon: Arial, the deck's font, so video, clips and slides all match (ships with macOS).
+FONT_PATH = "/System/Library/Fonts/Supplemental/Arial.ttf"
 SECTION_SIZE = 24      # section title above the caption
 CAPTION_SIZE = 34      # the one-line caption
 CARD_SIZE = 40         # title and end card lines
