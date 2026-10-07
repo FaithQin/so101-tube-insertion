@@ -223,7 +223,7 @@ Stage columns count the furthest stage reached, and mechanism columns count fail
 
 ### Hardware
 
-A 3D-printed SO-ARM101 pair, leader and follower, with Feetech HX-30HM servos on the follower and HX-10HM on the leader, 12 V 5 A per arm. Two USB cameras: a fixed front camera at 1280×720 and a wrist camera at 640×480, both recorded at 20 fps. A Mac laptop runs teleoperation, recording and inference on Apple's Metal backend. Training ran on rented H200 GPUs through Hugging Face Jobs. The arm cost about $300.
+A 3D-printed SO-ARM101 pair, leader and follower, with Hiwonder HX-30HM servos on the follower (they report as Feetech STS3215 on the bus) and HX-10HM on the leader, 12 V 5 A per arm. Two USB cameras: a fixed front camera at 1280×720 and a wrist camera at 640×480, both recorded at 20 fps. A Mac laptop runs teleoperation, recording and inference on Apple's Metal backend. Training ran on rented H200 GPUs through Hugging Face Jobs. The arm cost about $300.
 
 ### Tests
 
@@ -231,4 +231,4 @@ A 3D-printed SO-ARM101 pair, leader and follower, with Feetech HX-30HM servos on
 
 ### License
 
-Apache-2.0. Snapshot of the private working repository at commit `ab11025`. See [`PROVENANCE.md`](PROVENANCE.md).
+Apache-2.0. Snapshot of the private working repository at commit `15eadf1`. See [`PROVENANCE.md`](PROVENANCE.md).
