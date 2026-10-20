@@ -72,7 +72,7 @@ def pair_table(a_rows, b_rows) -> dict:
 
 def aggregate_seeds(results) -> dict:
     """B − A over several noise-seed runs of the SAME pair: averaged per frame (only frames present in
-    every seed and both arms), then per episode on contact frames — the unit that settled π0.5 on
+    every seed and both arms), then per episode on contact frames, the unit that settled π0.5 on
     Sep 6 (one draw said 63 % of frames, another 48 %; three draws per episode said 8/8)."""
     if not results:
         raise ValueError("no seed results to aggregate")

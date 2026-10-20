@@ -19,7 +19,7 @@ from distal-load onset to the first OPPOSING command.
     # desk: the manipulation check on the v4 TRAINING episodes (no hardware)
     python tools/v4_contact_events.py --manipulation-check [--json out.json]
 
-    # OPT-IN, DEFAULT OFF — departures from the pre-registered method, each a ratification item:
+    # OPT-IN, DEFAULT OFF, departures from the pre-registered method, each a ratification item:
     python tools/v4_contact_events.py ... --rule amended-2026-09-07     # the Sep 7 amendment (below)
     python tools/v4_contact_events.py ... --reached-T-from-telemetry    # proxy INTO the scored column
     python tools/v4_contact_events.py --telemetry ... --baseline ... --secondary-panel
@@ -31,13 +31,13 @@ pre-registration, so its definition has to be unambiguous enough that two people
 same thing. This file is that definition, with tests (tests/test_v4_contact_events.py).
 
 THE INPUT. `tools/telemetry_sidecar.py` writes one row per RECORDED frame with the header
-`["frame_index", "t_mono"] + [f"{j}.{c}" for c in (pos, load, current) for j in JOINTS]` — all
-six positions, then all six loads, then all six currents — which is exactly the 18-dim dataset
+`["frame_index", "t_mono"] + [f"{j}.{c}" for c in (pos, load, current) for j in JOINTS]`, all
+six positions, then all six loads, then all six currents, which is exactly the 18-dim dataset
 layout ([0:6] pos, [6:12] load, [12:18] current; the project notes "Money / accounts" (1)). The header
 is read from `telemetry_sidecar.HEADER` AT CALL TIME, never retyped: the k-th sidecar channel is
 dataset dim k, and CSV columns are located by NAME, so a permuted file still lands every channel
 in its dim. `load_v4_dataset` gates that the dataset's own `observation.state` names equal that
-header — getting the order wrong mislabels every channel and the error is invisible in the numbers.
+header, getting the order wrong mislabels every channel and the error is invisible in the numbers.
 When this file was first written (Sep 6 morning) there were zero telemetry CSVs on disk; since the
 Sep 6 bench there are seven in tools/scored_logs/ (CERT-B1-01/02/03, CHAMF-GATE-01/02, T0-SMOKE and
 the first blinded pair trial).
@@ -51,17 +51,17 @@ mismatch); the non-constant clause is not checked there at all, and the Sep 6 16
 that as a known gap covered offline "before any contact number is computed". Until that fix the
 refusal guarded the BASELINE only, and a TRIAL whose 12 load/current columns were NaN or frozen ran
 straight through: `v4_input_ablation.load_z` returns NaN, `z > CONTACT_Z` is False at every frame
-because every NaN comparison is False, and this tool printed "0 event(s)" and exited 0 — which is
+because every NaN comparison is False, and this tool printed "0 event(s)" and exited 0, which is
 exactly what a trial where the arm never touched the rack looks like, so the zero was eligible to
 enter co-primary endpoint 2. `check_channels_live` is now called on every trial, at load
 (`load_telemetry`) and at the choke point every contact number flows through (`analyze`), and on
-each episode of the manipulation check separately — the check's own baseline is the CONCATENATION
+each episode of the manipulation check separately, the check's own baseline is the CONCATENATION
 of the training episodes, so one dead episode beside a live one leaves the concatenated std
 non-zero and `Baseline.from_states` passes it. Baseline CSVs are now gated per FILE as well, for
 the same reason.
 
 THE RULE (from the handoff, not from the data). Per frame, z = `v4_input_ablation.load_z`: the
-max |(load - mu) / sigma| over the DISTAL LOAD channels only — `DISTAL_LOAD = [8, 9, 10, 11]` =
+max |(load - mu) / sigma| over the DISTAL LOAD channels only, `DISTAL_LOAD = [8, 9, 10, 11]` =
 elbow_flex, wrist_flex, wrist_roll, gripper load (tools/v4_input_ablation.py:43); not the
 currents, not shoulder_pan/shoulder_lift. ONSET = the first tick of a run of >= ONSET_TICKS (3)
 consecutive ticks with z > CONTACT_Z (2.0). The event ENDS at the first tick of a run of
@@ -69,17 +69,17 @@ consecutive ticks with z > CONTACT_Z (2.0). The event ENDS at the first tick of 
 PEAK = the max z in the event and its tick; the event's JOINT is the distal channel that carries
 that peak. DWELL = end - onset in seconds ON THE SIDECAR'S OWN CLOCK. IMPULSE = the integral over
 the event of |load_joint - mu_joint| dt, in raw servo load units x seconds on the event's joint
-(Feetech Present_Load, sign-decoded, ±~1000; so_follower patch) — dt from `t_mono`, not 1/fps.
+(Feetech Present_Load, sign-decoded, ±~1000; so_follower patch), dt from `t_mono`, not 1/fps.
 
 mu / sigma are a `Baseline`: per channel, over every row of the block's certification-replay
-telemetry CSVs (`Baseline.from_csvs`), gated non-constant on every load/current channel — the
+telemetry CSVs (`Baseline.from_csvs`), gated non-constant on every load/current channel, the
 same gate the handoff puts on the first trial. The certification replays that write these CSVs are
 run by `tools/replay_telemetry.py` (block B1's three are CERT-B1-01/02/03). The check refuses to run
 without a baseline rather than quietly falling back to dataset statistics. Each `Baseline` carries
 the loop rate its replays ran at (`loop_hz`), because B1's ran at 18.52-18.63 Hz and replays after
 the Sep 7 pacing fix run at ~20 Hz; CSVs of different rates are never pooled into one baseline.
 
-OPPOSING COMMAND — the definition (sign-convention-free, so it does not depend on which way
+OPPOSING COMMAND, the definition (sign-convention-free, so it does not depend on which way
 Feetech signs Present_Load on a joint whose drive direction calibration may flip):
   * Arm joints only: shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll (dims 0-4).
     The gripper is excluded: jaw motion during a stall is a grasp or a release, not a back-off.
@@ -93,20 +93,20 @@ Feetech signs Present_Load on a joint whose drive direction calibration may flip
     the command leads forward (the servo lags its goal), so this is negative only on a reversal.
     The reference is P[t], not P[onset]: a back-off from a stall is a reversal relative to where
     the arm is stuck, and it can be well below where the arm was when the load rose (RESIST ep 2:
-    elbow stalls at 43.6° commanded 39.4°, backs off to a command of 46.5° — below the 48.9° at
+    elbow stalls at 43.6° commanded 39.4°, backs off to a command of 46.5°, below the 48.9° at
     onset, above the stalled position).
   * LATENCY = t[t_opposing] - t[onset]. Which sample is t_opposing is THE RULE, and there are two.
     The action stream must align 1:1 with the telemetry rows (`TelemetryError` otherwise).
 
 THE RULE, VERSIONED. Every output carries `rule_version`.
-  RULE_PREREGISTERED = "preregistered-2026-09-06" — THE DEFAULT. Exactly what the pre-registration's
+  RULE_PREREGISTERED = "preregistered-2026-09-06", THE DEFAULT. Exactly what the pre-registration's
      own commit implemented (8958af5; "the v4 protocol (text held until unblinding; SHA-256 in the README):9" names it as such):
      ref = onset - LOOKBACK_TICKS in TICKS (10); t_opposing = the first sample t >= onset that is
      opposing, searched to the END OF THE TRACE; a command already opposing at the onset therefore
      scores 0.00 s. That 0.00 is the rule's number and stays in the median, but it is never
      presented as a response: the event is labelled `lead` with `lead_ticks`, and the trial reports
      `n_leads_in_median`.
-  RULE_AMENDED = "amended-2026-09-07" — OPT-IN (`--rule amended-2026-09-07`), UNRATIFIED. The Sep 7
+  RULE_AMENDED = "amended-2026-09-07", OPT-IN (`--rule amended-2026-09-07`), UNRATIFIED. The Sep 7
      tranche-1 changes that alter the pre-registered number: the search is bounded to the event's
      end plus RESP_GRACE_S and to RESP_MAX_S from the onset (`response_horizon`); it starts strictly
      after the onset, so a lead is undefined rather than 0.00; and the lookback is LOOKBACK_TICKS /
@@ -122,7 +122,7 @@ All measured on the seven CSVs on disk; tests/test_v4_contact_endpoint_repairs.p
      rate: the FIRST interval of each policy trial is 0.520 / 0.582 s (the first inference), so a
      detection at nominal 0.75 s really happened at 1.22 s. `sample_times` reads `t_mono` and NAMES
      the fallback when there is none. (`tools/replay_telemetry.py`'s own pacing was fixed with it,
-     so baselines recorded after Sep 7 run at ~20 Hz rather than B1's ~18.5 Hz — a disclosure, and
+     so baselines recorded after Sep 7 run at ~20 Hz rather than B1's ~18.5 Hz, a disclosure, and
      the reason `Baseline.loop_hz` exists.)
   E3' A LEAD PRESENTED AS A RESPONSE. The 5.69 s event of T0-SMOKE (5.15 s on the nominal clock)
      printed "latency 0.00 s". Both rules now label it a lead (above); only the amendment drops it.
@@ -131,7 +131,7 @@ All measured on the seven CSVs on disk; tests/test_v4_contact_endpoint_repairs.p
      (104 and 230). The cap is written to the GRIPPER ONLY (so_follower.py:180 `if motor ==
      "gripper":`, :185), so only `CENSORED_LOAD_DIMS` = gripper.load is ever counted or flagged; an
      arm joint passing through ±500 is data (T0-SMOKE shoulder_lift.load reaches -842). The channel
-     is NOT dropped — narrowing `DISTAL_LOAD` is a method change and Faith's to ratify.
+     is NOT dropped, narrowing `DISTAL_LOAD` is a method change and Faith's to ratify.
   E5 THE SCALARS. `the v4 bench sheet (held until unblinding):112-113` promises `contact_latency_s`,
      `contact_impulse` and `reached_T` are computed here, never hand-entered. `trial_scalars` and
      `write_scalar_rows` (`--scalars-out`) emit them keyed by the ledger's BARE label (the stamp is
@@ -150,15 +150,15 @@ THE MANIPULATION CHECK (--manipulation-check) runs the rule, with mu/sigma from 
 episodes' own frames, on the training RESIST and NUDGE episodes of the 18-dim v4 dataset and
 reports RECALL in the labelled window beside the CLEAN false-positive rate in the SAME window.
 Labels: tools/v4_manifest.json "assigned"; the six "voided" episodes are excluded (ep 9's NUDGE
-closed its jaws, ep 16 never reached the rack — a voided episode is a mislabelled example). The
+closed its jaws, ep 16 never reached the rack, a voided episode is a mislabelled example). The
 8 hold-out episodes are derived (manifest -> kept -> seeded split, tools/v4_training_split.py) and
-asserted equal to the handoff's list [11, 19, 25, 31, 35, 50, 51, 57] — `SplitChanged` stops the
+asserted equal to the handoff's list [11, 19, 25, 31, 35, 50, 51, 57], `SplitChanged` stops the
 check if they differ. Ep 35 is a RESIST and a hold-out: exactly the example one would most want,
-and one this check never sees — the split was used once (Sep 7), is spent, and `load_v4_dataset`
+and one this check never sees, the split was used once (Sep 7), is spent, and `load_v4_dataset`
 filters it out inside the parquet reader.
-  * RESIST (Start Schedule — v4.md:16): the ARM brings the tube down at a wrong position/angle
+  * RESIST (start-schedule-v4.md:16): the ARM brings the tube down at a wrong position/angle
     against the unmodified rack, the operator feels the push-back through the leader, backs off,
-    re-aligns, inserts — never a hand. Window: the rack phase (`v4_audit.rack_slice`) up to the
+    re-aligns, inserts, never a hand. Window: the rack phase (`v4_audit.rack_slice`) up to the
     release (the jaw opening at the rack loads the gripper channel and is not a contact).
   * NUDGE (Start Schedule A2): an open-jaw graze of the tube on the way in. Window: the jaws-open
     hover at the pick site, first open -> grasp (`v4_audit` approach signature).
@@ -201,7 +201,7 @@ OFF_TICKS = 3              # symmetric hysteresis; a 1-2 tick dip does not split
 LOOKBACK_TICKS = 10        # approach direction: 10 ticks before onset (0.5 s only at exactly 20 Hz)
 MOTION_MIN_DEG = 1.0       # below this the arm was not moving into the contact -> latency undefined
 DEADBAND_DEG = 1.0         # a reversal smaller than this is servo noise / lag, not a command
-ARM_DIMS = [0, 1, 2, 3, 4]  # shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll — not the gripper
+ARM_DIMS = [0, 1, 2, 3, 4]  # shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll, not the gripper
 STALL_DIMS = [1, 2, 3]     # lift / elbow / wrist_flex: where a rim landing shows as command-vs-position gap
 STALL_GAP_DEG = 3.0
 STALL_SPEED_DEG_PER_TICK = 0.5
@@ -243,7 +243,7 @@ MAX_TORQUE_LIMIT = 500.0  # Feetech `Max_Torque_Limit`, written by the local so_
                       # blinded trial frame 230), and on T0-SMOKE gripper.load never exceeds 500
                       # while the uncapped arm channels do (shoulder_lift -842, wrist_flex -750,
                       # elbow_flex -716, wrist_roll -567).
-CENSORED_LOAD_DIMS = (11,)  # gripper.load — the one channel the cap is written to (ast-pinned)
+CENSORED_LOAD_DIMS = (11,)  # gripper.load, the one channel the cap is written to (ast-pinned)
 JAW_HELD_MIN_DEG = 5.0  # reached_T's jaw-width proxy: the midpoint of the gap between the one
                       # BENCH negative and the smallest held carry (JAW_HELD_CALIBRATION).
 JAW_HELD_CALIBRATION = {
@@ -259,7 +259,7 @@ JAW_HELD_CALIBRATION = {
     "replay_positives": ("CERT-B1-01", "CERT-B1-02", "CERT-B1-03", "CHAMF-GATE-01"),
     "min_held": {"training demonstrations": 12.13, "replay CSVs": 11.42, "policy trials": 8.85},
     # WHAT CAN AND CANNOT VALIDATE IT. Every v4 demonstration continues to the seat (Start
-    # Schedule — v4.md:16), so neither the 50 training nor the 8 held-out episodes contains a
+    # Schedule, v4.md:16), so neither the 50 training nor the 8 held-out episodes contains a
     # negative by construction; on the 50 training episodes any threshold from 0.0 to 12.13 gives
     # the same verdict (measured, tests), and the Sep 7 held-out check (8/8) could not have failed. The discriminating set is CHAMF-GATE-02 plus the 12
     # rack-reaching closed-jaw rollouts named in the tests (carry minima 1.07-1.36; the other 33
@@ -285,7 +285,7 @@ class TelemetryError(RuntimeError):
 
 
 class SplitChanged(RuntimeError):
-    """The derived hold-out no longer equals the pre-registered list — stop, do not proceed."""
+    """The derived hold-out no longer equals the pre-registered list, stop, do not proceed."""
 
 
 def check_rule(rule: str) -> str:
@@ -318,11 +318,11 @@ def sample_times(n: int, t_mono=None, fps: int | float = FPS) -> tuple[np.ndarra
     if t_mono is not None:
         t = np.asarray(t_mono, dtype=np.float64)
         if t.ndim != 1 or len(t) != n:
-            raise TelemetryError(f"t_mono has shape {t.shape}, expected ({n},) — one per telemetry row")
+            raise TelemetryError(f"t_mono has shape {t.shape}, expected ({n},), one per telemetry row")
         if len(t) > 1 and np.any(np.diff(t) <= 0):
             bad = int(np.argmax(np.diff(t) <= 0))
             raise TelemetryError(f"t_mono is not strictly increasing at row {bad + 1} "
-                                 f"({t[bad]:.4f} -> {t[bad + 1]:.4f}) — not a monotonic clock")
+                                 f"({t[bad]:.4f} -> {t[bad + 1]:.4f}), not a monotonic clock")
         return t - t[0], "t_mono"
     return np.arange(n, dtype=np.float64) / float(fps), f"nominal {float(fps):g} fps (no t_mono column)"
 
@@ -352,7 +352,7 @@ def censored_ticks(state, dims=None, cap: float = MAX_TORQUE_LIMIT) -> dict[str,
     cap is right-censored: the true load is at least that, and the peak, the z and the impulse
     computed from it are LOWER BOUNDS. The cap is written to the gripper only (so_follower.py:180-
     185), so the default is `CENSORED_LOAD_DIMS`: an arm joint reading exactly 500 on its way to
-    -842 is a measurement, not a censored one. Reported, never silently dropped — dropping a channel
+    -842 is a measurement, not a censored one. Reported, never silently dropped, dropping a channel
     is a change to the pre-registered `DISTAL_LOAD` set and that is Faith's to ratify.
     """
     s = np.asarray(state, dtype=np.float64)
@@ -367,13 +367,13 @@ def censored_ticks(state, dims=None, cap: float = MAX_TORQUE_LIMIT) -> dict[str,
 
 
 def check_channels_live(state, source: str) -> None:
-    """Refuse a state whose load/current channels are not a live instrument reading — gate G-T's
+    """Refuse a state whose load/current channels are not a live instrument reading, gate G-T's
     non-constant clause (module docstring; "the v4 protocol (text held until unblinding; SHA-256 in the README)" §3 and its
     Sep 6 16:10 amendment). Raises `TelemetryError` NAMING the offending columns: the operator's
     next move is to go and look at that servo, so a bare count is not enough.
 
     Two shapes, one fault. NaN is what the sidecar writes when the observation carries no `.load` /
-    `.current` key (tools/telemetry_sidecar.py:27 — "a missing key is NaN in its column, never a
+    `.current` key (tools/telemetry_sidecar.py:27, "a missing key is NaN in its column, never a
     shifted row"), i.e. the `so_follower.py` load patch is not in place; the project notes "Money /
     accounts" (2) records that this patch dies on any `pip install -U lerobot`, which is how a
     silently dead stream actually reaches the bench. A FROZEN column is a bus that stopped updating
@@ -381,7 +381,7 @@ def check_channels_live(state, source: str) -> None:
     "0 contact events" as a clean approach that never pressed on the rack.
 
     NaN is refused on ALL 18 channels; constancy only on the 12 load/current channels [6:18], which
-    is what §3 specifies — a position channel that never moves is a real trajectory (v4 ep 20 holds
+    is what §3 specifies, a position channel that never moves is a real trajectory (v4 ep 20 holds
     the jaw at 13.2 through transit), not a dead instrument.
     """
     s = np.asarray(state, dtype=np.float64)
@@ -390,12 +390,12 @@ def check_channels_live(state, source: str) -> None:
         raise TelemetryError(f"{source}: expected an (n, 18) state, got {s.shape}")
     nan = [names[k] for k in range(len(names)) if np.isnan(s[:, k]).any()]
     if nan:
-        raise TelemetryError(f"{source}: NaN in channel(s) {nan} — the sidecar is not seeing the "
+        raise TelemetryError(f"{source}: NaN in channel(s) {nan}, the sidecar is not seeing the "
                              f"servos (gate G-T; a missing .load/.current key writes NaN, "
                              f"telemetry_sidecar.py:27)")
     flat = [names[k] for k in range(6, 18) if s[:, k].std() == 0.0]
     if flat:
-        raise TelemetryError(f"{source}: constant load/current column(s) {flat} — the sidecar is "
+        raise TelemetryError(f"{source}: constant load/current column(s) {flat}, the sidecar is "
                              f"not seeing the servos (gate G-T, the non-constant clause)")
 
 
@@ -403,7 +403,7 @@ def check_action_live(action, source: str) -> None:
     """Refuse a NaN action stream. Same silent shape on the other input: `(A[t] - P[t]) . u_hat <=
     -DEADBAND_DEG` is False at every tick when A is NaN, so `first_opposing_command` reports the
     ORDINARY reason "no opposing command before the end of the trace" and the trial drops out of
-    the median latency unremarked — endpoint 2 computed over fewer trials than it says.
+    the median latency unremarked, endpoint 2 computed over fewer trials than it says.
 
     Constant action COLUMNS are deliberately NOT refused, unlike the load/current channels: gate
     G-T's non-constant clause is about the instrument, and a commanded joint that never moves is a
@@ -413,7 +413,7 @@ def check_action_live(action, source: str) -> None:
     bad = [i for i in range(a.shape[1]) if np.isnan(a[:, i]).any()] if a.ndim == 2 else []
     if bad:
         names = [state_columns()[i].split(".")[0] for i in bad]
-        raise TelemetryError(f"{source}: NaN in the action stream, dim(s) {bad} {names} — every "
+        raise TelemetryError(f"{source}: NaN in the action stream, dim(s) {bad} {names}, every "
                              f"latency would come back undefined with an ordinary-looking reason")
 
 
@@ -428,7 +428,7 @@ def load_telemetry(path) -> tuple[np.ndarray, dict]:
     have = set(rows[0].keys())
     missing = [c for c in cols if c not in have]
     if missing:
-        raise TelemetryError(f"{path.name}: missing column(s) {missing} — not a sidecar CSV")
+        raise TelemetryError(f"{path.name}: missing column(s) {missing}, not a sidecar CSV")
     state = np.empty((len(rows), len(cols)), dtype=np.float64)
     for k, name in enumerate(cols):
         state[:, k] = [float(r[name]) if r[name] not in ("", None) else np.nan for r in rows]
@@ -497,7 +497,7 @@ class Baseline:
         LOOP_HZ_MIX_TOL are refused rather than pooled into one mu/sigma (gate, don't narrate)."""
         paths = [Path(p) for p in paths]
         if not paths:
-            raise TelemetryError("baseline: no telemetry CSVs given — a per-block baseline is required "
+            raise TelemetryError("baseline: no telemetry CSVs given, a per-block baseline is required "
                                  "(the certification replays' *_telemetry.csv)")
         loaded = [load_telemetry(p) for p in paths]
         rates = [loop_rate(m["t_mono"]) for _s, m in loaded]
@@ -508,7 +508,7 @@ class Baseline:
                 raise TelemetryError(
                     "baseline: the CSVs ran at different loop rates "
                     + ", ".join(f"{n} {r:.3f} Hz" for n, r in known)
-                    + f" (spread {100 * (hi / lo - 1.0):.1f} % > {100 * LOOP_HZ_MIX_TOL:.0f} %) — replays "
+                    + f" (spread {100 * (hi / lo - 1.0):.1f} % > {100 * LOOP_HZ_MIX_TOL:.0f} %), replays "
                       "recorded before and after the Sep 7 pacing fix are different instruments; "
                       "build the baseline from one kind")
         b = cls.from_states(np.concatenate([st for st, _m in loaded]),
@@ -524,7 +524,7 @@ class Baseline:
         """A baseline saved by a previous run. Gated like the others: this is the one route to
         `load_z` that does not pass through `from_states`, so an unchecked mu/sigma here puts a dead
         instrument straight into the z-score. NaN is the silent shape (z is NaN, no events, exit 0
-        — the same failure as a dead trial); a zero sigma on a load/current channel is the loud one
+        the same failure as a dead trial); a zero sigma on a load/current channel is the loud one
         (z = |x| / 1e-6). Zero sigma on a POSITION channel is not gated, for the reason in
         `check_channels_live`: a joint that never moves is a real trajectory."""
         d = json.load(open(path))
@@ -536,11 +536,11 @@ class Baseline:
             raise TelemetryError(f"{src}: mean/std are {mean.shape}/{std.shape}, need ({len(names)},)")
         bad = [names[k] for k in range(len(names)) if np.isnan(mean[k]) or np.isnan(std[k])]
         if bad:
-            raise TelemetryError(f"{src}: NaN in the baseline mu/sigma for channel(s) {bad} — every z "
+            raise TelemetryError(f"{src}: NaN in the baseline mu/sigma for channel(s) {bad}, every z "
                                  f"would be NaN and every trial would report zero contact events")
         zero = [names[k] for k in range(6, 18) if std[k] == 0.0]
         if zero:
-            raise TelemetryError(f"{src}: zero sigma on load/current channel(s) {zero} — the baseline it "
+            raise TelemetryError(f"{src}: zero sigma on load/current channel(s) {zero}, the baseline it "
                                  f"came from was not seeing the servos (gate G-T)")
         hz = d.get("loop_hz")
         return cls(mean=mean, std=std, source=src, n_rows=int(d.get("n_rows", 0)),
@@ -608,8 +608,8 @@ def first_opposing_command(state, action, onset: int, fps: int = FPS, lookback: 
 
     RULE_PREREGISTERED (the default) is 8958af5's search, line for line: `ref = max(onset -
     lookback, 0)` in ticks, and the first sample t >= onset anywhere in the rest of the trace. A
-    command already opposing AT the onset therefore scores latency 0.00 s — that is the rule's
-    number — and is labelled `lead` with `lead_ticks` so it is never read as a response. It takes
+    command already opposing AT the onset therefore scores latency 0.00 s, that is the rule's
+    number, and is labelled `lead` with `lead_ticks` so it is never read as a response. It takes
     no horizon: passing `hard_end` or `resp_max_s` with it is a ValueError, not a quiet amendment.
 
     RULE_AMENDED is the Sep 7 proposal: the lookback is `lookback / fps` seconds of the real clock,
@@ -711,7 +711,7 @@ def describe_event(ev: Event, state, action, baseline: Baseline, fps: int = FPS,
     dim = ab.DISTAL_LOAD[int(np.argmax(zc))]
     joint = state_columns()[dim].split(".")[0]
     excess = np.abs(s[ev.onset:ev.end, dim] - baseline.mean[dim])
-    # the event's own channel, at its own cap — and only a channel the cap is written to has one
+    # the event's own channel, at its own cap, and only a channel the cap is written to has one
     capped = dim in CENSORED_LOAD_DIMS
     at_cap = (np.abs(s[ev.onset:ev.end, dim]) == MAX_TORQUE_LIMIT) if capped else np.zeros(ev.end - ev.onset, bool)
     end_t = _edge_time(t, ev.end)
@@ -743,7 +743,7 @@ def analyze(state, action, baseline: Baseline, fps: int = FPS, source: str = "tr
     `rule` picks the latency search (RULE_PREREGISTERED unless asked); the output names it.
 
     Gate G-T is enforced HERE and not only in `load_telemetry`, because this is the choke point
-    every contact number flows through — the manipulation check reaches it from the parquet, never
+    every contact number flows through, the manipulation check reaches it from the parquet, never
     from a CSV (module docstring, "THE TELEMETRY GATE"). The structural complaints (shape,
     alignment) are raised first: a misaligned action stream is the more fundamental fault, and
     saying "constant load column" about a state that is not even the right shape misleads."""
@@ -755,7 +755,7 @@ def analyze(state, action, baseline: Baseline, fps: int = FPS, source: str = "tr
         a = np.asarray(action, dtype=np.float64)
         if a.ndim != 2 or len(a) != len(s):
             raise TelemetryError(f"action stream ({a.shape}) does not align 1:1 with the telemetry rows "
-                                 f"({len(s)}) — the sidecar's frame index is the recorded frame index")
+                                 f"({len(s)}), the sidecar's frame index is the recorded frame index")
         if a.shape[1] < 6:
             raise TelemetryError(f"action stream has {a.shape[1]} dims, need 6")
     check_channels_live(s, source)
@@ -829,7 +829,7 @@ def rack_window(state, action=None) -> tuple[int, int] | None:
     """Rack phase up to the RELEASE COMMAND. Measured on v4 ep 0 (Sep 6): the commanded jaw
     crosses 20 deg at 7.05 s, the gripper load jumps -120 -> 274 at 7.15 s, the observed jaw crosses
     20 deg at 7.25 s. Cut on the observed jaw and the release's own load spike sits inside the
-    window — the specified rule then 'detected' the release in 30/30 CLEAN rack phases (joint =
+    window, the specified rule then 'detected' the release in 30/30 CLEAN rack phases (joint =
     gripper). The cut is the rising edge of the commanded jaw: the first rack tick where the command
     exceeds its running minimum since rack entry by RELEASE_CMD_RISE_DEG. Without an action stream
     the observed jaw (> JAW_OPEN) is the only signal there is."""
@@ -889,14 +889,14 @@ def _carry_window(state) -> tuple[int | None, int | None, str | None]:
 
 
 def carry_jaw_min(state) -> float | None:
-    """The smallest observed jaw width between the grasp and rack entry — the number reached_T
+    """The smallest observed jaw width between the grasp and rack entry, the number reached_T
     thresholds, and the number JAW_HELD_CALIBRATION is derived from. None when there is no carry."""
     gi, entry, _why = _carry_window(state)
     return None if gi is None else float(np.asarray(state, dtype=np.float64)[gi:entry, 5].min())
 
 
 def reached_T(state, jaw_held_min: float = JAW_HELD_MIN_DEG) -> tuple[bool, str | None]:
-    """Stage T (transported) FROM TELEMETRY ALONE — a PROXY for the adjudicated stage letter.
+    """Stage T (transported) FROM TELEMETRY ALONE, a PROXY for the adjudicated stage letter.
 
     §1 restricts co-primary 2 to "trials reaching T", and T is a stage of "the existing adjudicated
     taxonomy" ("the v4 protocol (text held until unblinding; SHA-256 in the README)":56-59): the video decides. This proxy is
@@ -917,7 +917,7 @@ def reached_T(state, jaw_held_min: float = JAW_HELD_MIN_DEG) -> tuple[bool, str 
         return False, why
     lo = float(np.asarray(state, dtype=np.float64)[gi:entry, 5].min())
     if lo < jaw_held_min:
-        return False, (f"the jaw collapsed to {lo:.2f} deg during the carry (< {jaw_held_min}) — "
+        return False, (f"the jaw collapsed to {lo:.2f} deg during the carry (< {jaw_held_min}), "
                        f"nothing was held")
     return True, None
 
@@ -935,21 +935,21 @@ def trial_scalars(state, action, baseline: Baseline, t_mono=None, label: str | N
                   reached_T_source: str = REACHED_T_ADJUDICATED, stamp: str | None = None) -> dict:
     """One trial -> the three scores.csv columns, plus the denominators that make them readable.
 
-    THE RULE is `rule` — RULE_PREREGISTERED unless the caller asks for the amendment — and the
+    THE RULE is `rule`, RULE_PREREGISTERED unless the caller asks for the amendment, and the
     result names it (`rule_version`). The anchor, the baseline and DISTAL_LOAD are the same under
     both; the rules differ only in which command counts as the first opposing one (module docstring).
 
     `contact_latency_s` = the MEDIAN over the trial's events with a defined latency (§1 "per-trial
-    median latency"). An event whose latency is undefined is not in the median — the frozen
-    code's own `_median` skips None, and the Sep 6 17:20 amendment ("Eval Protocol — v4 merged
+    median latency"). An event whose latency is undefined is not in the median, the frozen
+    code's own `_median` skips None, and the Sep 6 17:20 amendment ("Eval Protocol, v4 merged
     (Sep 6).md":441-443) describes a trial whose latencies all came back undefined as having
-    "dropped out of the median". A trial with none contributes `None` AND ITS REASONS — an empty
+    "dropped out of the median". A trial with none contributes `None` AND ITS REASONS, an empty
     cell, never a zero. Under the pre-registered rule a lead is in the median at 0.00 s and is
     counted in `n_leads_in_median`.
 
     `contact_impulse` = the MEDIAN over the trial's events. §1 names the median for the latency and
     no aggregator for the impulse; the median is the reading that applies §1's word to both, and it
-    is printed as a convention with `contact_impulse_sum` beside it — a ratification item.
+    is printed as a convention with `contact_impulse_sum` beside it, a ratification item.
 
     §1 does not restrict the median to the rack window, so neither does this; the rack-window
     denominators are reported (`n_latencies_in_rack_window`, `latency_from_rack_window`).
@@ -1002,7 +1002,7 @@ def scalar_conventions(sc: dict) -> list[str]:
     n, m = sc["n_latencies"], sc["n_events"]
     out = []
     if sc["rule_version"] == RULE_PREREGISTERED:
-        out.append(f"rule {RULE_PREREGISTERED}: the pre-registered search (8958af5) — the first opposing "
+        out.append(f"rule {RULE_PREREGISTERED}: the pre-registered search (8958af5), the first opposing "
                    f"command at or after the onset, to the end of the trace; lookback {LOOKBACK_TICKS} ticks")
     else:
         out.append(f"rule {RULE_AMENDED} (UNRATIFIED Sep 7 amendment): search bounded by RESP_MAX_S "
@@ -1013,14 +1013,14 @@ def scalar_conventions(sc: dict) -> list[str]:
     if sc["n_leads_in_median"]:
         k = sc["n_leads_in_median"]
         out.append(f"{k} of those {n} {_plural(k, 'is a LEAD', 'are LEADS')} (the command already opposing at "
-                   f"the onset), scored 0.00 s by the pre-registered rule — not a response")
+                   f"the onset), scored 0.00 s by the pre-registered rule, not a response")
     out.append(f"contact_impulse = the median over the {m} {_plural(m, 'event', 'events')} (§1 names no "
                f"aggregator for the impulse; a ratification item)")
     out.append(f"{sc['n_latencies_in_rack_window']} of the {n} {_plural(n, 'latency', 'latencies')} came from "
                f"the rack window (§1 does not restrict the median to it)")
     if sc["reached_T_source"] == REACHED_T_TELEMETRY:
         out.append(f"reached_T = the telemetry proxy ({sc['reached_T_telemetry']}), by --reached-T-from-"
-                   f"telemetry — it overrides the adjudicated stage letter in the analysis")
+                   f"telemetry, it overrides the adjudicated stage letter in the analysis")
     else:
         out.append(f"reached_T left blank: the analysis restricts on the adjudicated stage letter (§1); "
                    f"the telemetry proxy says {sc['reached_T_telemetry']}")
@@ -1028,7 +1028,7 @@ def scalar_conventions(sc: dict) -> list[str]:
 
 
 def _cell(v):
-    """A CSV cell: an undefined value is EMPTY, never 0 — `v4_bench_analysis` reads any non-empty
+    """A CSV cell: an undefined value is EMPTY, never 0, `v4_bench_analysis` reads any non-empty
     cell as a number and a 0 latency would enter the paired test as 'responded instantly'."""
     if v is None or (isinstance(v, float) and math.isnan(v)):
         return ""
@@ -1036,7 +1036,7 @@ def _cell(v):
 
 
 def write_scalar_rows(path, scalars) -> None:
-    """The three promised columns, keyed by the ledger's BARE label — a scores.csv-compatible fragment.
+    """The three promised columns, keyed by the ledger's BARE label, a scores.csv-compatible fragment.
 
     Deliberately NOT a whole scores.csv: `stage` and `mechanism` are adjudicated from video and
     this tool has no business writing them. The header is `label` + SCALAR_COLUMNS, all of which
@@ -1082,7 +1082,7 @@ def merge_scalar_rows(score_rows, fragment_rows) -> list[dict]:
     for r in fragment_rows:
         lab = r.get("label") or ""
         if lab in frag:
-            raise TelemetryError(f"label {lab!r} appears in more than one scalar fragment row — which run "
+            raise TelemetryError(f"label {lab!r} appears in more than one scalar fragment row, which run "
                                  f"counts is a manual call (the ledger's DUPLICATE_LABEL)")
         frag[lab] = r
     labels = [r.get("label") for r in score_rows]
@@ -1091,7 +1091,7 @@ def merge_scalar_rows(score_rows, fragment_rows) -> list[dict]:
         raise TelemetryError(f"scores.csv holds label(s) {dup} more than once")
     unknown = sorted(set(frag) - set(labels))
     if unknown:
-        raise TelemetryError(f"scalar fragment label(s) {unknown} are not in scores.csv — a stamped or "
+        raise TelemetryError(f"scalar fragment label(s) {unknown} are not in scores.csv, a stamped or "
                              f"misspelt label joins nothing")
     merged = []
     for r in score_rows:
@@ -1102,7 +1102,7 @@ def merge_scalar_rows(score_rows, fragment_rows) -> list[dict]:
                 new, old = f.get(k, "") or "", row.get(k, "") or ""
                 if old != "" and str(old) != str(new):
                     raise TelemetryError(f"{r.get('label')}: scores.csv already holds {k}={old!r} and the "
-                                         f"fragment says {new!r} — these columns are never hand-entered")
+                                         f"fragment says {new!r}, these columns are never hand-entered")
                 row[k] = new
         merged.append(row)
     return merged
@@ -1148,7 +1148,7 @@ def manipulation_check(states: dict, actions: dict, fps: int = FPS) -> dict:
     """The specified rule on the TRAINING RESIST/NUDGE episodes, with the CLEAN control."""
     hold = holdout_episodes()
     if hold != HOLDOUT_HANDOFF:
-        raise SplitChanged(f"derived hold-out {hold} != pre-registered {HOLDOUT_HANDOFF} — something upstream "
+        raise SplitChanged(f"derived hold-out {hold} != pre-registered {HOLDOUT_HANDOFF}, something upstream "
                            f"changed (manifest or split); stop and report, do not proceed")
     m = _manifest()
     train = training_episodes()
@@ -1207,8 +1207,8 @@ def load_v4_dataset(root=None, *, exclude=tuple(HOLDOUT_HANDOFF)):
     """(states_by_episode, actions_by_episode, state_names) or None if the dataset is not here.
     Gates that the dataset's state names equal the sidecar's channel order.
 
-    THE SPENT HOLD-OUT NEVER REACHES THIS PROCESS'S DATA. The episodes in `exclude` — by default,
-    and at minimum, HOLDOUT_HANDOFF, used once on Sep 7 and spent — are removed by a filter INSIDE
+    THE SPENT HOLD-OUT NEVER REACHES THIS PROCESS'S DATA. The episodes in `exclude`, by default,
+    and at minimum, HOLDOUT_HANDOFF, used once on Sep 7 and spent, are removed by a filter INSIDE
     `pd.read_parquet` (pyarrow `filters`), so no DataFrame, dict or array built here holds a row of
     theirs; the parquet reader may decode the pages that contain them before it drops them. Their
     absence is asserted after grouping, and an `exclude` that omits any hold-out episode is a
@@ -1231,7 +1231,7 @@ def load_v4_dataset(root=None, *, exclude=tuple(HOLDOUT_HANDOFF)):
         return None
     names = list(json.load(open(info))["features"]["observation.state"]["names"])
     if names != state_columns():
-        raise TelemetryError(f"dataset state names {names} != sidecar channel order {state_columns()} — "
+        raise TelemetryError(f"dataset state names {names} != sidecar channel order {state_columns()}, "
                              f"every channel would be mislabelled")
     pqs = sorted(glob.glob(str(root / "data" / "**" / "*.parquet"), recursive=True))
     if not pqs:
@@ -1247,7 +1247,7 @@ def load_v4_dataset(root=None, *, exclude=tuple(HOLDOUT_HANDOFF)):
     leaked = sorted(set(states) & set(exclude))
     if leaked:
         raise TelemetryError(f"excluded episode(s) {leaked} came back from the parquet reader despite the "
-                             f"read-time filter — stop; nothing may be computed from them")
+                             f"read-time filter, stop; nothing may be computed from them")
     return states, actions, names
 
 
@@ -1269,17 +1269,17 @@ def load_actions_parquet(path, episode: int | None) -> np.ndarray:
 # --- CLI -----------------------------------------------------------------------------------
 
 def _fmt(x, nd=2):
-    return "—" if x is None else f"{x:.{nd}f}"
+    return ", " if x is None else f"{x:.{nd}f}"
 
 
 def _print_check(res: dict) -> None:
-    print(f"MANIPULATION CHECK — rule |z| > {res['rule']['thr']} for >= {res['rule']['min_ticks']} ticks; "
+    print(f"MANIPULATION CHECK, rule |z| > {res['rule']['thr']} for >= {res['rule']['min_ticks']} ticks; "
           f"baseline {res['baseline']['source']} ({res['baseline']['n_rows']} rows)")
     print(f"training episodes used: {len(res['episodes_used'])}; hold-out excluded {res['holdout_excluded']}; "
           f"voided excluded {res['voided_excluded']}")
     for t, r in res["by_type"].items():
         c = res["controls"][t][CONTROL_TYPE]
-        print(f"\n{t} — window: {r['window']}")
+        print(f"\n{t}, window: {r['window']}")
         print(f"  recall {r['detected']}/{r['n']} = {_fmt(r['recall'])}   |   CLEAN control in the same window: "
               f"{c['detected']}/{c['n']} = {_fmt(c['recall'])}  (a threshold without a control is a bug)")
         print(f"  median timing error (onset - stall) {_fmt(r['median_timing_error_s'])} s   CLEAN {_fmt(c['median_timing_error_s'])} s")
@@ -1292,7 +1292,7 @@ def _print_check(res: dict) -> None:
 
 def _panel_module():
     """Imported LAZILY and only behind an opt-in flag. `tools/v4_contact_response.py` imports this
-    module, so a top-level import would be circular — and, more to the point, the proposal must not
+    module, so a top-level import would be circular, and, more to the point, the proposal must not
     be on the default path's import graph at all."""
     import v4_contact_response as cr
     return cr
@@ -1301,7 +1301,7 @@ def _panel_module():
 def _print_secondary_panel(state, action, t_mono) -> None:
     cr = _panel_module()
     p = cr.secondary_panel(state, action, t_mono=t_mono)
-    print(f"\n  --- SECONDARY PANEL (opt-in) — {p['status']}")
+    print(f"\n  --- SECONDARY PANEL (opt-in), {p['status']}")
     print(f"      window {p['rack_window_s']} s, clock {p['clock']}")
     for key, v in p["secondaries"].items():
         print(f"      {key:14s} {v['value']}")
@@ -1315,7 +1315,7 @@ def _wrap(text: str, width: int) -> list[str]:
 
 
 def _print_anchor_evaluability(a) -> int:
-    """The measurement behind the demotion proposal. TRAINING EPISODES ONLY — the hold-out is
+    """The measurement behind the demotion proposal. TRAINING EPISODES ONLY, the hold-out is
     filtered out inside the parquet reader by `load_v4_dataset` (never materialised here), and its
     absence is asserted again before any statistic runs."""
     cr = _panel_module()
@@ -1333,7 +1333,7 @@ def _print_anchor_evaluability(a) -> int:
     assert not set(states) & set(hold), "hold-out episode reached the measurement"
     m = _manifest()
     types = {e: m.type_of(e) for e in states}
-    print("PROPOSAL — NOT RATIFIED. Is the PRE-REGISTERED anchor ('distal-load onset',\n"
+    print("PROPOSAL, NOT RATIFIED. Is the PRE-REGISTERED anchor ('distal-load onset',\n"
           "'the v4 protocol (text held until unblinding; SHA-256 in the README)':56-59) a contact landmark under ANY baseline?\n"
           f"Training episodes only ({len(states)}); hold-out {hold} filtered out inside the parquet "
           f"reader (never materialised).\n")
@@ -1350,7 +1350,7 @@ def _print_anchor_evaluability(a) -> int:
             print(f"              {per}")
         print()
     print("  READ IT AS: 'not evaluable as pre-registered'. NOT as 'load carries no contact\n"
-          "  signal' — that sentence is not what this measures (protocol §2, the forbidden list).")
+          "  signal', that sentence is not what this measures (protocol §2, the forbidden list).")
     return 0
 
 
@@ -1398,7 +1398,7 @@ def main(argv=None) -> int:
                     help="fill scores.csv's contact columns from these --scalars-out fragments, by label")
     ap.add_argument("--into", help="with --merge-scalars: the adjudicated scores.csv (read, never written)")
     ap.add_argument("--merged-out", help="with --merge-scalars: the merged scores.csv to write (a new file)")
-    # OPT-IN, DEFAULT OFF — departures from the pre-registered method (module docstring). The
+    # OPT-IN, DEFAULT OFF, departures from the pre-registered method (module docstring). The
     # default path computes RULE_PREREGISTERED against the given baseline and leaves reached_T to
     # the adjudicated stage letter.
     ap.add_argument("--rule", choices=RULES, default=DEFAULT_RULE,
@@ -1439,7 +1439,7 @@ def main(argv=None) -> int:
                 bl = Baseline.from_json(a.baseline_json)
             else:
                 raise TelemetryError("no baseline: pass the block's certification-replay telemetry CSVs "
-                                     "(--baseline) — there is no silent fallback to dataset statistics")
+                                     "(--baseline), there is no silent fallback to dataset statistics")
             state, meta = load_telemetry(a.telemetry)
             act = load_actions_parquet(a.actions_parquet, a.episode) if a.actions_parquet else None
             res = analyze(state, act, bl, t_mono=meta["t_mono"], rule=a.rule)
@@ -1451,12 +1451,12 @@ def main(argv=None) -> int:
             print(f"  baseline {bl.source} ({bl.n_rows} rows, {_fmt(bl.loop_hz, 3)} Hz)")
             if res["censored"]:
                 print(f"  CENSORED at |{MAX_TORQUE_LIMIT:g}| (Max_Torque_Limit, written to the gripper only, "
-                      f"so_follower.py:180-185): {res['censored']} — peaks there are lower bounds")
+                      f"so_follower.py:180-185): {res['censored']}, peaks there are lower bounds")
             for e in res["events"]:
                 if e["latency_s"] is None:
                     note = f" ({e['latency_reason']})"
                 elif e.get("lead"):
-                    note = (f" [LEAD: already opposing {e['lead_ticks']} ticks at the onset — the pre-registered "
+                    note = (f" [LEAD: already opposing {e['lead_ticks']} ticks at the onset, the pre-registered "
                             f"rule scores it 0.00 s; not a response]")
                 else:
                     note = ""

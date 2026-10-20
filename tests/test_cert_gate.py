@@ -2,12 +2,12 @@
 and the receipt that records Faith's seat call.
 
 Sep 14 2026. Certification replays run outside `preflight.py` (the lab notebook (private) 12:47, gap 2), so the
-pre-session 52 C rule and the "scene-check before every replay" rule (12:37) were chat discipline.
+pre-session 52 C rule and the "scene-check before every replay" rule (12:37) were a manual habit.
 The one miss this morning was the pass with no scene check; the 70 C event was an arm left holding.
 This module makes both refusals code: `temps` refuses a replay when any servo reads above
 CERT_TEMP_MAX_C or cannot be read; `home` refuses a home that WARNED or printed no settled line;
 `receipt` writes the seat verdict and the pass's gate readings to one file, so "the seat is logged"
-(protocol :291) is a file, not a chat line. Reuses preflight's parsers; no hardware.
+(protocol :291) means a file on disk. Reuses preflight's parsers; no hardware.
 """
 import sys
 
@@ -70,7 +70,7 @@ def test_temps_refuse_both_arms_captured():
 
 def test_home_requires_homed_and_a_settled_line_and_no_warning():
     assert cert_gate.gate_home(HOME_OK)[0]
-    warned = HOME_OK.replace("HOMED (worst adjusted residual 1.2)", "WARNING: adjusted residual 3.1 exceeds 2.5 — check for obstruction")
+    warned = HOME_OK.replace("HOMED (worst adjusted residual 1.2)", "WARNING: adjusted residual 3.1 exceeds 2.5, check for obstruction")
     ok, why = cert_gate.gate_home(warned)
     assert not ok and "WARNING" in why
     no_settled = "\n".join(ln for ln in HOME_OK.splitlines() if not ln.startswith("settled:"))

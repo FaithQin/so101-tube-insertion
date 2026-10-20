@@ -24,7 +24,7 @@ GATED
     closing/closed jaws over ~3 s". Independent reproduction, duration included.
     Every other recorded episode: zero. **Control: 0/50 false positives on the
     v3 dataset** (Aug 27, hand-staged recovery, also 18-dim, and independent of
-    every number in this file) — so zero false positives in sixty episodes.
+    every number in this file), so zero false positives in sixty episodes.
 
 NOT GATED -- reported for Faith's eye
   * RESIST back-off, and CLEAN decisiveness. The best feature found is the
@@ -181,7 +181,7 @@ def audit(state, type_, episode=None) -> Result:
 
     if state.ndim != 2 or len(state) == 0:
         r.ok = False
-        r.failures.append("EMPTY: zero frames recorded — this is what the phantom-arrow "
+        r.failures.append("EMPTY: zero frames recorded, this is what the phantom-arrow "
                           "crash leaves behind. Re-record.")
         r.summary = "zero-frame episode"
         return r
@@ -215,11 +215,11 @@ def audit(state, type_, episode=None) -> Result:
 
     if gi is None:
         r.ok = False
-        r.failures.append("STRUCTURE: no grasp found — the jaw never opened and then closed "
+        r.failures.append("STRUCTURE: no grasp found, the jaw never opened and then closed "
                           "at the pick site.")
     if len(rack) < 10:
         r.ok = False
-        r.failures.append("STRUCTURE: no rack phase found — the tube was never carried to "
+        r.failures.append("STRUCTURE: no rack phase found, the tube was never carried to "
                           "the rack.")
 
     # --- approach signature vs label: the check that catches a label mix-up ---
@@ -250,18 +250,18 @@ def audit(state, type_, episode=None) -> Result:
             f"{rule} VIOLATED: the jaws CLOSED during the approach and reopened "
             f"({cycles} cycle(s), longest {longest:.1f} s at "
             f"{spans[0][0]:.1f}-{spans[0][1]:.1f} s). A {type_} must graze/hover with OPEN jaws "
-            f"— a close-on-air teaches the woodpecker. This is exactly why ep 9 was voided. "
+            f", a close-on-air teaches the woodpecker. This is exactly why ep 9 was voided. "
             f"RE-RECORD."
         )
 
     if type_ not in GATED_TYPES:
         r.uncalibrated = True
 
-    # RESIST's back-off is real but not separable yet — say so rather than gate.
+    # RESIST's back-off is real but not separable yet, say so rather than gate.
     if type_ == "RESIST":
         r.uncalibrated = True
         r.summary = (
-            f"RESIST back-off is NOT gated: rack wander {r.metrics['rack_wander']} — "
+            f"RESIST back-off is NOT gated: rack wander {r.metrics['rack_wander']}, "
             f"compare against RESIST keep 2.68 / RESIST void 1.94 / CLEAN keep 1.10-2.20. "
             f"The margin is 0.18 on 8 episodes, so this is a number for your eye, not a "
             f"verdict. Did you feel the push-back and back off 1-2 cm?"
@@ -270,7 +270,7 @@ def audit(state, type_, episode=None) -> Result:
         r.summary = f"{type_}: {UNCALIBRATED_NOTE}"
     elif r.ok and type_ in GRAZE_TYPES:
         extra = ("" if type_ not in ("ROT-20°", "ROT-45°") else
-                 " — the rotation MAGNITUDE (20 vs 45) is not measured here; judge that by eye")
+                 ", the rotation MAGNITUDE (20 vs 45) is not measured here; judge that by eye")
         r.summary = (f"{type_}: structure ok, graze registered ({hover_s:.1f} s open hover, "
                      f"pan excursion {excursion:.1f}°), jaws stayed open{extra}")
     elif r.ok:
@@ -312,7 +312,7 @@ def load_dataset(root=None):
             # Skip it and say so; the flushed episodes are still auditable.
             skipped.append((Path(p).name, type(e).__name__))
     if skipped:
-        print(f"[v4_audit] skipped {len(skipped)} unreadable data file(s) — the recorder is "
+        print(f"[v4_audit] skipped {len(skipped)} unreadable data file(s), the recorder is "
               f"probably still writing them: {skipped}", file=sys.stderr)
     if not frames:
         return None
@@ -353,17 +353,17 @@ def main() -> int:
               f"peak elbow load {m['peak_elbow_load_at_rack']}   "
               f"jaw reopen cycles {m['jaw_reopen_cycles']}")
         for f in r.failures:
-            print(f"  ✗ {f}")
+            print(f"  FAIL {f}")
         if r.summary:
             print(f"  · {r.summary}")
         if not r.failures and not r.uncalibrated:
-            print("  ✓ passes every check calibrated for this type")
+            print("  ok passes every check calibrated for this type")
         if not r.ok and not voided:
             worst = max(worst, 1)
 
     print("\nGATED: structure (frames, 18-dim, grasp, rack) for every type; "
           "amendment A2 (open-jaw graze) for NUDGE.")
-    print("NOT GATED: RESIST back-off, CLEAN decisiveness, LEFT-MIMIC, ROT-20/45 — "
+    print("NOT GATED: RESIST back-off, CLEAN decisiveness, LEFT-MIMIC, ROT-20/45, "
           "reported as numbers, judged by eye. See this file's header for why.")
     return worst
 

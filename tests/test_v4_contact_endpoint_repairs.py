@@ -1,15 +1,15 @@
 """Co-primary endpoint 2's instrument: the PRE-REGISTERED rule on the default path, the Sep 7
 amendment behind an explicit opt-in, and the correctness defects fixed on both.
 
-THE GOVERNING RULE (Sep 14 repair, after four refuters REFUTED the Sep 7 work). `Eval Protocol —
+THE GOVERNING RULE (Sep 14 repair, after four refuters REFUTED the Sep 7 work). `Eval Protocol, 
 v4 merged (Sep 6).md:56-59` pre-registers "contact response from `<trial>_telemetry.csv`
 (per-trial median latency from distal-load onset to first opposing command; impulse), restricted
 to trials reaching T". The DEFAULT path computes exactly that, as the pre-registration's own commit
 (8958af5, Sep 6 09:03) implemented it: the search for the first opposing command runs from the
 onset tick to the end of the trace, a command already opposing at the onset scores 0.00 s, the
 approach direction looks back LOOKBACK_TICKS (10) ticks, and T is the ADJUDICATED stage letter.
-Every Sep 7 departure — the response horizon (RESP_MAX_S), the event grace (RESP_GRACE_S), the lead
-exclusion, the 0.5 s clock lookback, a telemetry reached_T in the scored column — is reachable only
+Every Sep 7 departure, the response horizon (RESP_MAX_S), the event grace (RESP_GRACE_S), the lead
+exclusion, the 0.5 s clock lookback, a telemetry reached_T in the scored column, is reachable only
 through `rule=RULE_AMENDED` / `--rule amended-2026-09-07` / `--reached-T-from-telemetry`, and is a
 ratification item.
 
@@ -157,11 +157,11 @@ def _smoke_inputs():
     tel, cert = SCORED / POLICY_TRIALS[0], [SCORED / c for c in CERT_NAMES]
     missing = [p.name for p in [tel, *cert] if not p.exists()]
     if missing:
-        pytest.skip(f"LOUD SKIP: {missing} not on this machine — the T0-SMOKE pins are NOT checked "
+        pytest.skip(f"LOUD SKIP: {missing} not on this machine, the T0-SMOKE pins are NOT checked "
                     f"by this run (the synthetic tests of the same logic still run)")
     pq = _smoke_parquet()
     if pq is None:
-        pytest.skip("LOUD SKIP: the T0-SMOKE rollout dataset is not in ~/.cache/huggingface — the "
+        pytest.skip("LOUD SKIP: the T0-SMOKE rollout dataset is not in ~/.cache/huggingface, the "
                     "real latency pins are NOT checked by this run")
     return tel, cert, pq
 
@@ -182,7 +182,7 @@ def training():
 
 
 # ===================================================================================
-# THE RULE — pre-registered by default, the Sep 7 amendment only when asked for
+# THE RULE, pre-registered by default, the Sep 7 amendment only when asked for
 # ===================================================================================
 
 def test_the_default_rule_is_the_preregistered_one_and_every_output_names_its_rule():
@@ -257,7 +257,7 @@ def test_the_preregistered_lookback_is_ten_ticks_the_amended_one_is_half_a_secon
 
 
 # ===================================================================================
-# E1 — THE CLOCK (a defect on both rules)
+# E1, THE CLOCK (a defect on both rules)
 # ===================================================================================
 
 def test_sample_times_prefers_the_sidecars_own_clock_and_names_the_fallback():
@@ -310,7 +310,7 @@ def test_the_impulse_is_integrated_on_the_real_clock_not_divided_by_a_nominal_fp
 def test_the_real_csvs_are_timed_on_their_own_clock_which_is_not_20_hz(name, lo, hi):
     path = SCORED / name
     if not path.exists():
-        pytest.skip(f"LOUD SKIP: {name} not on this machine — the real clock is NOT checked by this run")
+        pytest.skip(f"LOUD SKIP: {name} not on this machine, the real clock is NOT checked by this run")
     state, meta = ce.load_telemetry(path)
     bl = ce.Baseline(mean=state.mean(0), std=state.std(0) + 1.0, source="unit", n_rows=len(state))
     out = ce.analyze(state, None, bl, t_mono=meta["t_mono"])
@@ -336,7 +336,7 @@ def test_the_first_tick_of_a_policy_trial_takes_half_a_second_and_the_nominal_cl
 
 
 # ===================================================================================
-# THE AMENDMENT'S OWN MECHANICS (opt-in) — each bound alone, and its declared band
+# THE AMENDMENT'S OWN MECHANICS (opt-in), each bound alone, and its declared band
 # ===================================================================================
 
 def test_the_amended_search_stops_at_the_hard_end():
@@ -446,7 +446,7 @@ def test_the_amended_horizon_does_not_span_every_training_contact_phase_and_the_
 
 
 # ===================================================================================
-# THE PER-TRIAL SCALARS — the aggregator, the denominators, the pins
+# THE PER-TRIAL SCALARS, the aggregator, the denominators, the pins
 # ===================================================================================
 
 @pytest.mark.parametrize("rule", ["preregistered-2026-09-06", "amended-2026-09-07"])
@@ -465,7 +465,7 @@ def test_the_latency_and_the_impulse_are_the_MEDIAN_over_the_trials_events(rule)
 
 
 def test_the_scalars_report_how_many_latencies_came_from_the_rack_window():
-    """§1 does not restrict the median to the rack window, so the default does not either — but
+    """§1 does not restrict the median to the rack window, so the default does not either, but
     the denominator is reported, because on T0-SMOKE none of them did."""
     s, a = _three_event_trial()
     s[:130, 3] = 30.0                        # not in the rack area before tick 130: only the last event is
@@ -522,7 +522,7 @@ def test_under_either_rule_every_zero_latency_on_the_smoke_trial_is_a_labelled_l
 
 
 # ===================================================================================
-# E4 — THE CENSORED CHANNEL IS THE GRIPPER, AND ONLY THE GRIPPER
+# E4, THE CENSORED CHANNEL IS THE GRIPPER, AND ONLY THE GRIPPER
 # ===================================================================================
 
 def _torque_cap_writes(src: str) -> list[tuple[int, str | None]]:
@@ -636,7 +636,7 @@ def test_both_real_policy_trials_are_flagged_censored_on_the_gripper(name):
 
 
 # ===================================================================================
-# reached_T — the ADJUDICATED letter by default; the telemetry proxy beside it
+# reached_T, the ADJUDICATED letter by default; the telemetry proxy beside it
 # ===================================================================================
 
 def _carry(jaw, rack_samples=None):
@@ -724,7 +724,7 @@ def closed_jaw_rollouts():
     missing = [n for n in ROLLOUT_CLOSED_JAW if not (HF / n).exists()]
     if missing:
         pytest.skip(f"LOUD SKIP: {len(missing)} of the closed-jaw rollouts are not in ~/.cache/huggingface "
-                    f"(e.g. {missing[:2]}) — the real negative control is NOT checked by this run")
+                    f"(e.g. {missing[:2]}), the real negative control is NOT checked by this run")
     return {n: _rollout_positions(n) for n in ROLLOUT_CLOSED_JAW}
 
 
@@ -739,7 +739,7 @@ def test_reached_T_negative_control_on_the_rack_reaching_closed_jaw_rollouts(clo
 
 def test_the_demonstrations_carry_no_information_about_the_jaw_threshold(training, closed_jaw_rollouts):
     """Why the Sep 7 held-out check of reached_T (8/8) could not have failed: every v4
-    demonstration continues to the seat (Start Schedule — v4.md:16), so the verdict is identical at
+    demonstration continues to the seat (start-schedule-v4.md:16), so the verdict is identical at
     ANY threshold from 0.0 to the smallest training carry. Only a set with negatives discriminates."""
     states, _actions = training
     at0 = [ce.reached_T(s, jaw_held_min=0.0)[0] for s in states.values()]
@@ -760,7 +760,7 @@ def test_the_jaw_threshold_calibration_record_matches_the_bench_csvs():
     for stem in replays + policy:
         p = SCORED / f"{stem}_telemetry.csv"
         if not p.exists():
-            pytest.skip(f"LOUD SKIP: {p.name} not on this machine — the calibration counts are NOT checked")
+            pytest.skip(f"LOUD SKIP: {p.name} not on this machine, the calibration counts are NOT checked")
         mins[stem] = ce.carry_jaw_min(ce.load_telemetry(p)[0])
     thr = ce.JAW_HELD_MIN_DEG
     assert tuple(sorted(k for k, v in mins.items() if v < thr)) == rec["negatives"] == ("CHAMF-GATE-02",)
@@ -831,7 +831,7 @@ def test_the_cli_writes_reached_T_blank_unless_the_telemetry_proxy_is_asked_for(
 
 
 # ===================================================================================
-# E5 — the fragment: an EMPTY cell for an undefined value, the ledger's label, the join
+# E5, the fragment: an EMPTY cell for an undefined value, the ledger's label, the join
 # ===================================================================================
 
 def _disposition(labels, verdict="MISS"):
@@ -941,7 +941,7 @@ def test_the_merge_refuses_rather_than_guessing():
 
 
 # ===================================================================================
-# THE HOLD-OUT — filtered inside the reader, on both desk paths
+# THE HOLD-OUT, filtered inside the reader, on both desk paths
 # ===================================================================================
 
 def _fake_v4_dataset(root, episodes=(0, 2, 11), n=30):

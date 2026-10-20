@@ -42,7 +42,7 @@ DEFAULT_ROOT = "~/.cache/huggingface/lerobot/faithqin/so101-tube-insert-v4_20260
 
 
 def _is_empty_tasks(cell) -> bool:
-    """True for [], [''], [None], np.array(['']) — the real data stores the empty
+    """True for [], [''], [None], np.array(['']), the real data stores the empty
     task as a one-element list holding '' (numpy PRINTS that as [], which is how
     the first version of this script found zero empty episodes)."""
     try:
@@ -162,7 +162,7 @@ def main() -> int:
     if before["bad_idx"] is None and not before["empty_episodes"] and not before["stale_stats"]:
         print("  nothing to repair"); return 0
     if not a.apply:
-        print("  DRY RUN — re-run with --apply to fix (meta/ and data/ are backed up first)")
+        print("  DRY RUN, re-run with --apply to fix (meta/ and data/ are backed up first)")
         return 1
     after = apply(root, a.task)
     print(f"  backup: {after['backup']}")
@@ -170,7 +170,7 @@ def main() -> int:
           f"total_tasks {after['total_tasks']}")
     ok = (not after["empty_episodes"] and after["empty_frames"] == 0 and after["bad_idx"] is None
           and not after["stale_stats"])
-    print("  VERIFIED" if ok else "  ✗ VERIFICATION FAILED — restore from the backup")
+    print("  VERIFIED" if ok else "  FAIL VERIFICATION FAILED, restore from the backup")
     return 0 if ok else 2
 
 

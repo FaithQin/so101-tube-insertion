@@ -130,9 +130,9 @@ def main(argv=None) -> int:
     print(f"declared={v['declared']} max_state_dim={v['max_state_dim']} stats={v['stats']}")
     print(f"routing={'WIDE (pos+vel+load+current)' if v['widen'] else 'narrow (pos+vel)'}")
     if v["exit_code"] == 0:
-        print(f"OK — {v['reason']}")
+        print(f"OK, {v['reason']}")
     else:
-        print(f"ABORT — {v['reason']}", file=sys.stderr)
+        print(f"ABORT, {v['reason']}", file=sys.stderr)
     return v["exit_code"]
 
 

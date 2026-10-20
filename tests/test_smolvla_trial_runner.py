@@ -206,7 +206,7 @@ def test_the_resolved_pin_is_narrow_for_a_and_wide_for_b(side, expected):
 
 
 # ---------------------------------------------------------------------------
-# The stubbed-runner harness — behaviour, without the arm
+# The stubbed-runner harness, behaviour, without the arm
 # ---------------------------------------------------------------------------
 #
 # Every scan above could be satisfied by a name sitting in the right
@@ -223,7 +223,7 @@ def test_the_resolved_pin_is_narrow_for_a_and_wide_for_b(side, expected):
 # shadowed on PATH so a pytest run cannot speak over a bench session. Nothing
 # else about the script is changed.
 #
-# This is safe in the default `pytest tests/` — unlike the executing tests in
+# This is safe in the default `pytest tests/`, unlike the executing tests in
 # section 5, which run the real resolvers. Under the stubs the only external
 # commands left are `date`, `mkdir`, `sed`, `grep`, `tee` and `ls`: no serial
 # port, no camera, no speaker, no Hub, no ledger row.
@@ -294,7 +294,7 @@ class _StubbedRun:
 def _stub_run(side="B", label="HARNESS-TEST", nsteps="25", fail_on=None, env=()):
     """Execute the runner with every `$B/python` and `say` replaced by a stub.
 
-    `env` is a tuple of pairs so this stays cacheable — the whole file's
+    `env` is a tuple of pairs so this stays cacheable, the whole file's
     behavioural tests share four or five runs, at ~0.3 s each.
     """
     src = _src()
@@ -353,12 +353,12 @@ def _hatch_misbehaviour():
 
     Shared with `_require_safe_to_execute_the_runner` in section 5, which has
     to decide whether it is safe to execute the REAL runner from pytest. A text
-    check cannot make that decision — it passed for an inverted condition.
+    check cannot make that decision, it passed for an inverted condition.
     """
     with_marker = _stub_run(env=(("CAPSTONE_RESOLVE_ONLY", "1"),))
     if with_marker.calls_to("home_arm.py"):
         return (
-            "CAPSTONE_RESOLVE_ONLY=1 did NOT stop the runner — it went on to run "
+            "CAPSTONE_RESOLVE_ONLY=1 did NOT stop the runner, it went on to run "
             f"{with_marker.tools_in_order()}. The escape hatch is inverted or gone: "
             "the 10-second pre-flight would consume a gated trial, and the "
             "executing tests in this file would drive the arm."
@@ -371,7 +371,7 @@ def _hatch_misbehaviour():
     if not real.calls_to("home_arm.py"):
         return (
             "with CAPSTONE_RESOLVE_ONLY unset the runner STILL stopped before the "
-            f"gates (it ran {real.tools_in_order()}, exit {real.rc}) — a real trial "
+            f"gates (it ran {real.tools_in_order()}, exit {real.rc}), a real trial "
             "would exit 0 having launched nothing, announcing 'NO trial was executed'"
         )
     return None
@@ -381,7 +381,7 @@ def test_runner_gates_on_check_state_width_and_aborts_on_failure():
     """The gate has to STOP the runner, not just print a verdict.
 
     Was: `"exit"` somewhere in the six lines after the check_state_width line.
-    That proves an `exit` is nearby, not that anything reaches it — and on Sep 5
+    That proves an `exit` is nearby, not that anything reaches it, and on Sep 5
     it did not. Reverting `${pipestatus[1]}` to the pre-fix `$?` reads the
     status of `sed`, the last command of
     `check_state_width.py ... | sed 's/^/  /'`, which is always 0; the gate
@@ -402,7 +402,7 @@ def test_runner_gates_on_check_state_width_and_aborts_on_failure():
         f"`$?` after a pipeline is sed's status, which is always 0.)"
     )
     assert not failed.calls_to("home_arm.py"), (
-        f"a failed state-width gate did not stop the runner — it went on to run "
+        f"a failed state-width gate did not stop the runner, it went on to run "
         f"{failed.tools_in_order()}"
     )
     assert not failed.calls_to("rollout_30hz_stale_ok.py"), (
@@ -410,7 +410,7 @@ def test_runner_gates_on_check_state_width_and_aborts_on_failure():
     )
     passing = _stub_run()
     assert passing.calls_to("rollout_30hz_stale_ok.py"), (
-        f"with every gate passing the runner never reached the rollout — it "
+        f"with every gate passing the runner never reached the rollout, it "
         f"stopped after {passing.tools_in_order()} (exit {passing.rc})"
     )
 
@@ -493,14 +493,14 @@ def test_runner_passes_a_rename_map():
 def test_the_launch_line_wires_each_camera_to_the_device_it_was_recorded_on():
     """The map above pins the RENAMING. Nothing pinned which device feeds front.
 
-    `tools/smolvla_dryrun.py:88` says it outright — "swapping front and wrist
-    runs fine and is silently wrong" — and the project notes records that macOS camera
+    `tools/smolvla_dryrun.py:88` says it outright, "swapping front and wrist
+    runs fine and is silently wrong", and the project notes records that macOS camera
     indices shift after a reboot or a replug, which is exactly the moment
     somebody edits these two digits. Transposed, the wrist stream arrives as
     camera1: the rollout runs at full speed, writes a plausible video and scores
     MISS, and the A/B is decided on a wiring fault. No test in tests/ mentioned
     index_or_path at all. So pin the geometry against the recording's own
-    feature shapes, and the device indices against run_scored_trial.sh — the
+    feature shapes, and the device indices against run_scored_trial.sh, the
     certified ACT rig config, which this file already refuses to let drift. If
     the indices genuinely moved, tools/probe_cameras.py says so and every runner
     changes together.
@@ -529,7 +529,7 @@ def test_the_launch_line_wires_each_camera_to_the_device_it_was_recorded_on():
         index = cams[name]["index_or_path"]
         assert f"{name}: {{type: opencv, index_or_path: {index}," in act, (
             f"the SmolVLA runner opens `{name}` on OpenCV index {index}, which is "
-            f"not what run_scored_trial.sh — the certified ACT rig config — uses. "
+            f"not what run_scored_trial.sh, the certified ACT rig config, uses. "
             f"Transposed indices run fine and are silently wrong "
             f"(tools/smolvla_dryrun.py:88): the trial scores MISS and SmolVLA "
             f"takes the blame. If the indices really moved, re-run "
@@ -559,7 +559,7 @@ def test_the_control_loop_is_paced_at_the_dataset_fps():
     every action chunk at 1.5x the trained rate while `--dataset.fps` still
     stamps the saved video 20, so even the recording misreports its own timing:
     the arm overshoots the seat, the trial scores MISS, and SmolVLA takes the
-    blame for the wrapper's name. 30 is a plausible thing to type here — the
+    blame for the wrapper's name. 30 is a plausible thing to type here, the
     launcher is called rollout_30hz_stale_ok.py. Read the rate off the dataset,
     never off a constant in this file.
     """
@@ -576,7 +576,7 @@ def test_the_control_loop_is_paced_at_the_dataset_fps():
         assert got == [f"{flag}={trained_fps}"], (
             f"{flag} is {got or 'unset'}; the v3 recording both twins trained on is "
             f"{trained_fps} fps. Pacing anything else runs each action chunk off the "
-            f"trained rate — the arm overshoots the seat and the trial scores MISS "
+            f"trained rate, the arm overshoots the seat and the trial scores MISS "
             f"for a reason that has nothing to do with the policy"
         )
 
@@ -584,20 +584,20 @@ def test_the_control_loop_is_paced_at_the_dataset_fps():
 def test_runner_reuses_the_same_gates_as_the_other_runners():
     """Three names, in the order the runner actually executes them.
 
-    Was: three name-presence scans with no ordering constraint — in a file that
+    Was: three name-presence scans with no ordering constraint, in a file that
     elsewhere proves it knows how to assert order. Swapping the two lines
     reverts the Aug 30 lesson written into the comment directly above them: the
     scene is photographed before the arm is homed, an arm parked over the tube
     occludes the cap, and scene_check reports an occlusion failure as a
     PLACEMENT failure. `*placement*` is a human-only gate with no retry, so the
-    block aborts and Faith re-seats a tube that was already correct — bench
+    block aborts and Faith re-seats a tube that was already correct, bench
     minutes at the start of a gated block, spent on the wrong thing.
     """
     run = _stub_run()
     order = run.tools_in_order()
     for gate in ("preflight.py", "home_arm.py", "scene_check.py"):
         assert any(t.endswith(gate) for t in order), (
-            f"SmolVLA runner skips {gate} — it ran {order}"
+            f"SmolVLA runner skips {gate}, it ran {order}"
         )
     first = lambda gate: next(i for i, t in enumerate(order) if t.endswith(gate))  # noqa: E731
     assert first("home_arm.py") < first("scene_check.py"), (
@@ -621,12 +621,12 @@ def test_runner_gates_on_the_side_tables_generation_not_v2():
     History, kept because it is the bug: both v3 twins trained on v3; v2's frame-0 bounds
     reject valid v3 starts.
 
-    Was: `DATASET_TAG=v3` is assigned somewhere in the file. It is — and the tag
+    Was: `DATASET_TAG=v3` is assigned somewhere in the file. It is, and the tag
     still never reached the gate. `tools/preflight.py:117` reads the support
     window from `sys.argv[4]` and falls back to `home_gate.DEFAULT_DATASET`,
     which is `"v2"`, so dropping the fourth argument gates every SmolVLA trial
     on v2's frame-0 bounds while the arm is homed to v3 and a v3-trained policy
-    launches — and prints a reassuring `PREFLIGHT PASS (v2)` while doing it.
+    launches, and prints a reassuring `PREFLIGHT PASS (v2)` while doing it.
     v3's elbow frame-0 range is [78.11, 90.42] against v2's [75.47, 84.44] and
     its gripper [0.79, 1.57] against [1.14, 1.64] (conftest), so it both rejects
     in-distribution starts and admits out-of-distribution ones. Assert on the
@@ -646,7 +646,7 @@ def test_runner_gates_on_the_side_tables_generation_not_v2():
         f"table's generation (the stub answers 'v4' for --print gen), not a constant or v2"
     )
     homed = run.calls_to("home_arm.py")
-    assert homed, f"the runner never homes the arm — it ran {run.tools_in_order()}"
+    assert homed, f"the runner never homes the arm, it ran {run.tools_in_order()}"
     for call in homed:
         assert args[3] in call["argv"], (
             f"home_arm.py is posed with {call['argv']} but preflight gates on "
@@ -661,7 +661,7 @@ def test_runner_does_not_enable_the_grasp_lock():
     lock was never pre-declared for SmolVLA and stays OFF, matching the pi0.5
     runner.
 
-    Was: `"unset CAPSTONE_GRASP_LOCK" in code`. That is a PREFIX — a rename or a
+    Was: `"unset CAPSTONE_GRASP_LOCK" in code`. That is a PREFIX, a rename or a
     typo to `unset CAPSTONE_GRASP_LOCK_V2` unsets nothing that exists and still
     satisfies it, which removes the only barrier between an exported lock left
     over from an ACT session in the same shell and a SmolVLA rollout. So export
@@ -702,7 +702,7 @@ def test_runner_refuses_a_non_integer_horizon():
 
 
 def test_the_horizon_argument_reaches_the_policy():
-    """$3 is validated — then it has to actually be USED.
+    """$3 is validated, then it has to actually be USED.
 
     Nothing in this file tied `$NSTEPS` to the launch line, so pinning
     `--policy.n_action_steps=50` passed every test while the banner, the
@@ -710,8 +710,8 @@ def test_the_horizon_argument_reaches_the_policy():
     the horizon that was ASKED for. Every receipt agrees and every one of them
     is wrong: a 25-vs-50 row pair in the ledger would be a comparison that never
     happened, and the per-policy config would be chosen off it. n_action_steps
-    is live under sync — it is the number of steps of each chunk executed
-    open-loop — so this is the one knob the n-grid turns.
+    is live under sync, it is the number of steps of each chunk executed
+    open-loop, so this is the one knob the n-grid turns.
     """
     run = _stub_run(nsteps="25")
     launch = run.only_call_to("rollout_30hz_stale_ok.py")["argv"]
@@ -765,7 +765,7 @@ def test_usage_validation_precedes_every_line_that_could_touch_the_arm():
     `test_runner_refuses_a_side_that_is_not_A_or_B` executes the runner, which
     is only safe while the argument checks are the first thing that happens.
     If a later edit moved them below the gates, that test would home the arm
-    during a routine `pytest tests/` — possibly mid-session in another window.
+    during a routine `pytest tests/`, possibly mid-session in another window.
     This one fails on the ordering itself.
     """
     lines = _code().splitlines()
@@ -803,26 +803,26 @@ def test_usage_aborts_are_silent():
 
 
 # ---------------------------------------------------------------------------
-# 5. The resolution block — the only stretch that hardware gating hid
+# 5. The resolution block, the only stretch that hardware gating hid
 # ---------------------------------------------------------------------------
 #
 # Between the usage gates and `home_arm.py` sit the four `--print` captures, the
 # `${RAW_SIDE:u}` normalisation, the empty-TASK guard and the state-width gate.
 # None of it could be executed in a test, because reaching it and continuing
 # means homing the arm. CAPSTONE_RESOLVE_ONLY stops immediately after the
-# state-width gate, so that stretch runs for real, on both sides, in the suite —
+# state-width gate, so that stretch runs for real, on both sides, in the suite, 
 # and Faith gets a 10-second pre-flight that consumes no trial.
 
 
 def test_resolve_only_stops_before_the_first_line_that_touches_hardware():
-    """Structural AND behavioural. If this block moved below the gates — or
-    stopped selecting on the marker — the executing tests underneath would home
+    """Structural AND behavioural. If this block moved below the gates, or
+    stopped selecting on the marker, the executing tests underneath would home
     the arm from a routine `pytest tests/`.
 
     The structural half used to be all there was: the marker appears somewhere,
     and the word `exit` appears within five lines of it. Both survive inverting
     the condition to `[ -z "${CAPSTONE_RESOLVE_ONLY:-}" ]`, which turns the
-    escape hatch inside out — the 10-second pre-flight falls straight through to
+    escape hatch inside out, the 10-second pre-flight falls straight through to
     home_arm.py, scene_check.py and a full 45 s rollout, consuming a gated trial
     and writing a ledger row, while a REAL trial exits 0 at the state-width gate
     announcing that "NO trial was executed". The suite stayed green through it,
@@ -836,7 +836,7 @@ def test_resolve_only_stops_before_the_first_line_that_touches_hardware():
     first_hw = next((i for i, ln in enumerate(lines) if "home_arm.py" in ln), None)
     assert first_hw is not None and stop < first_hw, (
         f"CAPSTONE_RESOLVE_ONLY is at line {stop + 1}, first hardware line at "
-        f"{first_hw + 1 if first_hw else '?'} — the escape hatch is too late"
+        f"{first_hw + 1 if first_hw else '?'}, the escape hatch is too late"
     )
     # It must actually stop the runner, and ONLY when the marker is set.
     problem = _hatch_misbehaviour()
@@ -849,12 +849,12 @@ EXEC_ENV = "CAPSTONE_EXEC_RUNNER_TESTS"
 def _require_safe_to_execute_the_runner():
     """Three conditions, all required, before this suite will RUN the runner.
 
-    Recorded incident, Sep 3 2026 — twice in one hour:
+    Recorded incident, Sep 3 2026, twice in one hour:
 
     1. The executing tests below were written before the CAPSTONE_RESOLVE_ONLY
        hatch existed (the TDD red phase). `pytest` ran the runner straight into
        `home_arm.py` and homed the arm three times.
-    2. The fix — "skip unless the marker is present" — was then defeated by a
+    2. The fix, "skip unless the marker is present", was then defeated by a
        mutation that kept the marker but replaced `exit 0` with `:`. The guard
        looked present, so the tests ran, and the runner fell through again.
 
@@ -862,8 +862,8 @@ def _require_safe_to_execute_the_runner():
     dataset; the scene gate aborted both runs) but the boundary was broken by a
     test, which is the worst way to break it.
 
-    So the default is now OFF. `pytest tests/` — what Faith runs before every
-    session, sometimes with the arm powered and the other window on the bench —
+    So the default is now OFF. `pytest tests/`, what Faith runs before every
+    session, sometimes with the arm powered and the other window on the bench, 
     never executes this script. Turn it on deliberately, when the bench is known
     idle:
 
@@ -875,7 +875,7 @@ def _require_safe_to_execute_the_runner():
     """
     if not os.environ.get(EXEC_ENV):
         pytest.skip(
-            f"{EXEC_ENV} not set — refusing to execute the trial runner. "
+            f"{EXEC_ENV} not set, refusing to execute the trial runner. "
             f"It reaches hardware if its CAPSTONE_RESOLVE_ONLY hatch is ever "
             f"broken, and this suite runs while the arm is powered."
         )
@@ -883,10 +883,10 @@ def _require_safe_to_execute_the_runner():
     lines = code.splitlines()
     stop = next((i for i, ln in enumerate(lines) if "CAPSTONE_RESOLVE_ONLY" in ln), None)
     if stop is None:
-        pytest.skip("runner has no CAPSTONE_RESOLVE_ONLY hatch — would drive the arm")
+        pytest.skip("runner has no CAPSTONE_RESOLVE_ONLY hatch, would drive the arm")
     problem = _hatch_misbehaviour()
     if problem is not None:
-        pytest.skip(f"refusing to execute the runner — {problem}")
+        pytest.skip(f"refusing to execute the runner, {problem}")
     first_hw = next((i for i, ln in enumerate(lines) if "home_arm.py" in ln), None)
     if first_hw is None or stop >= first_hw:
         pytest.skip("CAPSTONE_RESOLVE_ONLY hatch sits at or below the hardware gates")
@@ -920,7 +920,7 @@ def _resolve_only(side_arg: str, label: str = "VERIFY-TEST"):
 def test_resolve_only_runs_the_real_resolution_for_both_sides(side_arg, side, pin):
     """Executes the actual capture block: repo, snapshot, pin, prompt, gate.
 
-    Offline on purpose — it doubles as the proof that a dropped connection at
+    Offline on purpose, it doubles as the proof that a dropped connection at
     10:00 cannot stop a launch, since every value resolves from cache.
     """
     out = _resolve_only(side_arg)
@@ -938,7 +938,7 @@ def test_resolve_only_runs_the_real_resolution_for_both_sides(side_arg, side, pi
 
 
 def test_resolve_only_accepts_a_lowercase_side():
-    """`${RAW_SIDE:u}` — typing `b` at 10:00 must not be a silent A-side run."""
+    """`${RAW_SIDE:u}`, typing `b` at 10:00 must not be a silent A-side run."""
     out = _resolve_only("b")
     combined = out.stdout + out.stderr
     assert out.returncode == 0, combined[-500:]
@@ -949,16 +949,16 @@ def test_resolve_only_accepts_a_lowercase_side():
 def test_every_resolver_call_is_asked_about_the_side_being_run():
     """The four `--print` captures are column-aligned and copy-pasted.
 
-    Leaving one un-parameterised — `--side A` where `--side "$SIDE"` belongs —
+    Leaving one un-parameterised, `--side A` where `--side "$SIDE"` belongs, 
     is an ordinary edit, and nothing fails: SNAP is resolved separately and
     stays per-side, so the correct B checkpoint still runs while REPO_ID says A.
     REPO_ID is the console banner, `policy=` in the .verify receipt and column 3
-    of trials_smolvla.csv — the column any later analysis splits the
+    of trials_smolvla.csv, the column any later analysis splits the
     load-sensing A/B on. The log would be self-consistent and wrong.
 
     The one assertion tying REPO_ID to $SIDE lives in
     test_resolve_only_runs_the_real_resolution_for_both_sides, which is SKIPPED
-    unless CAPSTONE_EXEC_RUNNER_TESTS is set — so on `pytest tests/` nothing
+    unless CAPSTONE_EXEC_RUNNER_TESTS is set, so on `pytest tests/` nothing
     covered it. This runs under the stub harness, so it runs every time, and it
     covers `${RAW_SIDE:u}` without the Hub cache.
     """

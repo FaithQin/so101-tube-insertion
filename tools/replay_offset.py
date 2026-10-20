@@ -1,11 +1,11 @@
-"""⚠️ DO NOT USE ON THE ARM until tools/_arms.py normalizes in DEGREES like SOFollower.
+"""WARNING: DO NOT USE ON THE ARM until tools/_arms.py normalizes in DEGREES like SOFollower.
 Found Sep 3, 2026: this tool drives the servos in RANGE_M100_100 while the datasets are in
 DEGREES (same zero, different scale: pan 10%, lift 5%, roll 44%). Its Sep 2 runs are void.
 
 Replay one recorded episode over the bus with a per-joint command offset.
 
 Production path: Goal_Position via sync_write, paced at the dataset fps, on the
-follower's live calibration — the same path lerobot-replay and the rollout
+follower's live calibration, the same path lerobot-replay and the rollout
 wrapper use. Writes Goal_Position ONLY. Never touches EEPROM. Torque is left
 ON at the end (the arm holds; run tools/home_arm.py afterwards as usual).
 

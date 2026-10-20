@@ -61,7 +61,7 @@ case "$*" in
   *preflight.py*)
     n=$(( $(<"$STUB_N") + 1 )); print -r -- "$n" > "$STUB_N"
     parts=("${(@s:;:)STUB_PREFLIGHT_SEQ}")
-    entry="${parts[$n]:-1:PREFLIGHT ABORT — attempt $n was never scripted}"
+    entry="${parts[$n]:-1:PREFLIGHT ABORT, attempt $n was never scripted}"
     print -r -- "${entry#*:}"; exit "${entry%%:*}" ;;
   *"--print gen"*) print -r -- "v4" ;;
   *"--print repo"*"--side B"*) print -r -- "faithqin/stub-tube-B-v4" ;;
@@ -195,7 +195,7 @@ def test_an_unknown_start_pose_aborts_before_the_arm_is_touched(family, bad):
 
 @pytest.mark.parametrize("family", sorted(RUNNERS))
 def test_carry_start_never_reseats_the_jaw_on_nothing(family):
-    seq = "1:PREFLIGHT ABORT — home: gripper=8.00 outside [12.13, 15.42];0:PREFLIGHT PASS (v4-carry)"
+    seq = "1:PREFLIGHT ABORT, home: gripper=8.00 outside [12.13, 15.42];0:PREFLIGHT PASS (v4-carry)"
     carry = run_runner(family, {"CAPSTONE_START_POSE": TAG}, preflight_seq=seq)
     assert carry.launched and len(carry.to("preflight.py")) == 2, carry.stdout[-600:]
     assert not carry.to("reseat_gripper.py"), "a carry start opened and re-closed the jaw on nothing"
@@ -213,11 +213,11 @@ tube angle        : ref= +0.0°  live= +0.0°  delta= +0.0°
 """
 SCENE_TUBE_GONE = SCENE_OK.replace(
     "tube (blue cap)   : ref=( 360.0, 355.8)  live=( 357.7, 356.6)  delta=( -2.3, +0.7) px  |d|=2.4",
-    "tube (blue cap)   : NOT FOUND (ref=True, live=False) — check placement/lighting")
+    "tube (blue cap)   : NOT FOUND (ref=True, live=False), check placement/lighting")
 SCENE_RACK_OFF = SCENE_TUBE_GONE.replace("|d|=1.5", "|d|=11.0")
 SCENE_RACK_GONE = SCENE_TUBE_GONE.replace(
     "rack (orange funnel): ref=( 537.4, 481.0)  live=( 538.8, 481.1)  delta=( +1.5, +0.2) px  |d|=1.5",
-    "rack (orange funnel): NOT FOUND (ref=True, live=False) — check placement/lighting")
+    "rack (orange funnel): NOT FOUND (ref=True, live=False), check placement/lighting")
 # All six joints, in the shape of a real receipt (tools/scored_logs/h83j2kp6_20260906_161402.ping).
 # It was one elbow line until Sep 12, when preflight began refusing any joint it could not read
 # a temperature for. Only the elbow carries 50C, so the ".replace('50C', '62C')" below still

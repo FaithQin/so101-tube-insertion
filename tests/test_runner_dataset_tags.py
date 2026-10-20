@@ -75,7 +75,7 @@ def test_the_default_branch_is_the_one_being_graded():
     """
     block = _case_block("run_scored_trial.sh")
     default = re.search(r"^\s*\*\)\s*(.*?);;", block, re.S | re.M)
-    assert default, "no default branch (or it is written on one line — split it)"
+    assert default, "no default branch (or it is written on one line, split it)"
     assert re.search(r"\bexit\s+[1-9]", default.group(1)), (
         "the default branch does not exit non-zero -- it narrates instead of gating"
     )

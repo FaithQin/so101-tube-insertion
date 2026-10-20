@@ -3,13 +3,13 @@
 Every one of these dies silently on `pip install -U lerobot` and each one,
 missing, has already cost a session:
 
-1. configs/default.py — JobConfig.timeout "8h" (cost guardrail; upstream "2d").
-2. robots/.../so_follower.py — Present_Load/Present_Current in the observation
+1. configs/default.py, JobConfig.timeout "8h" (cost guardrail; upstream "2d").
+2. robots/.../so_follower.py, Present_Load/Present_Current in the observation
    (18-dim state; the load-sensing A/B is unrecoverable without it) AND
    gripper Max_Torque_Limit 300 (upstream 500 trips the overload latch).
-3. rollout/inference/sync.py — queue-skip (per-tick image preprocessing capped
+3. rollout/inference/sync.py, queue-skip (per-tick image preprocessing capped
    the loop at ~15 Hz on MPS).
-4. rollout/context.py — .load/.current routed into observation.state for
+4. rollout/context.py.load/.current routed into observation.state for
    18-dim policies (ACT-B crashed 6-vs-18 without it, Aug 15).
 
 References with full diffs/markers live in tools/ (so_follower_load.patch,
@@ -30,7 +30,7 @@ def test_timeout_guardrail(site_packages):
     m = re.search(r"timeout[^\n=]*=\s*\"(\w+)\"", src)
     assert m, "JobConfig.timeout not found in configs/default.py"
     assert m.group(1) == "8h", (
-        f"JobConfig.timeout is \"{m.group(1)}\" — the 8h cost guardrail is gone "
+        f"JobConfig.timeout is \"{m.group(1)}\", the 8h cost guardrail is gone "
         f"(upstream default 2d; a hung job burns two days of GPU credit)"
     )
 
@@ -49,7 +49,7 @@ JOINTS = ("shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_ro
 class _StubBus:
     """Just enough FeetechMotorsBus to run the patched methods off-arm.
 
-    Records every write with the motor it was addressed to — the thing a
+    Records every write with the motor it was addressed to, the thing a
     source grep can never answer.
     """
 
@@ -118,7 +118,7 @@ def test_so_follower_load_observation(site_packages):
     `sync_read("Present_Current")` appear in the source. Both calls survive a
     one-word copy-paste slip on the `.current` line (`for motor, val in
     loads.items()`), so the suite stayed green while dims 12-17 of every newly
-    recorded episode became an exact duplicate of dims 6-11 — observation.state
+    recorded episode became an exact duplicate of dims 6-11, observation.state
     still 18-dim, nothing crashing, and the whole research question answered on
     a dataset whose current channel carries no information. The same grep also
     survived folding the two dict-splats into one per-motor comprehension,
@@ -145,7 +145,7 @@ def test_so_follower_load_observation(site_packages):
 
     wrong = {k: (obs.get(k), v) for k, v in expected.items() if obs.get(k) != v}
     assert not wrong, (
-        "observation channels are wired to the wrong register — {key: (got, want)} "
+        "observation channels are wired to the wrong register, {key: (got, want)} "
         f"{wrong}. Sentinels: .pos=10x, .load=100x, .current=1000x. A .current "
         f"reading 100x is the load value copied into the current channel; every "
         f"episode recorded like this has a duplicate, uninformative current "
@@ -164,7 +164,7 @@ def test_so_follower_gripper_stall_protection(site_packages):
 
     The gripper stall design as of Aug 16: Max_Torque_Limit stays at UPSTREAM
     500 (lowering to 300 made every bounded grip peg the cap and trip the 2 s
-    Protection_Time latch — the Aug 13 ledger note saying 300 is STALE). Real
+    Protection_Time latch, the Aug 13 ledger note saying 300 is STALE). Real
     stall safety = Protection_Time pinned to stock 200 (2.0 s) + the
     send_action force-floor + _relieve_gripper recovery (executed in the test
     below this one).
@@ -172,7 +172,7 @@ def test_so_follower_gripper_stall_protection(site_packages):
     The old version regexed those two write() lines out of the source, which is
     the "ABORT appears in a case branch, never that the branch exits" bug
     again: mistyping the guard to `if motor == "grippers":` makes the whole
-    block DEAD — no protection register reaches any motor — while both regexes
+    block DEAD, no protection register reaches any motor, while both regexes
     still match and `_relieve_gripper` is still defined. Feetech EEPROM applies
     at power-on, so a dead branch means the arm boots with whatever a
     diagnostic left in Protection_Time (the project notes: possibly 0 = instant trip).
@@ -184,18 +184,18 @@ def test_so_follower_gripper_stall_protection(site_packages):
     gripper = {reg: val for reg, motor, val in bus.writes if motor == "gripper"}
     assert set(protection) <= set(gripper), (
         f"configure() never wrote {sorted(set(protection) - set(gripper))} to the "
-        f"gripper — the `if motor == \"gripper\"` branch did not run. Motors "
+        f"gripper, the `if motor == \"gripper\"` branch did not run. Motors "
         f"actually written: {sorted({m for _, m, _ in bus.writes})}. The servo "
         f"keeps whatever a diagnostic left in EEPROM and applies it at power-on."
     )
     assert gripper["Max_Torque_Limit"] == 500, (
-        f"gripper Max_Torque_Limit is {gripper['Max_Torque_Limit']}, not 500 — a "
+        f"gripper Max_Torque_Limit is {gripper['Max_Torque_Limit']}, not 500, a "
         f"lower cap pegs on every bounded grip and trips the Protection_Time "
         f"latch (measured Aug 13-16; the cap must exceed P*(lead+slack) = 416)"
     )
     assert gripper["Protection_Time"] == 200, (
         f"gripper Protection_Time is {gripper['Protection_Time']}, not 200 (2.0 s) "
-        f"— diagnostics leave this EPROM register at 0 (instant trip) or 250"
+        f", diagnostics leave this EPROM register at 0 (instant trip) or 250"
     )
     leaked = sorted({(reg, motor) for reg, motor, _ in bus.writes if motor != "gripper" and reg in protection})
     assert not leaked, (
@@ -228,7 +228,7 @@ def test_so_follower_gripper_recovery_paths_are_live(site_packages, monkeypatch)
     goals = [v["gripper"] for reg, v in bus.sync_writes if reg == "Goal_Position"]
     assert goals and goals[-1] > 30.0, (
         f"_relieve_gripper commanded {goals[-1] if goals else None} from a present "
-        f"of 30.0 — the one recovery path from an overload fault must open the "
+        f"of 30.0, the one recovery path from an overload fault must open the "
         f"jaws; commanding lower closes them harder and holds the strain"
     )
 
@@ -237,7 +237,7 @@ def test_so_follower_gripper_recovery_paths_are_live(site_packages, monkeypatch)
     sent = follower.send_action({f"{m}.pos": 0.0 for m in JOINTS})
     assert sent["gripper.pos"] > 0.0 and sent["gripper.pos"] >= 45.0, (
         f"send_action passed a fully-closed command through as "
-        f"{sent['gripper.pos']} from a present of 50.0 — the bounded closing "
+        f"{sent['gripper.pos']} from a present of 50.0, the bounded closing "
         f"lead is gone, so a sustained error saturates output and the firmware "
         f"latches after Protection_Time (2 s)"
     )
@@ -248,7 +248,7 @@ def test_so_follower_gripper_recovery_paths_are_live(site_packages, monkeypatch)
     obs = follower.get_observation()
     assert obs["gripper.pos"] == 50.0, f"retry after relief returned {obs.get('gripper.pos')}"
     assert any(reg == "Goal_Position" for reg, _ in bus.sync_writes), (
-        "get_observation let a mid-grip bus fault propagate — no relief command "
+        "get_observation let a mid-grip bus fault propagate, no relief command "
         "was sent, so the session dies with the strain still commanded"
     )
 
@@ -258,12 +258,12 @@ def test_sync_engine_queue_skip(site_packages):
     be POSTprocessed.
 
     The old version grepped for "LOCAL PATCH (capstone)" and "_action_queue",
-    which live in a comment and a getattr — the whole body of the fast path can
+    which live in a comment and a getattr, the whole body of the fast path can
     be rewritten under them. The realistic mis-reapplication (the project notes
     requires re-applying this by hand after every `pip install -U lerobot`,
     which is exactly when a hunk gets lost) is dropping the postprocessor call.
     The postprocessor is the action UNnormalizer, and with n_action_steps
-    locked at 25 (ACT-A) / 50 (ACT-B) the queue serves 24 of every 25 ticks —
+    locked at 25 (ACT-A) / 50 (ACT-B) the queue serves 24 of every 25 ticks, 
     those would reach make_robot_action, and the servos, as raw ~zero-mean
     normalized values interpreted as joint angles.
     """
@@ -319,7 +319,7 @@ def test_sync_engine_queue_skip(site_packages):
     calls.clear()
     out = _engine(policy).get_action({"observation.state": np.zeros(6, dtype=np.float32)})
     assert "postprocess" in calls, (
-        f"the queue-served tick ran {calls} — it never called the postprocessor, "
+        f"the queue-served tick ran {calls}, it never called the postprocessor, "
         f"which is the action UNnormalizer. With n_action_steps locked at 25 "
         f"(ACT-A) / 50 (ACT-B) the queue serves 24 of every 25 ticks, so those "
         f"commands reach the servos as raw ~zero-mean normalized values "
@@ -331,7 +331,7 @@ def test_sync_engine_queue_skip(site_packages):
         f"[3.0, 2.0] means the action is not being unnormalized on the fast path."
     )
     assert calls == ["postprocess"], (
-        f"queue-served tick ran {calls}, expected ['postprocess'] only — the "
+        f"queue-served tick ran {calls}, expected ['postprocess'] only, the "
         f"skip is not skipping, which is the ~15 Hz MPS regression this patch "
         f"exists to fix"
     )
@@ -340,7 +340,7 @@ def test_sync_engine_queue_skip(site_packages):
     calls.clear()
     out = _engine(_Policy()).get_action({"observation.state": np.zeros(6, dtype=np.float32)})
     assert calls == ["preprocess", "select_action", "postprocess"], (
-        f"slow path ran {calls} — the full pipeline must still run when the "
+        f"slow path ran {calls}, the full pipeline must still run when the "
         f"queue is empty, otherwise the policy never sees an observation"
     )
     assert torch.equal(out, torch.tensor([81.0, 71.0])), f"slow-path action is {out.tolist()}"
@@ -361,7 +361,7 @@ def test_sync_engine_queue_skip(site_packages):
 # context.py state routing: EXECUTE the decision, don't grep for its words.
 #
 # Every assertion in this section used to be a source grep, and all four were
-# mutation-proven blind — the strings the greps looked for live in the prose
+# mutation-proven blind, the strings the greps looked for live in the prose
 # comment block above the code, in a logger call, and in an exception message,
 # so the routing rule itself could be gutted with the suite still green.
 # --------------------------------------------------------------------------
@@ -371,11 +371,11 @@ def _run_state_routing(site_packages, policy_state_dim, max_state_dim=None, obs_
     """Cut the routing decision out of context.py, run it, return its locals.
 
     The rule is inline in `init_rollout_context` (it cannot import from this
-    repo — see tools/state_routing.py for the reference implementation), so it
+    repo, see tools/state_routing.py for the reference implementation), so it
     cannot be called directly without a robot, a policy and two cameras.
     Instead: slice the source between the `_state_suffixes` seed and the
-    `action_features_hw` line — which is the decision PLUS the
-    `observation_features_hw` comprehension it feeds — and exec that with stub
+    `action_features_hw` line, which is the decision PLUS the
+    `observation_features_hw` comprehension it feeds, and exec that with stub
     inputs. What comes back is what the rollout and, crucially, what
     dataset_features would be built from.
     """
@@ -389,7 +389,7 @@ def _run_state_routing(site_packages, policy_state_dim, max_state_dim=None, obs_
     end = next((i for i, ln in enumerate(lines) if ln.startswith("    action_features_hw = ")), None)
     assert start is not None and end is not None and start < end, (
         "could not find the state-routing block in rollout/context.py "
-        "(anchors: `    _state_suffixes = ` .. `    action_features_hw = `) — "
+        "(anchors: `    _state_suffixes = ` .. `    action_features_hw = `), "
         "the local patch is gone or the upstream function was restructured"
     )
     block = textwrap.dedent("".join(lines[start:end]))
@@ -430,7 +430,7 @@ def _routing(site_packages, **kwargs):
     """(decision, state keys the filter yields) for one policy shape."""
     ns = _run_state_routing(site_packages, **kwargs)
     assert "_widen" in ns, (
-        "rollout/context.py made no _widen decision — the local state-routing "
+        "rollout/context.py made no _widen decision, the local state-routing "
         "patch is gone (pip install -U lerobot?). Re-apply it from "
         "tools/rollout_context_load_state_patch.txt before any rollout."
     )
@@ -441,11 +441,11 @@ def test_context_load_state_filter(site_packages):
     """ACT-B's 18 state keys must actually come out of the filter.
 
     The old assertion was `".load" in src and ".current" in src and
-    "_state_suffixes" in src` — and both suffix strings appear in the prose
+    "_state_suffixes" in src`, and both suffix strings appear in the prose
     comment at context.py:350 describing the patch, so the widened tuple (the
     only line that does any work) could be truncated to `(".pos", ".vel",
     ".load")` with the suite green. That yields 12 state keys: a 12-vs-18
-    crash on an ACT-B rollout, and — worse — a silent 12-dim recording under
+    crash on an ACT-B rollout, and, worse, a silent 12-dim recording under
     CAPSTONE_FORCE_WIDE_STATE=1, which looks plausible in the meta because the
     state is still wider than 6.
     """
@@ -455,13 +455,13 @@ def test_context_load_state_filter(site_packages):
     )
     assert wide == expected, (
         f"an 18-dim policy routes {len(wide)} state keys, not 18:\n  got  {wide}\n"
-        f"  want {expected}\nmissing {sorted(set(expected) - set(wide))} — on a "
+        f"  want {expected}\nmissing {sorted(set(expected) - set(wide))}, on a "
         f"rollout that is the 6-vs-18 normalizer crash; on a DAgger session it "
         f"writes a dataset with those channels dropped at the source."
     )
     _widen, narrow = _routing(site_packages, policy_state_dim=6)
     assert narrow == [f"{m}.pos" for m in JOINTS], (
-        f"a 6-dim policy (ACT-A) routes {narrow} — widening is supposed to be "
+        f"a 6-dim policy (ACT-A) routes {narrow}, widening is supposed to be "
         f"conditional; feeding 18 dims into a 6-dim normalizer crashes it"
     )
 
@@ -473,12 +473,12 @@ def test_context_state_routing_handles_padded_policies(site_packages):
     sees 32 > 6, routes load+current in, and hands the policy real values in
     coordinates it learned as always-zero.
 
-    NOTHING CRASHES — the shapes line up. It is a silent distribution shift, and
+    NOTHING CRASHES, the shapes line up. It is a silent distribution shift, and
     it would have presented as "pi0.5 doesn't work on this task". Found Aug 31
     2026 by reading the rollout path before the first pi0.5 bench session.
 
     The old version asserted the words "CAPSTONE_STATE_ROUTING" and
-    "max_state_dim" were in the file — the "*)" regex failure verbatim: both
+    "max_state_dim" were in the file, the "*)" regex failure verbatim: both
     survive in a logger call and a getattr, so deleting the entire
     padding-exclusion branch (a clean revert of the Aug 31 fix) kept the suite
     green. Run the rule against the real checkpoint's declared widths instead.
@@ -487,7 +487,7 @@ def test_context_state_routing_handles_padded_policies(site_packages):
     assert widen is False and padded == [f"{m}.pos" for m in JOINTS], (
         f"pi05-tube-A-v3 (declared 32, max_state_dim 32, trained on 6-dim noload) "
         f"routes {len(padded)} state keys: {padded}. 32 is padding, not "
-        f"dimensionality — the padding-exclusion branch is gone, and load/current "
+        f"dimensionality, the padding-exclusion branch is gone, and load/current "
         f"are being fed into dims the policy learned as always-zero. Nothing will "
         f"crash; it will just look like pi0.5 doesn't work."
     )
@@ -495,7 +495,7 @@ def test_context_state_routing_handles_padded_policies(site_packages):
     # really is 18-dim and must still widen.
     widen, _genuine = _routing(site_packages, policy_state_dim=18, max_state_dim=32)
     assert widen is True, (
-        "a genuinely 18-dim policy that pads to 32 was routed narrow — the "
+        "a genuinely 18-dim policy that pads to 32 was routed narrow, the "
         "padding exclusion has become a threshold instead of an equality test "
         "and now starves the B side"
     )
@@ -503,14 +503,14 @@ def test_context_state_routing_handles_padded_policies(site_packages):
 
 def test_context_state_routing_has_explicit_override(site_packages, monkeypatch):
     """DAgger builds dataset_features from this same filtered dict, so recording
-    under 6-dim ACT-A writes a 6-dim dataset — load and current dropped at the
+    under 6-dim ACT-A writes a 6-dim dataset, load and current dropped at the
     source, unretrofittable, and the B-side twin foreclosed forever.
     CAPSTONE_FORCE_WIDE_STATE is the only way to record wide under a narrow
     policy.
 
     The old assertion was `"CAPSTONE_FORCE_WIDE_STATE" in src`. Deleting the two
     lines that let `_force` decide leaves the variable read, validated and
-    logged — every string the grep wanted — while the pin decides nothing and
+    logged, every string the grep wanted, while the pin decides nothing and
     routing silently falls back to inference. Set the variable and check the
     keys that come out, in both directions. (tools/smolvla_dryrun.py and
     run_smolvla_trial.sh:220 both pin it to 1 for the B side, because
@@ -520,7 +520,7 @@ def test_context_state_routing_has_explicit_override(site_packages, monkeypatch)
     widen, forced_wide = _routing(site_packages, policy_state_dim=6)
     assert widen is True and len(forced_wide) > 6, (
         f"CAPSTONE_FORCE_WIDE_STATE=1 under a 6-dim policy still routed "
-        f"{len(forced_wide)} state keys: {forced_wide}. The override is inert — "
+        f"{len(forced_wide)} state keys: {forced_wide}. The override is inert, "
         f"SmolVLA-B trials die 6-vs-18 on the first tick, and a correction "
         f"session records narrow with the load channel gone for good."
     )
@@ -529,7 +529,7 @@ def test_context_state_routing_has_explicit_override(site_packages, monkeypatch)
     widen, forced_narrow = _routing(site_packages, policy_state_dim=18)
     assert widen is False and forced_narrow == [f"{m}.pos" for m in JOINTS], (
         f"CAPSTONE_FORCE_WIDE_STATE=0 under an 18-dim policy routed "
-        f"{len(forced_narrow)} state keys, not 6 — the override is a real switch "
+        f"{len(forced_narrow)} state keys, not 6, the override is a real switch "
         f"in both directions or it is not an override"
     )
 
@@ -545,7 +545,7 @@ def test_context_state_routing_rejects_unparseable_override(site_packages, monke
     """A typo'd override must raise, not fall back to inference. Falling back
     would mean a session the operator believes is recording 18-dim records 6.
 
-    The old assertion looked for "is not a boolean" — which lives in the
+    The old assertion looked for "is not a boolean", which lives in the
     MESSAGE, so swapping the `raise ValueError(...)` for a `logger.warning(...)`
     plus `_force = None` left it intact while restoring exactly the fallback the
     docstring forbids. Run it with a typo and require the exception.

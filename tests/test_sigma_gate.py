@@ -2,8 +2,8 @@
 
 Born from Aug 29, 23:50. The min/max gate was correct but too permissive to
 support a PAIRED comparison. v3's own frame-0 elbow spread is [78.11, 90.42]
-(sd 2.83), so the three v3 trials that ran started at 78.3, 83.2 and 86.3 — an
-8 degree spread — and every one of them passed the gate legitimately. Faith:
+(sd 2.83), so the three v3 trials that ran started at 78.3, 83.2 and 86.3, an
+8 degree spread, and every one of them passed the gate legitimately. Faith:
 "I thought checking home position was supposed to solve this."
 
 It did solve validity. It does not solve CONSISTENCY, and a paired v3-A vs v3-B
@@ -11,7 +11,7 @@ comparison needs both: if A starts at 78.3 and B starts at 86.3, the pair is not
 controlled for start pose and the contrast is contaminated by it. The 86.3 trial
 is the one Faith observed approaching too high.
 
-Design note — why not a flat +/-1 sigma everywhere: several joints have a tiny
+Design note, why not a flat +/-1 sigma everywhere: several joints have a tiny
 frame-0 spread (v3 wrist_flex sd = 0.18), and +/-1 sigma there is a 0.36 degree
 window no arm can hit repeatably, so the gate would abort forever. The half-width
 is therefore max(1 sigma, MIN_HALF_WIDTH), and is additionally clipped to the
@@ -40,7 +40,7 @@ def test_the_high_trial_would_now_be_rejected():
 
 
 def test_the_low_trial_would_now_be_rejected():
-    """B2-A-01 started at 78.3, at v3's floor — the other end of the 8 deg spread."""
+    """B2-A-01 started at 78.3, at v3's floor, the other end of the 8 deg spread."""
     assert not home_gate.in_training_support("elbow_flex", TRIAL_LOW, dataset="v3")
 
 
@@ -92,7 +92,7 @@ def test_out_of_support_poses_are_still_rejected():
 
 
 def test_gripper_still_uses_the_contact_bound():
-    """The gripper is gated on closed-jaw, not on sigma — its frame-0 values
+    """The gripper is gated on closed-jaw, not on sigma, its frame-0 values
     encode trigger pressure, not a commandable position."""
     assert home_gate.in_training_support("gripper", 1.86, dataset="v3")
     assert not home_gate.in_training_support("gripper", 15.0, dataset="v3")

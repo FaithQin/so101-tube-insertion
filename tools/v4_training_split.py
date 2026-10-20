@@ -86,8 +86,8 @@ def main() -> int:
     root = sorted(glob.glob(os.path.expanduser("~/.cache/huggingface/lerobot/faithqin/so101-tube-insert-v4_*")))[0]
     problems = gate(states, manifest, root)
     if problems:
-        print("PRE-TRAINING GATE FAILED — nothing emitted:", file=sys.stderr)
-        for p in problems: print("  ✗ " + p, file=sys.stderr)
+        print("PRE-TRAINING GATE FAILED, nothing emitted:", file=sys.stderr)
+        for p in problems: print("  FAIL " + p, file=sys.stderr)
         return 1
     kept = [e for e in sorted(states) if e in manifest.assigned and e not in manifest.voided]
     holdouts = pick_holdouts(manifest, kept)
@@ -101,7 +101,7 @@ def main() -> int:
     }
     if a.json:
         print(json.dumps(out, indent=1)); return 0
-    print(f"GATE PASSED — {len(kept)} kept episodes, every one matches its label, every task is the prompt")
+    print(f"GATE PASSED, {len(kept)} kept episodes, every one matches its label, every task is the prompt")
     print(f"recorded {out['recorded']} · voided {manifest.voided} · kept {len(kept)}")
     print(f"\nHOLD-OUT ({len(holdouts)}, seed {SEED}, never 0-1, never the last four kept):")
     for e in holdouts: print(f"  {e:>2} {manifest.type_of(e)}")

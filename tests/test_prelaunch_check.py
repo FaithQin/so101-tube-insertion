@@ -1,4 +1,4 @@
-"""`tools/prelaunch_check.py` -- the go/no-go the chat runs before EVERY launcher or certification start.
+"""`tools/prelaunch_check.py` -- the go/no-go run before EVERY launcher or certification start.
 
 Sep 14 2026, 17:44: a pair was launched on an arm that had sat unpowered for 30 minutes (the warm-up rule
 lived in prose), then the launcher was stopped while its rollout child kept running, and a torque-off was

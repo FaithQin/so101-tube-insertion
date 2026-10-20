@@ -14,11 +14,11 @@ LOG="/tmp/capstone/jobs/${NAME}.log"; mkdir -p /tmp/capstone/jobs
 last_status=""; last_lines=0; last_progress=$(date +%s); start=$(date +%s)
 while true; do
   # `hf jobs inspect` prints a TSV row whose status column reads {'stage': 'RUNNING', ...};
-  # pull the stage by regex. (zsh: `status` is a READ-ONLY special variable — use `st`.)
+  # pull the stage by regex. (zsh: `status` is a READ-ONLY special variable, use `st`.)
   st=$($HF jobs inspect "$JOB" 2>/dev/null | grep -oE "'stage': '[A-Za-z_]+'" | head -1 | sed -E "s/.*'([A-Za-z_]+)'$/\1/")
   st=${st:-?}
   if [[ "$st" != "$last_status" ]]; then
-    echo "[$NAME] status: ${last_status:-—} -> $st  (t+$(( ($(date +%s)-start)/60 ))m)"; last_status="$st"
+    echo "[$NAME] status: ${last_status:-, } -> $st  (t+$(( ($(date +%s)-start)/60 ))m)"; last_status="$st"
   fi
   $HF jobs logs "$JOB" > "$LOG.new" 2>/dev/null && mv "$LOG.new" "$LOG"
   n=$(wc -l < "$LOG" 2>/dev/null | tr -d ' '); n=${n:-0}
@@ -32,8 +32,8 @@ while true; do
     echo "[$NAME] !! STALL: no new log line for $(( (now-last_progress)/60 )) min (rule: $STALL_MIN)"; last_progress=$now
   fi
   case "$st" in
-    COMPLETED) echo "[$NAME] ✓ COMPLETED after $(( (now-start)/60 )) min of watching"; exit 0 ;;
-    ERROR|FAILED|CANCELED|CANCELLED) echo "[$NAME] ✗ $st after $(( (now-start)/60 )) min — last lines:"; tail -n 6 "$LOG" | sed "s/^/[$NAME]    /"; exit 1 ;;
+    COMPLETED) echo "[$NAME] ok COMPLETED after $(( (now-start)/60 )) min of watching"; exit 0 ;;
+    ERROR|FAILED|CANCELED|CANCELLED) echo "[$NAME] FAIL $st after $(( (now-start)/60 )) min, last lines:"; tail -n 6 "$LOG" | sed "s/^/[$NAME]    /"; exit 1 ;;
   esac
   sleep 60
 done

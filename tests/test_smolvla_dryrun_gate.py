@@ -1,15 +1,15 @@
-"""The rehearsal's own degeneracy gate — tested by EXECUTING it.
+"""The rehearsal's own degeneracy gate, tested by EXECUTING it.
 
 Sep 5 2026 pre-push review, HIGH. `smolvla_dryrun.py` read the action chunk
 back with `getattr(policy, "_action_queue", None)`. That attribute belongs to
 ACT (`policies/act/modeling_act.py:98`) and pi0/pi0.5; **SmolVLAPolicy has no
-`_action_queue` at all** — it keeps its chunk in `self._queues[ACTION]`
+`_action_queue` at all**, it keeps its chunk in `self._queues[ACTION]`
 (`policies/smolvla/modeling_smolvla.py:172`, extended :267, popped :269).
 
 So `q` was always None, the chunk collapsed to the single first action, and
 `... if len(chunk_np) > 1 else (True, "")` hard-coded `ok = True`.
-`check_chunk_sane` — the only guard against a wrong-width, non-finite, or
-time-constant chunk — was dead code, `all_sane` could never be False, and the
+`check_chunk_sane`, the only guard against a wrong-width, non-finite, or
+time-constant chunk, was dead code, `all_sane` could never be False, and the
 `PLUMBING SUSPECT` fallback could never fire. **Both dry-run verdicts reported
 on Sep 4 (A 7.2x, B 6.4x) had no sanity gate behind them.**
 
@@ -65,7 +65,7 @@ def test_action_queue_finds_the_SMOLVLA_queue():
     p = _Stub(smolvla_queue=_ramp(3))
     q = dry.action_queue(p)
     assert q is not None, (
-        "action_queue() cannot see _queues[ACTION] — every SmolVLA dry-run's "
+        "action_queue() cannot see _queues[ACTION], every SmolVLA dry-run's "
         "degeneracy gate is dead code again (the Sep 4 bug)"
     )
     assert len(q) == 3
@@ -115,11 +115,11 @@ def test_an_UNREADABLE_queue_is_a_hard_failure_not_a_pass():
     This is the exact regression: `_action_queue` absent -> chunk collapses to
     one action -> `if len(chunk_np) > 1 else (True, "")` -> PLUMBING OK.
     """
-    p = _Stub()  # neither attribute — what SmolVLAPolicy looked like to the old code
+    p = _Stub()  # neither attribute, what SmolVLAPolicy looked like to the old code
     chunk = dry.assemble_chunk(p, _t([0.0] * NJ), _identity_post)
     assert chunk is None
     ok, why = dry.chunk_verdict(chunk, NJ)
-    assert not ok, "an unreadable action queue was reported SANE — the gate is dead again"
+    assert not ok, "an unreadable action queue was reported SANE, the gate is dead again"
     assert "queue" in why.lower()
 
 
@@ -127,15 +127,15 @@ def test_a_single_action_chunk_fails_loudly():
     """No `len(chunk_np) > 1` escape hatch: one action is not a chunk."""
     p = _Stub(smolvla_queue=[])  # select_action popped the only action
     ok, why = dry.chunk_verdict(dry.assemble_chunk(p, _t(list(range(NJ))), _identity_post), NJ)
-    assert not ok, "a 1-action chunk slipped through — the escape hatch is back"
+    assert not ok, "a 1-action chunk slipped through, the escape hatch is back"
 
 
 def test_the_first_action_is_not_post_processed_TWICE():
     """chunk[0] must be post(raw_first), not post(post(raw_first)).
 
     The old assembly stacked the ALREADY-posted first action and ran post over
-    the whole thing, so row 0 — the row `check_chunk_sane` compares every other
-    row against — was unnormalized twice.
+    the whole thing, so row 0, the row `check_chunk_sane` compares every other
+    row against, was unnormalized twice.
     """
     doubled = []
 
@@ -148,7 +148,7 @@ def test_the_first_action_is_not_post_processed_TWICE():
     chunk = dry.assemble_chunk(p, raw_first, post)
     np.testing.assert_allclose(
         chunk[0], np.array([2.0, 4.0, 6.0, 8.0, 10.0, 12.0]),
-        err_msg="chunk[0] is not post(raw_first) — the first action was post-processed twice",
+        err_msg="chunk[0] is not post(raw_first), the first action was post-processed twice",
     )
 
 

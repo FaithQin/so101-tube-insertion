@@ -1,4 +1,4 @@
-"""Measure gripper LOAD and CURRENT — the two numbers the policy cannot see.
+"""Measure gripper LOAD and CURRENT, the two numbers the policy cannot see.
 
 `SOFollower.get_observation()` reads only `Present_Position` (so_follower.py:183),
 so a trained policy is blind to how hard it is squeezing. The servo is not: the
@@ -12,13 +12,13 @@ trained on that data learns to command the same stall. The SO-101 leader gives n
 force feedback, so the operator cannot feel any of this through the trigger.
 The servo can. That asymmetry is the whole reason for this file.
 
-⚠️ IT NEEDS THE PORT TO ITSELF. The Feetech bus is half-duplex serial: two
+WARNING: IT NEEDS THE PORT TO ITSELF. The Feetech bus is half-duplex serial: two
 processes reading the same /dev/tty interleave packets and corrupt each other.
 STOP any lerobot-teleoperate / lerobot-record run before starting this.
 
 TWO MODES
 ---------
-Passive (default) — pure read, writes nothing:
+Passive (default), pure read, writes nothing:
 
     conda activate lerobot
     python watch_load.py
@@ -27,7 +27,7 @@ Passive (default) — pure read, writes nothing:
     With torque off it reads ~0, because Present_Load reflects applied PWM.
     Use it to sanity-check the register, not to pick a threshold.
 
-Guided closure (--close) — the one that actually answers the question:
+Guided closure (--close), the one that actually answers the question:
 
     python watch_load.py --close --max-load 300 --csv scissors.csv
 
@@ -42,19 +42,19 @@ WHAT TO WRITE DOWN, per object (scissors, screwdriver, pen, reading glasses):
   - |load| at the first sign of deformation                    -> your ceiling
 A safe grasp threshold sits below the lower of those, with margin. If no single
 value is both firm on the scissors and safe on the glasses, that is not a failure
-of this script — that is the load-sensing argument becoming a measurement, and it
+of this script, that is the load-sensing argument becoming a measurement, and it
 belongs in the gap analysis.
 
 THE NUMBERS THAT BOUND YOU (so_follower.py:168-171, gripper only):
     Max_Torque_Limit   500   50% of max torque
     Protection_Current 250   exceed this and the servo LATCHES an overload
     Overload_Torque     25   torque it drops to once overloaded
-A latched servo refuses writes — including Torque_Enable=0 — so clearing it
+A latched servo refuses writes, including Torque_Enable=0, so clearing it
 needs a FULL power cycle: USB out, 12V out, 12V in, then USB.
 
 ENCODING. `Present_Load` is sign-magnitude with the sign bit at position 10
 (feetech/tables.py, STS_SMS_SERIES_ENCODINGS_TABLE). lerobot's bus decodes that
-for you, so the value printed is already signed — magnitude 0-1023, sign = which
+for you, so the value printed is already signed, magnitude 0-1023, sign = which
 direction the servo is pushing. Do not mask bits yourself.
 """
 
@@ -63,7 +63,7 @@ import time
 
 from _arms import FOLLOWER_PORT, LEADER_PORT, open_bus
 
-PROTECTION_CURRENT = 250  # so_follower.py:170 — the latch threshold
+PROTECTION_CURRENT = 250  # so_follower.py:170, the latch threshold
 LOAD_FULL_SCALE = 1023
 
 parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -120,19 +120,19 @@ if args.close:
     input("press ENTER to begin closing... ")
     # Read the START POSITION *AFTER* the prompt. Placing the object moves the
     # jaws, and a position captured before the prompt is stale by however far you
-    # pushed them — which turns the first "step" into a slam of that whole
+    # pushed them, which turns the first "step" into a slam of that whole
     # distance. Measured Aug 9, 2026: stale start 2056 vs actual 2334 produced a
     # 286-count first move and overshot the load ceiling by 67%.
     start = try_read("Present_Position")
     if start is None:
-        raise SystemExit("cannot read Present_Position — is 12V on, and applied BEFORE USB?")
+        raise SystemExit("cannot read Present_Position, is 12V on, and applied BEFORE USB?")
     print(f"start pos {start} (re-read after placement)")
     bus.enable_torque(args.motor)
     bus.write("Goal_Position", args.motor, start, normalize=False)
     closing = True
     stalled_for = 0
 else:
-    print("\nPASSIVE MODE — writing nothing. Reads ~0 unless the servo is already")
+    print("\nPASSIVE MODE, writing nothing. Reads ~0 unless the servo is already")
     print("holding torque against something. Use --close to pick a threshold.")
 print("Ctrl-C to stop.\n")
 
@@ -149,7 +149,7 @@ try:
         current = try_read("Present_Current") if has_current else None
 
         if load is None or pos is None:
-            print("  unreadable — is the arm powered and connected?")
+            print("  unreadable, is the arm powered and connected?")
             time.sleep(1.0)
             continue
 
@@ -222,7 +222,7 @@ finally:
               end="")
     print()
     if closing:
-        print("\njaws are STILL HOLDING. Torque was left ON deliberately — disabling")
+        print("\njaws are STILL HOLDING. Torque was left ON deliberately, disabling")
         print("it here would drop whatever is in the gripper. To open them:")
         print("    python release_gripper.py           # limp, open by hand")
         print("    python release_gripper.py --open    # drive open, then limp")

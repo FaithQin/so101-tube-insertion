@@ -20,7 +20,7 @@ WHAT IT REFUSES TO DO BY EYE
 ----------------------------
 * In/out points. Each clip is `(event, offset)` pairs; events come from the episode's own
   data: the v2 sheet's forensic grasp-close (commanded gripper open >15 -> closed <8,
-  `Eval Trials — v2 paired blocks.md:81-83`), home return (commanded lift < -95 after 2 s,
+  `eval-trials-v2.md:81-83`), home return (commanded lift < -95 after 2 s,
   :84-91), pick-site exit (pan crossing `v4_audit.PICK_SITE_PAN`), rack entry
   (`v4_audit.rack_slice`), seat runs (`score_episode.score_frames` on the front video), and the
   cap track from `score_episode.classify_frame` (displacement / loss).
@@ -59,11 +59,11 @@ from v4_audit import PICK_SITE_PAN, grasp_index, rack_slice  # noqa: E402
 PROJECT = Path(__file__).resolve().parents[1]
 ROLLOUT_ROOT = Path("~/.cache/huggingface/lerobot/faithqin").expanduser()
 OUT_DIR = PROJECT / "analysis" / "demo_cut"
-V2_SHEET = "Eval Trials — v2 paired blocks.md"
+V2_SHEET = "eval-trials-v2.md"
 FPS = 20
 MAX_WIDTH = 1280
 
-# v2 sheet forensic definitions (Eval Trials — v2 paired blocks.md:81-91)
+# v2 sheet forensic definitions (eval-trials-v2.md:81-91)
 GRIP_OPEN_ABOVE = 15.0
 GRIP_CLOSED_BELOW = 8.0
 HOME_LIFT_BELOW = -95.0
@@ -167,7 +167,7 @@ CLIPS = [
          "Carry to the funnel, tip at the mouth without entering, withdraw still holding, swing "
          "back toward the pick site, return, release; the tube lies flat beside the rack.",
          "The v3 insertion failure (the results draft (private):95-96). Recorded Aug 30 23:35, "
-         "inside the valid-plant bracket (last verified-healthy Aug 31 15:18, the lab notebook (private) — "
+         "inside the valid-plant bracket (last verified-healthy Aug 31 15:18, the lab notebook (private), "
          "Capstone.md:1168-1169; the Sep 2 assessment note (private):48). See NOTES 1: the "
          "recording does not show a seat, and the honest line is 'reaches the funnel and cannot "
          "insert'.",
@@ -698,9 +698,9 @@ NOTES = """\
      the box during two mid-episode resets (hand in frame ~19-24 s and ~29.5-38 s).
    The tube tip reached the funnel rim twice (~7.5-8.0 s and ~27.2 s) and did not enter. So
    `the results draft (private):95-96` ("A reaches the seat and cannot hold it ... six separate
-   seat runs, longest 0.6 s"), `Eval Design — DAgger single-arm before-after.md:39`,
+   seat runs, longest 0.6 s"), `eval-design-dagger-before-after.md:39`,
    `the Sep 2 assessment note (private):48-49` and
-   `Protocol — pi0.5 first hardware session.md:153` describe the instrument's count, not the
+   `Protocol, pi0.5 first hardware session.md:153` describe the instrument's count, not the
    event. The honest line is "A reaches the funnel and cannot insert"; C05's caption says
    "Reaches the rack, can't get it in". The final MISS verdict stands. Not edited in those
    files - flagged.
@@ -752,7 +752,7 @@ def render_edl(plan_rows, events, sheet_rows):
         c, ev = by_id[p["clip_id"]], events[p["clip_id"]]
         if c.sheet_trial:
             r = sheet_rows[c.sheet_trial]
-            mech = "seated" if r["mechanism"] in ("—", "-") else r["mechanism"]
+            mech = "seated" if r["mechanism"] in (", ", "-") else r["mechanism"]
             rec = f"v2 trial {c.sheet_trial} (`{V2_SHEET}:{r['line']}`), {mech}"
             pol, sheet_gc = r["policy"], f"{r['grasp_close_s']:.1f} s"
         else:

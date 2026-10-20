@@ -20,11 +20,11 @@ The code that ran the bench is in [`tools/`](tools/), and the regression suite t
 | [`tools/`](tools/) | bench scripts for preflight gates, homing, replay, scoring, and telemetry, the v4 analysis, and the four site-packages patches the study depends on |
 | [`tests/`](tests/) | the regression suite, with one test file per bug that cost bench time ([`TESTING.md`](TESTING.md) says which) |
 | [`analysis/`](analysis/) | hold-out verdicts, ablations, contact-frame loss, π0.5 latency, the figures, and the demo cut |
-| [the v2 trial sheet](<Eval Trials %E2%80%94 v2 paired blocks.md>) | every v2 trial with its live score and notes, with [the v3 sheet](<Eval Trials %E2%80%94 v3 paired blocks.md>) beside it |
-| [the v2 protocol](<Eval Protocol %E2%80%94 ACT AB.md>) | the pre-registration, written on August 24 before the first trial |
+| [the v2 trial sheet](eval-trials-v2.md) | every v2 trial with its live score and notes, with [the v3 sheet](eval-trials-v3.md) beside it |
+| [the v2 protocol](eval-protocol-act-ab.md) | the pre-registration, written on August 24 before the first trial |
 | the start schedules | the recording plan for each dataset, one file per dataset |
-| [the DAgger design](<Eval Design %E2%80%94 DAgger single-arm before-after.md>) | the follow-up I designed and didn't run |
-| [the methodology notes](<Methodology %E2%80%94 recording protocols from the literature.md>) | reading notes on recording protocols from the literature that shaped the recording rules |
+| [the DAgger design](eval-design-dagger-before-after.md) | the follow-up I designed and didn't run |
+| [the methodology notes](methodology-recording-protocols.md) | reading notes on recording protocols from the literature that shaped the recording rules |
 | [`PROVENANCE.md`](PROVENANCE.md) | how this public snapshot was cut from the private working repository |
 
 ## The result

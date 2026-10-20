@@ -1,7 +1,7 @@
 """`tools/run_cert.sh` -- the certification replay as ONE gated command, run under stubs.
 
 Sep 14 2026. G-R needs a replay to SEAT before every block and after any failed episode (protocol
-:245, :291). By hand this was six chat round trips per pass, and the morning's one certification
+:245, :291). By hand this was six manual round trips per pass, and the morning's one certification
 miss was the pass that skipped the scene check. This runs the sequence in order and REFUSES at
 each gate, in code, before the arm is torqued:
 
@@ -13,7 +13,7 @@ each gate, in code, before the arm is torqued:
   6. home_arm (retract) + relax_arm -- ALWAYS after any motion. The first version prompted for the
      verdict here and held torque while it waited: CERT-B3-02 (14:47) sat at the rack three minutes,
      wrist_flex 45 -> 51 C. And a second terminal to type into is not how the bench is driven: the
-     operator calls the seat to the chat, as on Sep 6 and this morning.
+     operator calls the seat out loud and records it by hand, as on Sep 6 and this morning.
   7. print the one command that records the operator's verdict:
         python tools/cert_gate.py record <run> SEAT|MISS     -> <run>.seat
   exit 0 when the replay completed (verdict pending), 3 gate abort, 5 replay failed.
@@ -39,7 +39,7 @@ case "$*" in
   *"cert_gate.py temps"*) print -r -- "${STUB_TEMPS_MSG:-TEMPS OK}"; exit "${STUB_TEMPS_RC:-0}" ;;
   *"cert_gate.py home"*)
       n=$(( $(cat "$STUB_HOME_N" 2>/dev/null || echo 0) + 1 )); print -r -- "$n" > "$STUB_HOME_N"
-      if [ "$n" -le "${STUB_HOME_FAIL_TIMES:-0}" ]; then print -r -- "CERT GATE REFUSED — home: elbow 86.4 outside 85.6 +- 0.5"; exit 1; fi
+      if [ "$n" -le "${STUB_HOME_FAIL_TIMES:-0}" ]; then print -r -- "CERT GATE REFUSED, home: elbow 86.4 outside 85.6 +- 0.5"; exit 1; fi
       print -r -- "HOME OK"; exit 0 ;;
   *"cert_gate.py receipt"*) print -r -- "label=$4"; exit 0 ;;
   *home_arm.py*)      print -r -- "HOMED (worst adjusted residual 1.2)"; print -r -- "settled: {'elbow_flex': 85.6}"; exit 0 ;;
@@ -113,7 +113,7 @@ def test_runs_every_step_in_order_relieves_and_exits_0_with_the_record_command()
     assert r.receipts("_telemetry.csv") and r.receipts(".ping") and r.receipts(".scene") and r.receipts(".home")
     assert not r.receipts(".seat"), "the verdict is the operator's, recorded afterwards"
     assert re.search(r"cert_gate\.py record \S+CERT-T_\d{8}_\d{6} SEAT\|MISS", r.out), r.out
-    assert "SEAT or MISS?" not in r.out, "no prompt: the operator calls the seat to the chat"
+    assert "SEAT or MISS?" not in r.out, "no prompt: the operator records the seat by hand"
 
 
 def test_hot_servo_refuses_before_any_motion():
@@ -124,7 +124,7 @@ def test_hot_servo_refuses_before_any_motion():
 
 
 def test_bad_scene_refuses_before_the_replay_and_relieves():
-    r = run_cert(env_extra={"STUB_PREFLIGHT_RC": "1", "STUB_PREFLIGHT_MSG": "PREFLIGHT ABORT — placement: tube |d|=10.2 px > 8 px"})
+    r = run_cert(env_extra={"STUB_PREFLIGHT_RC": "1", "STUB_PREFLIGHT_MSG": "PREFLIGHT ABORT, placement: tube |d|=10.2 px > 8 px"})
     assert r.rc == 3, r.out
     assert "replay_telemetry.py" not in r.scripts() and "10.2 px" in r.out
     assert r.scripts()[-2:] == ["home_arm.py", "relax_arm.py"], "a refused pass still relieves the torqued arm"

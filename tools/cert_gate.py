@@ -9,7 +9,7 @@
 
 WHY (Sep 14 2026). Certification replays ran outside `preflight.py`, so its thermal gate never saw
 them (the lab notebook (private) 12:47, gap 2), and the pre-session 52 C rule and "scene-check before every
-replay" (12:37) were chat discipline. The morning's one miss was the pass without a scene check;
+replay" (12:37) were a manual habit. The morning's one miss was the pass without a scene check;
 the 70 C event was an arm left holding. `tools/run_cert.sh` calls these so both refusals are code.
 Reuses preflight's parsers: a malformed capture refuses, never passes. No hardware.
 """
@@ -41,12 +41,12 @@ def gate_temps(ping_text: str, max_c: int = CERT_TEMP_MAX_C) -> tuple[bool, str]
         return False, f"temps: {exc}"
     unread = [j for j in preflight.SERVO_JOINTS if j not in temps]
     if unread:
-        return False, f"temps: {', '.join(unread)} temperature unreadable — an unread servo is not a cool one"
+        return False, f"temps: {', '.join(unread)} temperature unreadable, an unread servo is not a cool one"
     hot = {j: t for j, t in temps.items() if t > max_c}
     if hot:
         worst = max(hot, key=hot.get)
         rest = "".join(f"; {j} {t}C" for j, t in sorted(hot.items(), key=lambda kv: -kv[1]) if j != worst)
-        return False, f"temps: {worst} {hot[worst]}C > {max_c}C{rest} — wait, or relax the arm (tools/relax_arm.py)"
+        return False, f"temps: {worst} {hot[worst]}C > {max_c}C{rest}, wait, or relax the arm (tools/relax_arm.py)"
     hottest = max(temps, key=temps.get)
     return True, f"temps OK: hottest {hottest} {temps[hottest]}C <= {max_c}C"
 
@@ -67,7 +67,7 @@ def gate_home(home_text: str, elbow_band: bool = False) -> tuple[bool, str]:
             return False, "home: no elbow_flex in the settled line"
         if abs(e - CERT_ELBOW_TARGET) > CERT_ELBOW_TOL:
             return False, (f"home: elbow settled at {e:.1f}, outside {CERT_ELBOW_TARGET} +- {CERT_ELBOW_TOL} "
-                           f"(the band every seated certification pass landed in) — re-home")
+                           f"(the band every seated certification pass landed in), re-home")
         return True, f"home OK: elbow {e:.1f} in band"
     return True, "home OK"
 
@@ -91,13 +91,13 @@ def receipt(label: str, stamp: str, verdict: str, scene_text: str, ping_text: st
 
 def record(run_prefix, verdict: str) -> tuple[int, str]:
     """Write <run>.seat for a finished certification run from its own files. One verdict per pass, ever:
-    the operator calls the seat to the chat (Sep 6, Sep 14 morning), and this is the one place it lands."""
+    the operator records the seat by hand (Sep 6, Sep 14 morning), and this is the one place it lands."""
     run = Path(run_prefix)
     seat = Path(str(run) + ".seat")
     if verdict not in VERDICTS:
         return 1, f"verdict must be one of {VERDICTS}, got {verdict!r}"
     if seat.exists():
-        return 1, f"{seat.name} already holds a verdict — a pass has one verdict; never overwrite a receipt:\n{seat.read_text()}"
+        return 1, f"{seat.name} already holds a verdict, a pass has one verdict; never overwrite a receipt:\n{seat.read_text()}"
     scene, ping, tel = (Path(str(run) + ext) for ext in (".scene", ".ping", "_telemetry.csv"))
     missing = [f.name for f in (scene, ping, tel) if not f.exists()]
     if missing:
@@ -133,7 +133,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     if a.cmd == "record":
         rc, text = record(a.run, a.verdict)
-        print(text if rc == 0 else f"RECORD REFUSED — {text}")
+        print(text if rc == 0 else f"RECORD REFUSED, {text}")
         return rc
     try:
         if a.cmd == "temps":
@@ -144,9 +144,9 @@ def main(argv=None) -> int:
             print(receipt(a.label, a.stamp, a.verdict, Path(a.scene).read_text(), Path(a.ping).read_text(), a.summary), end="")
             return 0
     except (OSError, ValueError) as exc:
-        print(f"CERT GATE ABORT — could not evaluate: {exc}")
+        print(f"CERT GATE ABORT, could not evaluate: {exc}")
         return 1
-    print(("CERT GATE PASS — " if ok else "CERT GATE REFUSED — ") + why)
+    print(("CERT GATE PASS, " if ok else "CERT GATE REFUSED, ") + why)
     return 0 if ok else 1
 
 

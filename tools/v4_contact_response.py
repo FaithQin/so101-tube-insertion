@@ -9,7 +9,7 @@ and the DESCRIPTIVE SECONDARIES reported in its place.  ** A PROPOSAL. NOT RATIF
 WHAT CHANGED IN THIS FILE, AND WHY (Sep 7 2026). It was first written to PROMOTE a kinematic stall
 to co-primary 2's anchor. That promotion is withdrawn: the stall does not survive its own
 duration-matched control (RESIST rack windows run 2.50-3.70 s and CLEAN never exceeds 1.60 s;
-truncate both to a common length and the 4/4-vs-1/30 headline collapses to 1/4-vs-1/30 —
+truncate both to a common length and the 4/4-vs-1/30 headline collapses to 1/4-vs-1/30, 
 `tests/test_v4_contact_response.py::test_the_stall_does_NOT_survive_its_own_duration_matched_control`
 pins it). Substituting a replacement endpoint that works for one that did not is the exact failure
 a pre-registration exists to prevent, so nothing here is promoted to anything. The plumbing stays;
@@ -22,7 +22,7 @@ measurement that shows why (`anchor_evaluability`, training episodes only), and 
 below is reported as SECONDARIES, none of them promoted:
   S1 RETRIES, given a telemetry definition. §1:63 already pre-registers "retries" as a secondary
      and `tools/v4_bench_analysis.py:564-566`, `:669` already read it from scores.csv as a
-     hand-scored column, so this needs no new endpoint — only a declared operational definition,
+     hand-scored column, so this needs no new endpoint, only a declared operational definition,
      dated and frozen BEFORE any more trials are scored. Printed beside it every time: that it
      reads no load or current channel, its duration dependence, and that it is 0.00 on both
      trials that exist.
@@ -116,7 +116,7 @@ PRE_RACK_BASELINE_S = 1.0   # "the trial's own pre-rack baseline": the second of
                             # demonstrably not touching anything. 1.0 s = 20 samples at 20 Hz,
                             # the same MIN_BASELINE_ROWS the block baseline requires.
 IN_RACK_BASELINE_S = 0.30   # ... and the third alternative: the first 0.30 s INSIDE the window,
-                            # i.e. the approach to the rim. 6 samples at 20 Hz — short enough to
+                            # i.e. the approach to the rim. 6 samples at 20 Hz, short enough to
                             # end before the shortest CLEAN rack window (0.75 s) is half over.
 CENSOR_MIN_REPEATS = 10
 
@@ -135,7 +135,7 @@ def sample_times(n: int, t_mono=None, fps: float = FPS_NOMINAL) -> tuple[np.ndar
         if t.ndim != 1 or len(t) != n:
             raise ContactResponseError(f"t_mono has {t.shape}, expected ({n},)")
         if np.any(np.diff(t) <= 0):
-            raise ContactResponseError("t_mono is not strictly increasing — not a monotonic clock")
+            raise ContactResponseError("t_mono is not strictly increasing, not a monotonic clock")
         return t - t[0], "t_mono"
     return np.arange(n, dtype=np.float64) / fps, f"nominal {fps:g} fps (no t_mono column)"
 
@@ -284,7 +284,7 @@ def trial_contact_response(state, action=None, t_mono=None) -> dict:
         raise ContactResponseError(
             "censored retained distal channel(s) "
             + ", ".join(f"{names[d]} pinned at {v:g} in {n} frames" for d, v, n in cens)
-            + " — a saturated servo reports its cap, not a contact magnitude")
+            + ", a saturated servo reports its cap, not a contact magnitude")
     t, clock = sample_times(len(s), t_mono=t_mono)
     ok_T, why_T = reached_T(s)
     out = {
@@ -326,7 +326,7 @@ def trial_contact_response(state, action=None, t_mono=None) -> dict:
 
 
 # ==========================================================================================
-# TRANCHE 2 (a) — THE MEASUREMENT BEHIND THE DEMOTION.  ** A PROPOSAL. NOT RATIFIED. **
+# TRANCHE 2 (a), THE MEASUREMENT BEHIND THE DEMOTION.  ** A PROPOSAL. NOT RATIFIED. **
 # ==========================================================================================
 
 class HoldoutRefused(RuntimeError):
@@ -340,7 +340,7 @@ def onset_under_baseline(state, window, mu, sigma, dims=None, thr: float = None,
 
     The rule is `v4_contact_events`'s (CONTACT_Z for >= ONSET_TICKS over the distal load channels);
     only mu/sigma vary. That is the point of the measurement: §1 says "distal-load onset" and never
-    says what the baseline is — the pooled certification-replay rule is an implementation choice at
+    says what the baseline is, the pooled certification-replay rule is an implementation choice at
     `tools/v4_contact_events.py:396` (`Baseline.from_states`), traceable to `working notes (private):131` and not to the freeze. So the honest question is not "does the implemented
     baseline work" but "is there ANY baseline under which this anchor is a contact landmark".
     """
@@ -387,19 +387,19 @@ def anchor_evaluability(states: dict, actions: dict, types: dict, dims=None) -> 
     """Is "distal-load onset" a contact landmark under ANY baseline? Training episodes only.
 
     Three baselines, one rule, per episode's RACK WINDOW:
-      pooled    mu/sigma over EVERY row of the whole concatenated trajectory set — the rule the
+      pooled    mu/sigma over EVERY row of the whole concatenated trajectory set, the rule the
                 tool implements (`Baseline.from_states`).
       pre_rack  the trial's own PRE_RACK_BASELINE_S before rack entry (phase-local, free transit).
       in_rack   the first IN_RACK_BASELINE_S inside the window (phase-local, the approach).
 
     For each: how often it fires, per label; how often the onset it finds sits on the window's own
-    EDGE (the first tick, or the first tick after the baseline ends — i.e. the anchor is the edge,
+    EDGE (the first tick, or the first tick after the baseline ends, i.e. the anchor is the edge,
     not an event); and the rank correlation between the onset and the DEEPEST POINT OF THE PRESS
     (argmin of the `v4_recovery_response` depth proxy in the window), which is where a contact
     force must live if the anchor is measuring one.
 
     THE CLAIM THIS SUPPORTS is "not evaluable as pre-registered", NOT "load carries no contact
-    signal" — the second is on §2's forbidden list in spirit and is not what this measures.
+    signal", the second is on §2's forbidden list in spirit and is not what this measures.
     """
     import v4_recovery_response as rr
     bad = sorted(set(states) & set(ce.HOLDOUT_HANDOFF))
@@ -482,10 +482,10 @@ def anchor_evaluability(states: dict, actions: dict, types: dict, dims=None) -> 
 
 
 # ==========================================================================================
-# TRANCHE 2 (b) — WHAT IS REPORTED INSTEAD: the SECONDARY panel.  ** NOT RATIFIED. **
+# TRANCHE 2 (b), WHAT IS REPORTED INSTEAD: the SECONDARY panel.  ** NOT RATIFIED. **
 # ==========================================================================================
 
-PANEL_STATUS = ("NOT RATIFIED — a proposal. Co-primary 2 stands as pre-registered until Faith "
+PANEL_STATUS = ("NOT RATIFIED, a proposal. Co-primary 2 stands as pre-registered until Faith "
                 "ratifies a dated §7 amendment; nothing below is promoted to a co-primary.")
 
 
@@ -497,7 +497,7 @@ def secondary_panel(state, action=None, t_mono=None) -> dict:
     (`the v4 protocol (text held until unblinding; SHA-256 in the README):63`) that `tools/v4_bench_analysis.py:564-566` and
     `:669` read from scores.csv as a hand-scored column; what is proposed is a declared TELEMETRY
     DEFINITION for it, which must be dated and frozen before any more trials are scored, together
-    with its constants — all of which were chosen on training episodes.
+    with its constants, all of which were chosen on training episodes.
     """
     import v4_recovery_response as rr
     s = np.asarray(state, dtype=np.float64)
@@ -532,7 +532,7 @@ def secondary_panel(state, action=None, t_mono=None) -> dict:
                 "reads_load_channels": False,
                 "caveat": (
                     "already a pre-registered secondary (§1:63); this is a DECLARED telemetry "
-                    "definition of it, not a substitution. It reads NO load or current channel — "
+                    "definition of it, not a substitution. It reads NO load or current channel, "
                     "it is a position statistic, so it is not evidence about load sensing. Its "
                     "duration dependence is real and MEASURED (Sep 7, 93 rollout datasets on "
                     "disk, 46 episodes with a rack window): window length predicts a non-zero "
@@ -541,7 +541,7 @@ def secondary_panel(state, action=None, t_mono=None) -> dict:
                     "shortest window in the set (0.55 s) does not fire. A longer window is more "
                     "likely to score a retry whatever the arm did. The column is also nearly all "
                     "zeros: 6 of 46 there, and 0.00 on both trials that exist. Analyse as a paired "
-                    "sign / mid-p McNemar on 'any retry' with the MDE printed — an ~87 %-zero "
+                    "sign / mid-p McNemar on 'any retry' with the MDE printed, an ~87 %-zero "
                     "column cannot carry the pre-declared Wilcoxon and have it mean what it was "
                     "declared to mean."),
             },
@@ -556,7 +556,7 @@ def secondary_panel(state, action=None, t_mono=None) -> dict:
                     "with a rack stall); the latency sits beneath it and conditions on a "
                     "post-randomisation variable (only trials that stalled have one), so it is "
                     "not a randomised comparison. On training it fires 4/4 RESIST and 1/30 CLEAN, "
-                    "but truncate both classes to a common window length and that collapses — the "
+                    "but truncate both classes to a common window length and that collapses, the "
                     "separation is largely how long the window was. 0/2 on the trials run so far."),
             },
             "S3_impulse": {
@@ -567,7 +567,7 @@ def secondary_panel(state, action=None, t_mono=None) -> dict:
                 "channels": [ce.state_columns()[d] for d in DISTAL_RACK],
                 "caveat": (
                     "DESCRIPTIVE AND NULL. A fixed 0.70 s integral from rack entry against the "
-                    "trial's own pre-anchor mean — duration-free by construction. On the training "
+                    "trial's own pre-anchor mean, duration-free by construction. On the training "
                     "episodes it separates nothing: RESIST vs CLEAN AUC 0.592, two-sided "
                     "permutation p 0.59 (n = 4 vs 30, 20000 permutations, measured Sep 7). "
                     "Reported as a NULL, and gripper.load is excluded from it because that "
@@ -631,7 +631,7 @@ def main(argv=None) -> int:
     ap.add_argument("--json")
     a = ap.parse_args(argv)
     try:
-        print("PROPOSAL — NOT RATIFIED. The pre-registration anchors co-primary 2 on distal-load "
+        print("PROPOSAL, NOT RATIFIED. The pre-registration anchors co-primary 2 on distal-load "
               "onset (§1); the proposal is to report it NOT EVALUABLE and to report the panel "
               "below as SECONDARIES. Nothing here is promoted. See the module docstring.\n")
         if a.training_check:

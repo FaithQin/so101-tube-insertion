@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Jetson USB-camera delivered-fps test — the "free test" from the Aug 16 handoff.
+# Jetson USB-camera delivered-fps test, the "free test" from the Aug 16 handoff.
 #
 # QUESTION IT ANSWERS: is the 20.0/22.7-instead-of-30 fps decimation a camera
 # problem or a macOS problem? On the Mac the capture stack throttles both
@@ -13,7 +13,7 @@
 #     bash jetson_fps_test.sh
 #
 # READING THE OUTPUT: the number that matters is the "fps:" v4l2-ctl prints
-# during streaming — that is DELIVERED frames, kernel-level, no OpenCV, no
+# during streaming, that is DELIVERED frames, kernel-level, no OpenCV, no
 # driver readback lies (the Mac lesson: measure delivery, never trust claims).
 # Pass bar, matching the Mac recording configs: >=29.5 at 1280x720 and 640x480.
 

@@ -24,7 +24,7 @@ SEAT_PX = (534, 464)                   # front-camera seat, the lab notebook (pr
 START_PX = (363, 356)                  # the D mark at frame 0, placement-gate readings Aug 27-30
 
 
-def v2_trials(path=ROOT / "Eval Trials — v2 paired blocks.md"):
+def v2_trials(path=ROOT / "eval-trials-v2.md"):
     """The 40 scored v2 trials (INFRA re-runs excluded, the re-run kept)."""
     rows = []
     for line in path.read_text().splitlines():
@@ -107,7 +107,7 @@ def v3_final_positions(csv=ROOT / "tools/scored_logs/trials.csv", logs=ROOT / "t
                        generation="v3"):
     """Final cap position of every valid ACT A/B trial OF ONE GENERATION, from its own score log.
 
-    Probe policies (pi0.5, SmolVLA) are excluded — fig4 is the pre-registered
+    Probe policies (pi0.5, SmolVLA) are excluded, fig4 is the pre-registered
     ACT comparison and the probes are not part of its fixed n. Other generations
     are excluded too: they share this ledger but not this figure.
     """

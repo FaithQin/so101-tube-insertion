@@ -43,7 +43,7 @@ for label, (port, _cal) in ARMS.items():
         print(f"  >>> IDENTIFIED: {match[0]}")
     elif not match:
         print("  >>> NO MATCH against either calibration file.")
-        print("      Expected after a recalibration you haven't written to the motors yet —")
+        print("      Expected after a recalibration you haven't written to the motors yet, ")
         print("      run lerobot-calibrate and press plain ENTER to write the file.")
         for lbl, exp in expected.items():
             diff = {j: (live.get(j), exp[j]) for j in JOINTS if live.get(j) != exp[j]}
@@ -54,4 +54,4 @@ for label, (port, _cal) in ARMS.items():
     bus.disconnect(disable_torque=False)
 
 print("\nGround truth without any file: run watch_gripper.py on one port and")
-print("squeeze that arm's jaws by hand — the number should move.")
+print("squeeze that arm's jaws by hand, the number should move.")

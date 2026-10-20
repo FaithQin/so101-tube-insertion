@@ -2,7 +2,7 @@
 never opens a camera in tests.
 
 Sep 2 2026: posing the arm against a static overlay PNG was guess-and-check
-— Faith: "I wish there was a way that I could live see what it looks like."
+Faith: "I wish there was a way that I could live see what it looks like."
 This tool shows the recorded ghost blended over the live feed continuously.
 """
 

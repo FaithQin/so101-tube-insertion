@@ -5,7 +5,7 @@ values. homing_offset = 2047 - raw_at_ENTER, and the raw encoder value depends
 on how each servo's shaft was assembled into its wrist at the factory, so two
 arms read DIFFERENT raw counts at the SAME physical orientation. A nonzero gap
 at perfect alignment is expected and means nothing. (This mistake cost a wasted
-recalibration on Aug 7, 2026 — see README "Bring-up lessons".)
+recalibration on Aug 7, 2026, see README "Bring-up lessons".)
 
 The valid test is behavioural: at equal physical orientation, do both arms
 report the same NORMALIZED position? That is what teleop passes leader->follower.
@@ -19,7 +19,7 @@ To fix a misalignment without touching the leader:
   2. Recalibrate ONLY the follower. Pose it mid-range, then align its wrist to
      the leader's current physical orientation as the LAST move before ENTER.
      (Hauling the arm into a mid-range pose rotates wrist_roll without you
-     feeling it — that is why alignment must be last, not first.)
+     feeling it, that is why alignment must be last, not first.)
   3. Re-run this with both wrists still physically aligned. Delta must be ~0.
 
 wrist_roll spans one full turn over -100..100, so 1 unit ~= 1.8 degrees.

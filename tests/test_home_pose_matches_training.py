@@ -36,7 +36,7 @@ TOL = 2.5
 def _home_arm_pose() -> dict:
     src = (TOOLS / "home_arm.py").read_text()
     m = re.search(r"\"v2\":\s*\[([^\]]+)\]", src)
-    assert m, "home_arm.py has no v2 pose list — v1-only HOME is the Aug 16 regression"
+    assert m, "home_arm.py has no v2 pose list, v1-only HOME is the Aug 16 regression"
     vals = [float(x) for x in m.group(1).split(",")]
     return dict(zip(JOINT_ORDER, vals))
 
@@ -44,7 +44,7 @@ def _home_arm_pose() -> dict:
 def _wrapper_pose() -> dict:
     src = (TOOLS / "rollout_30hz_stale_ok.py").read_text()
     m = re.search(r"TRAIN_HOME_V2\s*=\s*\{([^}]+)\}", src)
-    assert m, "rollout wrapper has no TRAIN_HOME_V2 — v1-only TRAIN_HOME is the Aug 16 regression"
+    assert m, "rollout wrapper has no TRAIN_HOME_V2, v1-only TRAIN_HOME is the Aug 16 regression"
     pose = dict(re.findall(r"\"(\w+)\.pos\":\s*(-?[\d.]+)", m.group(1)))
     return {k: float(v) for k, v in pose.items()}
 
@@ -56,7 +56,7 @@ def test_home_arm_v2_pose_matches_dataset_frame0(v2_frame0_stats):
             continue
         assert abs(pose[joint] - mean) <= TOL, (
             f"home_arm.py v2 {joint}={pose[joint]} vs dataset frame-0 mean {mean:.1f} "
-            f"(std {v2_frame0_stats['std'][joint]:.1f}) — homing outside training support"
+            f"(std {v2_frame0_stats['std'][joint]:.1f}), homing outside training support"
         )
 
 
@@ -67,7 +67,7 @@ def test_wrapper_v2_pose_matches_dataset_frame0(v2_frame0_stats):
             continue
         assert abs(pose[joint] - mean) <= TOL, (
             f"wrapper TRAIN_HOME_V2 {joint}={pose[joint]} vs dataset frame-0 mean {mean:.1f} "
-            f"— between-episode reset outside training support"
+            f", between-episode reset outside training support"
         )
 
 
@@ -75,7 +75,7 @@ def test_home_arm_and_wrapper_agree():
     home, wrapper = _home_arm_pose(), _wrapper_pose()
     for joint in JOINT_ORDER:
         assert abs(home[joint] - wrapper[joint]) < 0.05, (
-            f"{joint}: home_arm.py ({home[joint]}) and wrapper ({wrapper[joint]}) disagree — "
+            f"{joint}: home_arm.py ({home[joint]}) and wrapper ({wrapper[joint]}) disagree, "
             f"episode 1 and episodes 2+ would start from different poses"
         )
 
@@ -112,15 +112,15 @@ def test_wrapper_rehome_does_not_recommand_a_closed_gripper():
     nothing and then re-sent "go to 1.3" for any residual > 3. The follower bounds
     each close to 4.0 below present (~56 counts) in free air, the firmware latches
     at a sustained ~35 counts, and the fault-recovery path opens the jaw +2 per
-    event — frame-0 gripper state crept +8.2 / +9.5 / +10.8 across episodes 2-4.
+    event, frame-0 gripper state crept +8.2 / +9.5 / +10.8 across episodes 2-4.
     The wrapper must give the gripper residual slack (>= 3.0) so a near-closed
     jaw is not re-commanded, and must keep torque ON (training held it at 1.3)."""
     src = (TOOLS / "rollout_30hz_stale_ok.py").read_text()
     m = re.search(r"_HOME_SLACK\[\"gripper\.pos\"\]\s*=\s*([\d.]+)", src) or re.search(
         r"_HOME_SLACK\s*=\s*\{[^}]*\"gripper\.pos\":\s*([\d.]+)", src
     )
-    assert m, "wrapper _HOME_SLACK has no gripper entry — re-home will re-command a closed jaw and creep it open"
-    assert float(m.group(1)) >= 3.0, f"gripper re-home slack {m.group(1)} < 3.0 — still re-commands a closed jaw"
+    assert m, "wrapper _HOME_SLACK has no gripper entry, re-home will re-command a closed jaw and creep it open"
+    assert float(m.group(1)) >= 3.0, f"gripper re-home slack {m.group(1)} < 3.0, still re-commands a closed jaw"
     assert "gripper" not in _settle_joints("rollout_30hz_stale_ok.py"), (
         "gripper must stay torque-ON after re-home (training frame-0 held it at 1.3)"
     )
@@ -148,7 +148,7 @@ def _wrapper_pose_v3() -> dict:
     src = (TOOLS / "rollout_30hz_stale_ok.py").read_text()
     m = re.search(r"TRAIN_HOME_V3\s*=\s*\{([^}]+)\}", src)
     assert m, (
-        "rollout wrapper has no TRAIN_HOME_V3 — v3 rollouts silently re-home to "
+        "rollout wrapper has no TRAIN_HOME_V3, v3 rollouts silently re-home to "
         "the v2 pose (Sep 3 2026 regression)"
     )
     pose = dict(re.findall(r'"(\w+)\.pos":\s*(-?[\d.]+)', m.group(1)))
@@ -169,7 +169,7 @@ def test_wrapper_v3_pose_matches_v3_dataset_frame0():
             continue
         assert abs(pose[joint] - mean) <= TOL, (
             f"wrapper TRAIN_HOME_V3 {joint}={pose[joint]} vs v3 frame-0 mean {mean:.2f} "
-            f"— between-episode reset outside v3 training support"
+            f", between-episode reset outside v3 training support"
         )
 
 
@@ -189,11 +189,11 @@ def _train_home_table() -> dict:
             continue
         sub = node.value
         assert isinstance(sub, ast.Subscript), (
-            "TRAIN_HOME is no longer a `{table}[tag]` lookup — this test can no "
+            "TRAIN_HOME is no longer a `{table}[tag]` lookup, this test can no "
             "longer prove which pose a tag resolves to; rewrite it against the new shape"
         )
         assert isinstance(sub.slice, ast.Name) and sub.slice.id == "_HOME_POSE", (
-            "TRAIN_HOME is not keyed by _HOME_POSE — the env var no longer selects the pose"
+            "TRAIN_HOME is not keyed by _HOME_POSE, the env var no longer selects the pose"
         )
         assert isinstance(sub.value, ast.Dict), "TRAIN_HOME lookup table is not a dict literal"
         table = {}
@@ -210,7 +210,7 @@ def test_wrapper_reads_the_pose_tag_from_the_environment():
     """First link of the chain: CAPSTONE_HOME_POSE -> _HOME_POSE."""
     src = (TOOLS / "rollout_30hz_stale_ok.py").read_text()
     assert re.search(r'_HOME_POSE\s*=\s*os\.environ\.get\(\s*"CAPSTONE_HOME_POSE"', src), (
-        "_HOME_POSE no longer reads CAPSTONE_HOME_POSE from the environment — "
+        "_HOME_POSE no longer reads CAPSTONE_HOME_POSE from the environment, "
         "the runners' export would stop selecting the pose"
     )
 
@@ -227,11 +227,11 @@ def test_wrapper_resolves_every_pose_tag_to_its_OWN_table():
     table = _train_home_table()
     for tag in ("v1", "v2", "v3"):
         assert tag in table, (
-            f'TRAIN_HOME has no "{tag}" key — CAPSTONE_HOME_POSE={tag} raises KeyError at import'
+            f'TRAIN_HOME has no "{tag}" key, CAPSTONE_HOME_POSE={tag} raises KeyError at import'
         )
         assert table[tag] == f"TRAIN_HOME_{tag.upper()}", (
             f'CAPSTONE_HOME_POSE={tag} resolves to {table[tag]}, not TRAIN_HOME_{tag.upper()} '
-            f"— preflight gates on {tag} and the wrapper then re-homes somewhere else"
+            f", preflight gates on {tag} and the wrapper then re-homes somewhere else"
         )
 
 
@@ -250,7 +250,7 @@ def test_v3_runners_EXPORT_the_home_pose_bound_to_their_dataset_tag():
         path = TOOLS / runner
         # No silent `continue`: a renamed runner must fail here, not vanish.
         assert path.exists(), (
-            f"{runner} is missing — if it was renamed, rename it here too; a runner "
+            f"{runner} is missing, if it was renamed, rename it here too; a runner "
             f"that drops out of this loop is an unpinned home pose nobody notices"
         )
         # code only -- a comment mentioning the variable must not satisfy the pin
@@ -258,7 +258,7 @@ def test_v3_runners_EXPORT_the_home_pose_bound_to_their_dataset_tag():
         src = "\n".join(line.split("#")[0] for line in path.read_text().splitlines())
         m = re.search(r"^\s*export\s+CAPSTONE_HOME_POSE=(\S+)", src, re.M)
         assert m, (
-            f"{runner} never EXPORTS CAPSTONE_HOME_POSE — the rollout wrapper runs in a "
+            f"{runner} never EXPORTS CAPSTONE_HOME_POSE, the rollout wrapper runs in a "
             f"child process and will re-home to its v2 default after preflight gated on v3"
         )
         value = m.group(1).strip("\"'")
@@ -269,7 +269,7 @@ def test_v3_runners_EXPORT_the_home_pose_bound_to_their_dataset_tag():
         assert pre, f"{runner}: cannot find the preflight call and the tag it is handed"
         gated_on = pre.group(1).strip("{}").replace("${", "$")
         assert value.replace("${", "$").rstrip("}") == gated_on and gated_on in ("$DATASET_TAG", "$START_POSE"), (
-            f"{runner} exports CAPSTONE_HOME_POSE={value} but preflight gated on {pre.group(1)} — "
+            f"{runner} exports CAPSTONE_HOME_POSE={value} but preflight gated on {pre.group(1)}, "
             f"the home pose and the gate must read the same variable, never a hard-coded pose"
         )
 

@@ -1,7 +1,7 @@
 """How much did exposure drift across a recorded episode? Read-only, offline.
 
 You cannot run a live exposure check while `lerobot-teleoperate` or
-`lerobot-record` holds the camera — one process per camera. So measure it
+`lerobot-record` holds the camera, one process per camera. So measure it
 afterwards, from the encoded video the policy will actually train on.
 
 The kit cameras have no exposure lock (probed Aug 8, 2026: AVFoundation ignores

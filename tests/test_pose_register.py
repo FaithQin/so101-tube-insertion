@@ -3,8 +3,8 @@
 Born Sep 2 2026, after a day of measuring the follower against the LEADER arm
 and patching calibration on that basis. The leader comparison had no pre-fault
 baseline, so its deltas were never evidence of change; the patches built on it
-left the arm unable to touch the tube. Faith's question — "are we matching to a
-different calibration than the episodes were recorded in?" — named the flaw.
+left the arm unable to touch the tube. Faith's question, "are we matching to a
+different calibration than the episodes were recorded in?", named the flaw.
 
 The only frame that matters is the one the datasets were recorded in. This tool
 registers against it directly: a recorded frame is blended over the live camera,
@@ -14,7 +14,7 @@ per-joint offset. No leader, no Jacobians, no sign guessing.
 
 Pinned here:
 1. The offset is dataset-minus-reported per joint, so a POSITIVE value means the
-   follower must report higher — the sign convention is fixed once, in code.
+   follower must report higher, the sign convention is fixed once, in code.
 2. Consistency across poses is the discriminator: constant offsets mean a
    calibration constant (fixable); pose-dependent offsets mean a servo/gear
    problem that no calibration fixes. The verdict must say which.

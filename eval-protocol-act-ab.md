@@ -1,8 +1,8 @@
-# Paired Evaluation Protocol — ACT-A vs ACT-B (tube insertion) — v2
+# Paired Evaluation Protocol: ACT-A vs ACT-B (tube insertion), v2
 
 Generated Aug 15 2026, seed 20260815. 80 trials: 40 per policy, 8 per dot per
-policy. 16 blocks of 5 in consecutive pairs — each pair shares an IDENTICAL
-start order (true pairing); pair policies alternate AB, BA, AB, BA... to
+policy. 16 blocks of 5 in consecutive pairs. Each pair shares an IDENTICAL
+start order (true pairing), and pair policies alternate AB, BA, AB, BA... to
 cancel time/servo-warmth drift. v2 fixes v1, whose blocks were shuffled
 independently (pairing claim was wrong).
 
@@ -12,27 +12,27 @@ independently (pairing claim was wrong).
 
 ## Rules
 - SUCCESS = tube standing in the target hole unsupported at rollout end.
-- Max 45 s; never touch mid-rollout.
+- Max 45 s. Never touch mid-rollout.
 - Categories (one per trial, most severe event wins):
     S  = success (tube standing in target hole unsupported at rollout end)
-    GM = grasped, missed insertion (reached the rack; failed to seat — Whitney: jamming vs wedging)
+    GM = grasped, missed insertion (reached the rack, failed to seat). Whitney: jamming vs wedging
     NG = never grasped
     DT = dropped in transit
     KR = knocked rack/tube over
-- 5-min servo rest between blocks; operator break every 4 blocks.
+- 5-min servo rest between blocks, operator break every 4 blocks.
 - WARMUP (added Aug 15, pre-trial-1, after the cold-sag discovery): before the
   first block of a session AND after any break >10 min, run 2 warmup replays
   (episode 0) or ~60 s of motion. Cold servos ride ~1 cm high vs the warm
-  state the dataset was recorded in; replays confirmed grasp success returns
+  state the dataset was recorded in, and replays confirmed grasp success returns
   by run 2-3 of a cold start. The 5-min inter-block rest is short enough to
-  stay warm; a full cooldown is not.
+  stay warm. A full cooldown is not.
 
 ## Inference config (locked Aug 16 ~00:30, pre-trial-1)
 
 Chosen by a pre-declared rule on a 2-episodes-per-cell probe grid (all probes
-Aug 15 23:07–Aug 16 00:25, dot D, warmup + verified homing before each; grade
-per episode: grasp 1 / insertion attempt 1 / seated 2; higher sum wins per
-policy; ties → n=25):
+Aug 15 23:07–Aug 16 00:25, dot D, warmup + verified homing before each. Grade
+per episode: grasp 1 / insertion attempt 1 / seated 2. Higher sum wins per
+policy, ties → n=25):
 
 | config | ep1 | ep2 | sum |
 |--------|-----|-----|-----|
@@ -41,28 +41,28 @@ policy; ties → n=25):
 | B n=25 | no-grasp (0) | no-grasp (0) | 0 |
 | B n=50 | no-grasp (0) | grasp+attempt (2) | **2** |
 
-**→ ACT-A rolls out with `--policy.n_action_steps=25`; ACT-B with
+**→ ACT-A rolls out with `--policy.n_action_steps=25` and ACT-B with
 `--policy.n_action_steps=50`.** Per-policy configs are legitimate (each method
-at its probe-selected setting); selection used probe episodes only, no scored
-trials. No further config tuning — observed episode-to-episode variance
-exceeds config deltas at feasible probe sample sizes; the paired 80-trial eval
+at its probe-selected setting). Selection used probe episodes only, no scored
+trials. No further config tuning, since observed episode-to-episode variance
+exceeds config deltas at feasible probe sample sizes. The paired 80-trial eval
 is the instrument that resolves policy differences, not probes.
 
 All rollouts run via `tools/rollout_30hz_stale_ok.py` (non-blocking camera
-reads at 30 Hz loop; between-episode reset pinned to the verified training
+reads at 30 Hz loop, between-episode reset pinned to the verified training
 home pose). Warmup (2 replays) + `tools/home_arm.py` before each block.
 
 **Config-probe EXTENSION (declared Aug 16 ~01:00, before running, PI decision
-overriding the stop-tuning recommendation — logged for honesty):**
-ACT-A only: 10 episodes @ n=25 vs 10 @ n=10, PAIRED — both arms use the same
-start sequence (D,B,C,E,A then D,E,B,A,C; 2 per dot per arm). Rule, declared
-now: A's eval config = the arm with more S; tie → more grasps; tie → n=25
+overriding the stop-tuning recommendation, logged for honesty):**
+ACT-A only: 10 episodes @ n=25 vs 10 @ n=10, PAIRED, so both arms use the same
+start sequence (D,B,C,E,A then D,E,B,A,C, 2 per dot per arm). Rule, declared
+now: A's eval config = the arm with more S, tie → more grasps, tie → n=25
 (hardware prior: n=10 runs ~26.3 Hz effective vs 28.4, and per-chunk inference
 fires every 0.33 s). These are probes, not scored eval trials. B stays @ 50.
 
 **Acknowledged confound + pre-registered secondary probe:** with per-policy
 configs, the A/B contrast measures observation-space PLUS its interaction
-with chunk horizon (no shared n exists where both policies function — probes:
+with chunk horizon (no shared n exists where both policies function, per the probes:
 25 is A's only working config, 50 is B's). If the primary 80-trial result is
 close or surprising, run an EXPLORATORY cross-config set (2 blocks A@50,
 2 blocks B@25, 20 trials total, same pairing rules, labeled secondary) to
@@ -70,7 +70,7 @@ bound the n-effect. Decided Aug 16 pre-trial-1.
 
 Known scene deviation, applies to BOTH policies equally: the 5 blue eval dots
 did not exist in training data. "Dot-as-cap-decoy" is a logged hypothesis
-(2 sightings during probes) — post-eval masked-dots probe planned; not a
+(2 sightings during probes). A post-eval masked-dots probe is planned, not a
 protocol change.
 
 ## Trial sheet

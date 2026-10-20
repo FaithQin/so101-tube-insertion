@@ -10,14 +10,14 @@ and then used to gate v3 policy trials. Measured on the two datasets:
 
 Two failures follow from mixing them up, and one had already happened:
 
-  * FALSE ABORT — the arm homed to elbow 85.30 and the v2-based gate rejected
+  * FALSE ABORT, the arm homed to elbow 85.30 and the v2-based gate rejected
     it. 85.30 is comfortably inside v3's range; a valid v3 start state was
     thrown away.
-  * FALSE PASS — anything between 75.47 and 78.11 passes a v2 gate while being
+  * FALSE PASS, anything between 75.47 and 78.11 passes a v2 gate while being
     outside everything v3 ever saw.
 
 And `home_arm --pose v2` starts a v3 policy ~2.6 deg off its own training mean
-in the elbow — more than one standard deviation, on the joint whose start state
+in the elbow, more than one standard deviation, on the joint whose start state
 already has the widest spread.
 """
 
@@ -38,7 +38,7 @@ TOL = 2.5
 def _home_arm_pose(tag: str) -> dict:
     src = (TOOLS / "home_arm.py").read_text()
     m = re.search(rf'"{tag}":\s*\[([^\]]+)\]', src)
-    assert m, f"home_arm.py has no {tag} pose — a {tag} policy cannot be homed to its own start"
+    assert m, f"home_arm.py has no {tag} pose, a {tag} policy cannot be homed to its own start"
     return dict(zip(JOINT_ORDER, [float(x) for x in m.group(1).split(",")]))
 
 
@@ -53,7 +53,7 @@ def test_v3_home_pose_matches_the_v3_dataset(v3_frame0_stats):
             continue
         assert abs(pose[joint] - mean) <= TOL, (
             f"home_arm v3 {joint}={pose[joint]} vs v3 frame-0 mean {mean:.2f} "
-            f"(sd {v3_frame0_stats['std'][joint]:.2f}) — homing outside v3 support"
+            f"(sd {v3_frame0_stats['std'][joint]:.2f}), homing outside v3 support"
         )
 
 
@@ -61,7 +61,7 @@ def test_v2_and_v3_poses_actually_differ(v2_frame0_stats, v3_frame0_stats):
     """If these were the same, the whole fix would be pointless. They are not:
     the elbow means differ by ~2.6 deg."""
     d = abs(v2_frame0_stats["mean"]["elbow_flex"] - v3_frame0_stats["mean"]["elbow_flex"])
-    assert d > 1.0, f"v2 and v3 elbow means differ by only {d:.2f} — check the datasets"
+    assert d > 1.0, f"v2 and v3 elbow means differ by only {d:.2f}, check the datasets"
 
 
 def test_home_gate_exposes_v3_support(v3_frame0_stats):

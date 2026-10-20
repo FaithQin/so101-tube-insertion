@@ -10,8 +10,8 @@ before Sep 6, so the plumbing gets proven at a desk first.
 The idea is the same one that already works here: **replay as arbiter.** Feed
 the policy a frame it was TRAINED on and check it reproduces roughly the action
 that was demonstrated. On a training frame a fitted policy should not be far
-off. If it is, the observation pipeline is wrong — wrong camera mapping, wrong
-state width, wrong normalization — and no amount of bench time will fix it.
+off. If it is, the observation pipeline is wrong, wrong camera mapping, wrong
+state width, wrong normalization, and no amount of bench time will fix it.
 
 Four ways this dry-run could reassure falsely, all pinned here:
 
@@ -454,7 +454,7 @@ def test_probe_frames_span_multiple_episodes():
 def test_probe_frames_are_not_all_near_the_start():
     """Frame 0 is near home in every episode, where any policy looks good."""
     frames = pi05_dryrun.pick_probe_frames(n_episodes=50, episode_len=200, n=6, seed=7)
-    assert max(f for _, f in frames) > 60, "no mid-episode frames — the easy region only"
+    assert max(f for _, f in frames) > 60, "no mid-episode frames, the easy region only"
 
 
 def test_probe_frames_are_deterministic_for_a_seed():
@@ -507,7 +507,7 @@ def test_verdict_uses_the_declared_threshold():
 
 
 # --------------------------------------------------------------------------
-# 6. Episode indexing API — pinned after it moved (Aug 31 2026)
+# 6. Episode indexing API, pinned after it moved (Aug 31 2026)
 # --------------------------------------------------------------------------
 
 
@@ -791,5 +791,5 @@ def test_dryrun_does_not_override_the_postprocessor_device():
 
     src = inspect.getsource(pi05_dryrun)
     assert "postprocessor_overrides" not in src, (
-        "postprocessor device is 'cpu' on purpose — do not override it"
+        "postprocessor device is 'cpu' on purpose, do not override it"
     )

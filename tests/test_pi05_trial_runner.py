@@ -302,7 +302,7 @@ def test_runner_does_not_enable_the_grasp_lock():
     """
     src = _src()
     assert "CAPSTONE_GRASP_LOCK=1" not in src, (
-        "grasp lock must not be enabled for pi0.5 — it is an ACT-queue patch"
+        "grasp lock must not be enabled for pi0.5, it is an ACT-queue patch"
     )
     rc, stdout, calls, _ = _run_gates(inherit={"CAPSTONE_GRASP_LOCK": "1"})
     leaked = [ln for ln in calls.splitlines()

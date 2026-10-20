@@ -5,7 +5,7 @@ Why (Sep 2, 2026): "EEPROM verified equal" after the Sep 1 calibration mess
 covered only Homing_Offset and the two position limits. The raw register writes
 that day could have touched any other EEPROM field (Protection_Time had been
 found at 0 once before). The elbow then landed a constant +3.07 deg above its
-goal at two poses with opposite gravity loading — the shape of a control
+goal at two poses with opposite gravity loading, the shape of a control
 parameter (dead zone, P gain, startup force), not of a calibration offset.
 This prints all of them, side by side, so a changed register on ONE servo is
 visible in seconds.

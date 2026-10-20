@@ -5,7 +5,7 @@
 #   run_scored_trial.sh faithqin/act-tube-A-v3 25 off P001-A
 #
 # Differences from run_probe_episode.sh, all of them deliberate:
-#   * 45 s episodes, not 60 — a v2 scored trial holds 875 frames (~45 s) and the
+#   * 45 s episodes, not 60, a v2 scored trial holds 875 frames (~45 s) and the
 #     locked protocol says "Max 45 s". Success is defined at rollout end, so
 #     episode length is part of the definition and must match the baseline.
 #   * preflight.py gates placement, home pose vs training support, and elbow
@@ -27,13 +27,13 @@ cd "$PROJ" || exit 1
 # wrapper. Project state lives in the main checkout.
 if [ -z "${CAPSTONE_ALLOW_WORKTREE:-}" ]; then
   $B/python -c "import sys; sys.path.insert(0,'tools'); import preflight, sys as s; s.exit(0 if preflight.is_main_checkout('$PROJ') else 1)" || {
-    say "abort. worktree."; echo "ABORT: running from a git worktree — use the main checkout"; exit 2; }
+    say "abort. worktree."; echo "ABORT: running from a git worktree, use the main checkout"; exit 2; }
 fi
 
 # Which training distribution does THIS policy come from? v2 and v3 differ
 # materially (elbow frame-0 75.47-84.44 vs 78.11-90.42; gripper 1.14-1.64 vs
 # 0.79-1.57), so both the home pose and the support gate must follow the policy.
-# Gating a v3 policy on v2 bounds rejects valid starts and admits invalid ones —
+# Gating a v3 policy on v2 bounds rejects valid starts and admits invalid ones, 
 # caught Aug 29 when an elbow of 85.30, squarely inside v3, was refused.
 case "$POLICY" in
   *v4*) DATASET_TAG=v4 ;;
@@ -42,7 +42,7 @@ case "$POLICY" in
   *)    say "abort. unknown dataset tag."
         echo "ABORT: cannot tell which dataset '$POLICY' was trained on (no v2/v3 in the name)."
         echo "       A v4 policy needs TRAIN_HOME_V4 in rollout_30hz_stale_ok.py, a v4 window in home_gate.FRAME0,"
-        echo "       and a *v4*) branch here — never a silent default (Sep 3: every v3 trial re-homed to v2)."
+        echo "       and a *v4*) branch here, never a silent default (Sep 3: every v3 trial re-homed to v2)."
         exit 2 ;;
 esac
 echo "  dataset support: $DATASET_TAG"
@@ -75,7 +75,7 @@ echo "=== $LABEL  policy=$POLICY  n=$NSTEPS  lock=$MODE"
 # --- gates -----------------------------------------------------------------
 # Home BEFORE looking at the scene. An arm parked over the tube (e.g. left there
 # by the previous session) occludes the cap, and scene_check then reports it
-# missing — which reads as a placement failure when it is an occlusion failure.
+# missing, which reads as a placement failure when it is an occlusion failure.
 # Observed Aug 30. Homing first also means the scene is judged from the pose the
 # policy will actually start in.
 $B/python tools/home_arm.py --pose "$DATASET_TAG" > "${RUN}.home" 2>&1
@@ -100,7 +100,7 @@ for attempt in 1 2 3; do
   # Short-circuit rather than burning ~15 s to re-announce a fact the operator
   # has already heard.
   case "$OUT" in
-    *placement*|*thermal*) echo "  (human-only gate — not retrying)"; break ;;
+    *placement*|*thermal*) echo "  (human-only gate, not retrying)"; break ;;
   esac
 
   # SOFTWARE-REPAIRABLE gates: fix, then let the loop re-home and re-gate.
@@ -109,14 +109,14 @@ for attempt in 1 2 3; do
   case "$OUT" in
     *gripper*)
       if [ "$START_POSE" = "$DATASET_TAG" ]; then
-        echo "  REPAIRED: gripper outside training support — reseating the jaw"
+        echo "  REPAIRED: gripper outside training support, reseating the jaw"
         $B/python tools/reseat_gripper.py 2>&1 | sed 's/^/    /'
       else
-        echo "  (carry start: the jaw is holding the tube, not reseated on nothing — re-place the tube when prompted)"
+        echo "  (carry start: the jaw is holding the tube, not reseated on nothing, re-place the tube when prompted)"
       fi
       ;;
     *elbow_flex*)
-      echo "  REPAIRED: elbow outside training support — re-homing (it lands differently from different starting poses)"
+      echo "  REPAIRED: elbow outside training support, re-homing (it lands differently from different starting poses)"
       ;;
   esac
   echo "  (attempt $attempt did not gate; retrying)"
@@ -135,7 +135,7 @@ if [ "$GATED" != "1" ]; then
     *evaluate*)    SPOKEN="abort. a check could not be read." ;;
   esac
   say "$SPOKEN"
-  echo "TRIAL ABORTED — nothing launched, no trial consumed."
+  echo "TRIAL ABORTED, nothing launched, no trial consumed."
   exit 3
 fi
 
@@ -144,7 +144,7 @@ if [ "$MODE" = "on" ]; then export CAPSTONE_GRASP_LOCK=1; else unset CAPSTONE_GR
 export CAPSTONE_HOME_POSE="$START_POSE"  # else the wrapper re-homes to its v2 default
 export CAPSTONE_TELEMETRY_CSV="${RUN}_telemetry.csv"  # all 18 servo channels per recorded frame, whatever the policy sees (Sep 6)
 # lerobot refuses a rollout dataset whose name does not start with "rollout_"
-# (rollout/context.py:446). Caught Aug 29 on Block 2 trial 1 — it aborted before
+# (rollout/context.py:446). Caught Aug 29 on Block 2 trial 1, it aborted before
 # the arm moved, so nothing was consumed, but the trial was lost to a restart.
 REPO="faithqin/rollout_${LABEL}"
 say "recording"

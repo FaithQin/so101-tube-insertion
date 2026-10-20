@@ -1,16 +1,16 @@
 """Pre-probe scene certification: is the tube+rack where training saw them?
 
 Captures one frame from the FRONT camera, feature-match aligns it to the
-v2 training-start reference (different aspect/zoom is fine — ORB+RANSAC
+v2 training-start reference (different aspect/zoom is fine, ORB+RANSAC
 homography on the background), then measures the two placement landmarks:
 
-    blue tube cap centroid    — tube placement
-    orange funnel centroid    — rack placement (joined the ritual Aug 18:
+    blue tube cap centroid   , tube placement
+    orange funnel centroid   , rack placement (joined the ritual Aug 18:
                                 the rack was off by a nudge on Aug 17 and
                                 replays missed right until it was matched)
 
 Prints centroid deltas in REFERENCE pixels and writes a 50/50 blend to
-camera_probe_frames/overlay_ref_vs_live.png — open it and look. Aug 18
+camera_probe_frames/overlay_ref_vs_live.png, open it and look. Aug 18
 certified baseline: cap sub-pixel, rack ~2 px. Single-digit px is fine;
 tens of px means nudge the physical thing and re-run.
 
@@ -18,7 +18,7 @@ tens of px means nudge the physical thing and re-run.
     python scene_check.py            # front camera at today's index 1
     python scene_check.py 2          # after probe_cameras.py says it moved
 
-Camera indices shift after reboot/replug — run probe_cameras.py first if
+Camera indices shift after reboot/replug, run probe_cameras.py first if
 the capture opens the wrong camera (the overlay will be garbage, not
 subtly wrong, so you will know).
 
@@ -56,7 +56,7 @@ cap = cv2.VideoCapture(args.index, cv2.CAP_AVFOUNDATION)
 if not cap.isOpened():
     sys.exit(
         f"camera {args.index} did not open. Camera permission is a per-app TCC "
-        "grant; indices shift per session — run probe_cameras.py."
+        "grant; indices shift per session, run probe_cameras.py."
     )
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, args.width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, args.height)
@@ -75,7 +75,7 @@ g_live, g_ref = (cv2.cvtColor(x, cv2.COLOR_BGR2GRAY) for x in (live, ref))
 k1, d1 = orb.detectAndCompute(g_live, None)
 k2, d2 = orb.detectAndCompute(g_ref, None)
 if d1 is None or d2 is None:
-    sys.exit("no features — is this the right camera / is the lens covered?")
+    sys.exit("no features, is this the right camera / is the lens covered?")
 matches = sorted(
     cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True).match(d1, d2), key=lambda m: m.distance
 )[:400]
@@ -83,11 +83,11 @@ src = np.float32([k1[m.queryIdx].pt for m in matches]).reshape(-1, 1, 2)
 dst = np.float32([k2[m.trainIdx].pt for m in matches]).reshape(-1, 1, 2)
 H, inl = cv2.findHomography(src, dst, cv2.RANSAC, 4.0)
 if H is None:
-    sys.exit("homography failed — wrong camera or scene unrecognizable.")
+    sys.exit("homography failed, wrong camera or scene unrecognizable.")
 n_inl = int(inl.sum())
 print(f"homography inliers: {n_inl}/{len(matches)}")
 if n_inl < 60:
-    print("⚠️  weak alignment — treat the numbers below with suspicion.")
+    print("WARNING: weak alignment, treat the numbers below with suspicion.")
 warped = cv2.warpPerspective(live, H, (ref.shape[1], ref.shape[0]))
 
 
@@ -111,7 +111,7 @@ for label, spec in [("tube (blue cap)   ", BLUE_CAP), ("rack (orange funnel)", O
     r = centroid(ref, spec["lo"], spec["hi"], spec["region"], spec["min_area"])
     l = centroid(warped, spec["lo"], spec["hi"], spec["region"], spec["min_area"])
     if r is None or l is None:
-        print(f"{label}: NOT FOUND (ref={r is not None}, live={l is not None}) — check placement/lighting")
+        print(f"{label}: NOT FOUND (ref={r is not None}, live={l is not None}), check placement/lighting")
         continue
     d = l - r
     print(
@@ -147,13 +147,13 @@ spec = BLUE_CAP
 a_ref = tube_angle(ref, centroid(ref, spec["lo"], spec["hi"], spec["region"], spec["min_area"]))
 a_live = tube_angle(warped, centroid(warped, spec["lo"], spec["hi"], spec["region"], spec["min_area"]))
 if a_ref is None or a_live is None:
-    print("tube angle        : NOT MEASURED (no long edges found — arm in the window, or tube missing)")
+    print("tube angle        : NOT MEASURED (no long edges found, arm in the window, or tube missing)")
 else:
-    flag = "  ⚠️  ROTATED — re-place the tube" if abs(a_live - a_ref) > 5 else ""
+    flag = "  WARNING: ROTATED, re-place the tube" if abs(a_live - a_ref) > 5 else ""
     print(f"tube angle        : ref={a_ref:+5.1f}°  live={a_live:+5.1f}°  delta={a_live - a_ref:+5.1f}°{flag}")
 
 blend = cv2.addWeighted(ref, 0.5, warped, 0.5, 0)
 cv2.imwrite(str(OUT_DIR / "overlay_ref_vs_live.png"), blend)
 diff = cv2.absdiff(cv2.GaussianBlur(ref, (5, 5), 0), cv2.GaussianBlur(warped, (5, 5), 0)).sum(axis=2)
 print("mean abs scene diff (0-765):", round(float(diff.mean()), 1))
-print(f"overlay written: {OUT_DIR / 'overlay_ref_vs_live.png'} — LOOK AT IT before trusting numbers")
+print(f"overlay written: {OUT_DIR / 'overlay_ref_vs_live.png'}, LOOK AT IT before trusting numbers")

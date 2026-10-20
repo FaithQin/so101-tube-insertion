@@ -60,15 +60,15 @@ def check_certification(logs_dir, now: float | None = None, max_age_min: int = M
     now = time.time() if now is None else now
     receipts = sorted(Path(logs_dir).glob("CERT-*.seat"), key=lambda p: p.stat().st_mtime)
     if not receipts:
-        return False, "no certification receipt (CERT-*.seat) on disk — run tools/run_cert.sh and record a SEAT first"
+        return False, "no certification receipt (CERT-*.seat) on disk, run tools/run_cert.sh and record a SEAT first"
     newest = receipts[-1]
     kv = dict(ln.split("=", 1) for ln in newest.read_text().strip().splitlines() if "=" in ln)
     verdict = kv.get("verdict", "?")
     age_min = (now - newest.stat().st_mtime) / 60.0
     if verdict != "SEAT":
-        return False, f"newest certification {newest.stem} is {verdict}, not SEAT — replay until one seats (G-R)"
+        return False, f"newest certification {newest.stem} is {verdict}, not SEAT, replay until one seats (G-R)"
     if age_min > max_age_min:
-        return False, (f"newest certification {newest.stem} seated {age_min:.0f} min ago > {max_age_min} min — "
+        return False, (f"newest certification {newest.stem} seated {age_min:.0f} min ago > {max_age_min} min, "
                        f"the arm has cooled; run a warm-up replay (tools/run_cert.sh) and record it")
     return True, f"certification OK: {newest.stem} SEAT {age_min:.0f} min ago"
 
@@ -78,7 +78,7 @@ def run(logs_dir=DEFAULT_LOGS, ping_text: str | None = None, port: str = FOLLOWE
     pids = runner_pids()
     if pids:
         ok = False
-        lines.append(f"NO-GO: bench process(es) alive, pid {', '.join(map(str, pids))} — stop the whole tree first")
+        lines.append(f"NO-GO: bench process(es) alive, pid {', '.join(map(str, pids))}, stop the whole tree first")
     holders = port_holders(port)
     if holders:
         ok = False
@@ -90,7 +90,7 @@ def run(logs_dir=DEFAULT_LOGS, ping_text: str | None = None, port: str = FOLLOWE
         t_ok, t_why = cert_gate.gate_temps(ping_text)
         lines.append(("OK: " if t_ok else "NO-GO: ") + t_why)
         ok = ok and t_ok
-    lines.append("GO" if ok else "NO-GO — fix every line above before launching")
+    lines.append("GO" if ok else "NO-GO, fix every line above before launching")
     return (0 if ok else 1), "\n".join(lines)
 
 

@@ -1,7 +1,7 @@
 """Stream gripper position from ONE port. Ground truth for "which arm is this?"
 
 Run it, then squeeze that arm's jaws (or trigger) by hand. If the number moves,
-that port is that physical arm — a check that owes nothing to any file.
+that port is that physical arm, a check that owes nothing to any file.
 
 Usage:
     conda activate lerobot

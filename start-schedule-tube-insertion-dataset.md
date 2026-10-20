@@ -1,10 +1,10 @@
-# Start-Position Schedule — tube insertion dataset (Aug 14, 2026)
+# Start-Position Schedule: tube insertion dataset (Aug 14, 2026)
 #
 # Generated with seed 20260814, 55 episodes, 5 zones balanced (11 each).
 # Mark 5 hand-sized REGIONS A–E across the reachable workspace BEFORE
-# episode 1 (tape corners; teleop-verify a comfortable grasp across each
-# region). Each reset, place the tube anywhere WITHIN the scheduled region
-# — loose placement inside the region is good (continuous coverage);
+# episode 1 (tape corners, teleop-verify a comfortable grasp across each
+# region). Each reset, place the tube anywhere WITHIN the scheduled region.
+# Loose placement inside the region is good (continuous coverage), and
 # skipping or reordering the schedule is not (drift toward convenient
 # spots). ORIENTATION IS FIXED: cap points north (away from operator)
 # every episode, all 55. Rotated starts are an EVAL probe, not training

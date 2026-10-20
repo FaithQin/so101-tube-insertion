@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Regenerate the episode table in `Start Schedule — v4.md` FROM the manifest.
+"""Regenerate the episode table in `start-schedule-v4.md` FROM the manifest.
 
     python tools/v4_render_schedule.py          # rewrite the table in place
 
@@ -23,7 +23,7 @@ import v4_manifest  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = ROOT / "tools" / "v4_manifest.json"
-SCHEDULE = ROOT / "Start Schedule — v4.md"
+SCHEDULE = ROOT / "start-schedule-v4.md"
 ROW = re.compile(r"^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|\s*$")
 
 
@@ -61,11 +61,11 @@ def render(text: str, m: v4_manifest.Manifest, today: str) -> str:
         t = m.type_of(i)
         if i in m.voided and (i not in old_text or t not in variants):
             # an unplanned index (ep 63, type EXTRA): no schedule text exists for it
-            start, what = "—", m.reasons.get(i, "")[:120]
-            flag = "VOID — unplanned"
+            start, what = ", ", m.reasons.get(i, "")[:120]
+            flag = "VOID, unplanned"
         elif i in old_text and i in m.voided:
             start, what = old_text[i]
-            flag = f"VOID — {m.reasons.get(i, '')[:60]}".rstrip()
+            flag = f"VOID, {m.reasons.get(i, '')[:60]}".rstrip()
         elif i in old_text and i < min(m.voided + [10**9]) or (i in old_text and i < 20):
             start, what = old_text[i]                       # already recorded: keep its text
             flag = ""
@@ -82,7 +82,7 @@ def render(text: str, m: v4_manifest.Manifest, today: str) -> str:
                 start, what = starts[t], vs[k % len(vs)]
                 flag = ""
             else:
-                start, what, flag = "—", m.reasons.get(i, ""), "unplanned"
+                start, what, flag = ", ", m.reasons.get(i, ""), "unplanned"
         new_rows.append(f"| {i:>2} | {t} | {flag} | {start} | {what} |")
 
     # replace the contiguous block of table rows

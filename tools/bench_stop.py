@@ -63,11 +63,11 @@ def run() -> tuple[int, str]:
             time.sleep(2)
         left = runner_pids()
         if left:
-            lines.append(f"REFUSED to relax: pid {', '.join(map(str, left))} survived SIGKILL — the port may still be held")
+            lines.append(f"REFUSED to relax: pid {', '.join(map(str, left))} survived SIGKILL, the port may still be held")
             return 1, "\n".join(lines)
         lines.append("tree stopped")
     rc = _relax()
-    lines.append("arm relaxed" if rc == 0 else f"relax_arm exited {rc} — check the arm before anything else")
+    lines.append("arm relaxed" if rc == 0 else f"relax_arm exited {rc}, check the arm before anything else")
     return (0 if rc == 0 else 1), "\n".join(lines)
 
 

@@ -4,10 +4,10 @@ cameras deliver fewer frames than that, by serving the latest available frame
 instead of blocking for a fresh one.
 
 WHY (Aug 15, 2026): both icspring cameras deliver 20.0/22.6 fps instead of 30
-(measured at the native AVFoundation level, zero OS drops — cause unknown,
+(measured at the native AVFoundation level, zero OS drops, cause unknown,
 post-Aug-14 regression on the Mac's USB camera path). lerobot's async_read
 blocks until a FRESH frame, so with two cameras read sequentially the rollout
-loop sinks to ~12.3 Hz — a tempo the 30 Hz-trained policies never saw, which
+loop sinks to ~12.3 Hz, a tempo the 30 Hz-trained policies never saw, which
 invalidates every trial. With the sync-engine queue-skip patch, ACT only
 CONSUMES an observation at chunk boundaries (once per n_action_steps=100 ticks
 = every 3.3 s); every other read exists for the rollout recording. Serving the
@@ -17,7 +17,7 @@ cameras refresh at whatever they can.
 KNOWN COSTS (accepted, documented for the writeup):
 - rollout-recording videos contain ~1/3 duplicated frames (scoring unaffected);
 - chunk-boundary observations are up to ~50 ms stale (vs 3.3 s of open-loop
-  execution per chunk — negligible);
+  execution per chunk, negligible);
 - 50 ms camera exposures blur motion slightly more than training's 33 ms.
 
 USAGE: exactly like lerobot-rollout, same args:
@@ -47,7 +47,7 @@ def async_read_latest(self, timeout_ms: float = 200):
             self.new_frame_event.clear()
 
     if frame is None:
-        # Startup only: no frame has ever been captured — block like upstream.
+        # Startup only: no frame has ever been captured, block like upstream.
         if not self.new_frame_event.wait(timeout=timeout_ms / 1000.0):
             raise TimeoutError(
                 f"Timed out waiting for first frame from camera {self} after {timeout_ms} ms."
@@ -105,7 +105,7 @@ def _report_maybe():
 
 # ---------------------------------------------------------------------------
 # Phantom-arrow-key guard. Lived here as a private copy from Aug 18 until
-# Sep 5 2026 — which is precisely why `lerobot-record` never had it, and why a
+# Sep 5 2026, which is precisely why `lerobot-record` never had it, and why a
 # scroll-forged Right arrow cost three v4 episodes. One module, two callers now;
 # see tools/arrow_guard.py for the full account and tools/record_arrow_safe.py
 # for the recording entry point.
@@ -127,8 +127,8 @@ ThreadSafeRobot.send_action = _timed("send_act", ThreadSafeRobot.send_action)
 # ---------------------------------------------------------------------------
 # Telemetry sidecar (Sep 6 2026): tee all 18 servo channels to CSV, one row per
 # recorded frame, whatever width the policy sees. An A-side rollout records a
-# 6-dim state, so without this the load/current at contact — the evaluation's
-# mechanism endpoints — would exist for B trials only. Write-only; the policy
+# 6-dim state, so without this the load/current at contact, the evaluation's
+# mechanism endpoints, would exist for B trials only. Write-only; the policy
 # path is untouched. Inert unless CAPSTONE_TELEMETRY_CSV is set (the runners set it).
 # ---------------------------------------------------------------------------
 import atexit as _atexit  # noqa: E402
@@ -198,7 +198,7 @@ TRAIN_HOME_V1 = {
     "wrist_roll.pos": -2.2,
     "gripper.pos": 1.1,
 }
-# v2 frame-0 means, measured across all 50 episodes' parquet (Aug 16) —
+# v2 frame-0 means, measured across all 50 episodes' parquet (Aug 16), 
 # enforced against the dataset by tests/test_home_pose_matches_training.py.
 TRAIN_HOME_V2 = {
     "shoulder_pan.pos": 2.5,
@@ -209,14 +209,14 @@ TRAIN_HOME_V2 = {
     "gripper.pos": 1.3,
 }
 # v3 frame-0 means, measured across all 50 episodes of
-# so101-tube-insert-v3_20260827_110242 — the same source home_gate.FRAME0["v3"]
+# so101-tube-insert-v3_20260827_110242, the same source home_gate.FRAME0["v3"]
 # is derived from, enforced by tests/test_home_pose_matches_training.py.
 #
 # Added Sep 3 2026. Its absence was the Aug-16 v1->v2 bug recurring as v2->v3:
 # this table held only v1 and v2, the default below was "v2", and no v3 runner
 # set CAPSTONE_HOME_POSE.
 #
-# BLAST RADIUS, corrected Sep 5 by the pre-push review — the first account was
+# BLAST RADIUS, corrected Sep 5 by the pre-push review, the first account was
 # wrong. TRAIN_HOME is consumed ONLY by _return_to_initial_position, which
 # lerobot 0.6.1 calls from three sites, all AFTER an episode (episodic.py:168
 # reset, :190 re-record, core.py:128 teardown). The reset branch is gated on
@@ -224,9 +224,9 @@ TRAIN_HOME_V2 = {
 # --dataset.num_episodes=1, so it never fires. The RECORDED start pose comes
 # from home_arm.py --pose $DATASET_TAG, pinned separately. Measured across all
 # 20 v3-era rollout parquets: 19 homed to v3, frame-0 elbow mean 82.04 (sd
-# 1.38) vs the v3 training mean 82.34 — -0.30 deg, not the "~1 deg low" first
+# 1.38) vs the v3 training mean 82.34, -0.30 deg, not the "~1 deg low" first
 # claimed; a real v2 re-home would sit at -2.61. Only P05-02 (a re-record) was
-# genuinely affected. The fix is still right — it prevents the bug the moment
+# genuinely affected. The fix is still right, it prevents the bug the moment
 # anything runs multi-episode or a v4 tag lands in the table below.
 TRAIN_HOME_V3 = {
     "shoulder_pan.pos": 1.9,
@@ -267,7 +267,7 @@ _HOME_POSE = os.environ.get("CAPSTONE_HOME_POSE", "v2")
 TRAIN_HOME = {"v1": TRAIN_HOME_V1, "v2": TRAIN_HOME_V2, "v3": TRAIN_HOME_V3, "v4": TRAIN_HOME_V4,
               "v4-carry": TRAIN_HOME_V4_CARRY}[_HOME_POSE]
 # Settle ONLY shoulder_lift (its true training start, -105.2, is beyond the
-# -100 goal clamp — it rests against the hard stop). Training frame-0s were
+# -100 goal clamp, it rests against the hard stop). Training frame-0s were
 # captured under teleop with torque ON everywhere else; a full-bus release
 # let the unpowered elbow sag to 88.4 vs training range 75.5–84.4 (Aug 16).
 SETTLE_JOINTS = ("shoulder_lift",)
@@ -282,7 +282,7 @@ _HOME_SLACK = {"shoulder_lift.pos": 4.0}
 # Gripper (Aug 22): re-homing closes the jaws on nothing. The follower bounds
 # each close command to 4.0 below present (~56 counts) in "free air", the
 # firmware latches at a sustained ~35 counts, and the fault-recovery path opens
-# the jaw +2 per event — so repeated "go to 1.3" re-sends crept the frame-0
+# the jaw +2 per event, so repeated "go to 1.3" re-sends crept the frame-0
 # gripper state to +8.2/+9.5/+10.8 across the 17:28 block. Give the gripper
 # slack so a near-closed jaw is NOT re-commanded; the interpolation already
 # ends at the training value. Torque stays ON (training held it at 1.3).
@@ -376,7 +376,7 @@ def _mppp_with_tokenizer_fix(*args, **kwargs):
 _ctx.make_pre_post_processors = _mppp_with_tokenizer_fix
 
 # ---------------------------------------------------------------------------
-# Grasp-phase chunk locking (Aug 25, 2026 — Faith's insight, opt-in via
+# Grasp-phase chunk locking (Aug 25, 2026, Faith's insight, opt-in via
 # CAPSTONE_GRASP_LOCK=1). The 40-trial v2 baseline showed the dominant failure
 # is a correct descent discarded by the NEXT chunk's re-plan veering left at
 # the moment of clamping. When tools/grasp_lock.py detects closing onset (from
@@ -436,18 +436,18 @@ if os.environ.get("CAPSTONE_GRASP_LOCK") == "1":
                       f"{policy._gl_consumed}/{chunk_size} consumed)", file=sys.stderr)
             else:
                 _GL.force_release()
-                print("[grasp_lock] chunk exhausted — lock released, re-planning", file=sys.stderr)
+                print("[grasp_lock] chunk exhausted, lock released, re-planning", file=sys.stderr)
         action = _orig_get_action(self, obs_frame)
         if action is not None:
             was = _GL.locked
             now = _GL.observe(float(action[_GL_GRIP_IDX]), float(action[_GL_LIFT_IDX]))
             if now and not was:
-                print("[grasp_lock] closing onset detected — chunk locked", file=sys.stderr)
+                print("[grasp_lock] closing onset detected, chunk locked", file=sys.stderr)
         return action
 
     SyncInferenceEngine.get_action = _gl_get_action
     print("[rollout_30hz_stale_ok] GRASP-PHASE CHUNK LOCKING ACTIVE "
-          "(CAPSTONE_GRASP_LOCK=1) — probe configuration, not the scored protocol.",
+          "(CAPSTONE_GRASP_LOCK=1), probe configuration, not the scored protocol.",
           file=sys.stderr)
 
 from lerobot.scripts.lerobot_rollout import main  # noqa: E402

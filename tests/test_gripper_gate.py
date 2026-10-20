@@ -4,7 +4,7 @@ Born from Aug 29, 23:45, after the gate blocked Block 2 for half an hour.
 
 The measurement that settles it. Gripper calibration span is 1401 raw ticks
 (range_min 2048, range_max 3449). The jaw bottoms out at raw 2074. v3's frame-0
-range 0.79-1.57 is raw 2059-2070. **The gap is 4 raw ticks — 0.286% of jaw
+range 0.79-1.57 is raw 2059-2070. **The gap is 4 raw ticks, 0.286% of jaw
 travel.**
 
 Why the arm cannot close those last 4 ticks on command: during recording the
@@ -19,7 +19,7 @@ point rather than a commanded target, so min/max over training episodes is the
 wrong statistic for both.
 
 What still needs catching: a jaw left genuinely OPEN at episode start. That is a
-real out-of-distribution state — the policy opens to grasp, so starting open
+real out-of-distribution state, the policy opens to grasp, so starting open
 changes the whole grasp sequence. Hence a loose closed-bound rather than an
 exemption.
 """
@@ -39,7 +39,7 @@ def test_the_measured_mechanical_floor_passes():
     """The exact value that blocked Block 2 for half an hour."""
     for ds in ("v2", "v3"):
         assert home_gate.in_training_support("gripper", MECHANICAL_FLOOR, dataset=ds), (
-            f"{ds}: the jaw's own contact point must not be treated as out of distribution — "
+            f"{ds}: the jaw's own contact point must not be treated as out of distribution, "
             f"it is 4 raw ticks (0.29% of travel) from the frame-0 max"
         )
     assert home_gate.in_training_support("gripper", 2.00, dataset="v3")
@@ -74,10 +74,10 @@ def test_gripper_is_not_gated_on_the_tight_frame0_range():
 
 def test_other_joints_keep_their_tight_dataset_bounds():
     """This must not become a general loosening. The elbow gate is the one that
-    caught a real failure — 74.1 deg made a deterministic replay miss entirely."""
+    caught a real failure, 74.1 deg made a deterministic replay miss entirely."""
     assert not home_gate.in_training_support("elbow_flex", 74.1, dataset="v2")
     assert not home_gate.in_training_support("elbow_flex", 76.0, dataset="v3")
     # Since the Aug 29 tightening the elbow bound is mean +/- 1 sigma, not the
-    # full observed range — but it is still a real, narrow, dataset-derived gate.
+    # full observed range, but it is still a real, narrow, dataset-derived gate.
     lo, hi = home_gate.SUPPORT_BY_DATASET["v3"]["elbow_flex"]
     assert 79.0 < lo < 80.0 and 85.0 < hi < 85.5, (lo, hi)

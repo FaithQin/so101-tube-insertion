@@ -2,7 +2,7 @@
 """Instrumented replay: which joint loses tracking, and only under load?
 
 Born Sep 1 2026. A deterministic replay of known-good episode 0 grasped the
-tube and then missed the rack badly — unprecedented since Aug 15 (grasp has
+tube and then missed the rack badly, unprecedented since Aug 15 (grasp has
 always implied seat on a replay). Faith's live observation localized the fault
 to the LOADED phase: approach and grasp run the arm free; transport and
 insertion carry the tube. The elbow had shown degraded goal-closing under
@@ -10,14 +10,14 @@ strain for two days (1.3–3.9 deg short, stiction both directions, static duty
 200–550 at near-zero current).
 
 `lerobot-replay` logs nothing, so "which joint, and is it load-phase-locked?"
-was unanswerable. That answer decides a servo swap — a plant change with
-study-comparability consequences — so it gets an instrument, not a guess.
+was unanswerable. That answer decides a servo swap, a plant change with
+study-comparability consequences, so it gets an instrument, not a guess.
 
 Streams the episode's demonstrated actions at the dataset fps (exactly what
 lerobot-replay does) while sampling Present_Position every tick, then reports
 per-joint mean/max tracking error split at the demonstrated gripper close.
 
-Usage (moves the arm — tube at start, hands clear):
+Usage (moves the arm, tube at start, hands clear):
     python tools/replay_tracking.py                     # episode 0, v3
     python tools/replay_tracking.py --episode 3 --json-out out.json
 
@@ -50,7 +50,7 @@ STRUCTURAL_JOINTS = {"shoulder_lift"}
 
 
 def find_load_onset(cmd: np.ndarray, gripper_idx: int, closed_below: float, min_run: int = 5):
-    """First sustained gripper close AFTER a sustained open — the grasp.
+    """First sustained gripper close AFTER a sustained open, the grasp.
 
     Revised Sep 1 after the first live run: THIS RIG'S GRIPPER STARTS NEAR
     CLOSED (~1.0 normalized at home), opens during the approach, and closes on
@@ -87,13 +87,13 @@ def settled_mask(cmd_joint: np.ndarray, vel_thresh: float = 0.25, settle_ticks: 
     A P-controlled servo legitimately lags a MOVING command by degrees at
     20 Hz; scoring those ticks flags healthy dynamics (the first live run
     faulted five joints at once this way). A tick is settled when the command
-    changed less than `vel_thresh` per tick for the last `settle_ticks` ticks —
+    changed less than `vel_thresh` per tick for the last `settle_ticks` ticks, 
     where a healthy joint has arrived and only a real offset remains.
     """
     c = np.asarray(cmd_joint, dtype=float)
     slow = np.abs(np.diff(c, prepend=c[0])) < vel_thresh
     m = np.zeros(len(c), dtype=bool)
-    # A command that is static from tick 0 is settled at tick 0 — the arm was
+    # A command that is static from tick 0 is settled at tick 0, the arm was
     # homed to it before the episode. Seed the run so the prefix counts.
     run = settle_ticks - 1
     for i, sl in enumerate(slow):
@@ -106,7 +106,7 @@ def phase_errors(cmd: np.ndarray, actual: np.ndarray, joints: list[str], load_on
     """Per-joint |cmd - actual| summarized separately for free vs loaded phase.
 
     Per joint and per phase on purpose: one pooled number would average the
-    elbow's loaded-phase lag away under five healthy joints — the same mistake
+    elbow's loaded-phase lag away under five healthy joints, the same mistake
     as reporting a mean instead of the tail on latency.
     """
     cmd = np.asarray(cmd, dtype=float)
@@ -134,7 +134,7 @@ def verdict(report: dict) -> dict:
     """FAULT joints, and whether the fault lives only in the loaded phase.
 
     load_locked=True means every faulted joint is clean while free and bad
-    under load — the signature that indicts torque authority rather than
+    under load, the signature that indicts torque authority rather than
     calibration, commands, or backlash.
     """
     faulted, load_locked = [], True
@@ -204,7 +204,7 @@ def main() -> int:
         # servo holding torque, jammed gripper included. Cleanup that only
         # runs on success is not cleanup. Torque is kept on the arm joints
         # (parked-holding is this rig's normal), but the bus must close and
-        # the GRIPPER must release — it is the joint that jams.
+        # the GRIPPER must release, it is the joint that jams.
         try:
             bus.write("Torque_Enable", "gripper", 0, normalize=False)
         except Exception:
@@ -230,10 +230,10 @@ def main() -> int:
               f"{r['loaded_mean']:>11.2f}{r['loaded_max']:>10.2f}{tag}")
     print()
     print(f"  VERDICT   {v['status']}"
-          + (f" — {', '.join(v['joints'])}, "
+          + (f", {', '.join(v['joints'])}, "
              + ("LOAD-LOCKED (clean free, bad loaded: torque authority)"
                 if v["load_locked"] else "both phases (calibration/command path suspect)")
-             if v["joints"] else " — all joints track within the pre-declared 1.5 deg"))
+             if v["joints"] else ", all joints track within the pre-declared 1.5 deg"))
     print("=" * 66)
 
     if args.json_out:

@@ -71,10 +71,10 @@ def plan_pass(joint: str, target: float, actual: float, command: float, load: fl
         return "done", actual, f"{joint} within {tol:g} deg"
     if abs(load) > load_max:
         return "stall", actual, (f"{joint} is {target - actual:+.2f} deg short at load {load:.0f} "
-                                 f"(> {load_max:g}) — pushing without moving; not pressing further")
+                                 f"(> {load_max:g}), pushing without moving; not pressing further")
     if stalls >= STALL_PASSES:
         return "stall", actual, (f"{joint} did not move on {stalls} passes and is still "
-                                 f"{target - actual:+.2f} deg short — treating it as stuck")
+                                 f"{target - actual:+.2f} deg short, treating it as stuck")
     nxt = converge_command(target, actual, command, max_overshoot)
     if abs(nxt - command) < 1e-9:
         return "stall", actual, f"{joint} is at the overshoot limit ({max_overshoot:g} deg) and still short"

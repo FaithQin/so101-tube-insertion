@@ -6,9 +6,9 @@ READ-ONLY diagnostic, no robot needed. Run in a TCC-granted terminal (Faith's).
 Why this exists: lerobot's `async_read` blocks until a FRESH frame arrives
 (camera_opencv.py:566, `new_frame_event.wait`), so the record/rollout loop can
 never run faster than the slowest camera's real delivery rate. A 30 fps loop
-warning of ~12.4 Hz means a camera is delivering ~12.4 fps — typically
+warning of ~12.4 Hz means a camera is delivering ~12.4 fps, typically
 auto-exposure stretching shutter time in dim light, or a bad format
-negotiation at 720p — NOT policy or servo-bus cost.
+negotiation at 720p, NOT policy or servo-bus cost.
 
 Usage:
     python tools/time_camera_reads.py                # rollout config: front=1 720p, wrist=0 480p
@@ -30,14 +30,14 @@ parser.add_argument(
     "--auto-fourcc",
     action="store_true",
     help="let AVFoundation pick the pixel format (lerobot's default) instead of forcing MJPG. "
-    "Uncompressed 720p@30 needs 55 MB/s — more than USB 2.0 carries — so auto-negotiation "
+    "Uncompressed 720p@30 needs 55 MB/s, more than USB 2.0 carries, so auto-negotiation "
     "landing on YUYV caps the front camera at ~20 fps. Forcing MJPG is the fix under test.",
 )
 parser.add_argument(
     "--watch",
     action="store_true",
     help="continuously print each camera's delivered fps + brightness every 2 s (Ctrl-C to stop). "
-    "Use to test the auto-exposure theory: shine a light on the scene and watch whether fps rises — "
+    "Use to test the auto-exposure theory: shine a light on the scene and watch whether fps rises, "
     "AE holds image brightness constant by stretching shutter time, so a dim-ish scene gives a "
     "healthy-looking image at 20 fps and more light buys the fps back.",
 )
@@ -68,7 +68,7 @@ for name, cfg in CAMS.items():
 time.sleep(1.0)  # let auto-exposure settle and read threads spin up
 
 if args.watch:
-    print("watching delivered fps (Ctrl-C to stop) — now change the lighting and look for movement:")
+    print("watching delivered fps (Ctrl-C to stop), now change the lighting and look for movement:")
     try:
         while True:
             counts = {name: 0 for name in cams}
@@ -115,7 +115,7 @@ try:
             f"{name}: delivered {fps:5.1f} fps | fresh-frame wait "
             f"mean {statistics.mean(waits):5.1f} ms  p95 {statistics.quantiles(waits, n=20)[-1]:5.1f} ms  "
             f"max {max(waits):5.1f} ms | last-frame brightness mean {bright:.0f} "
-            f"({'DIM — suspect auto-exposure' if bright < 60 else 'ok'})"
+            f"({'DIM, suspect auto-exposure' if bright < 60 else 'ok'})"
         )
 
     # --- Combined tick, same order the robot reads them ---

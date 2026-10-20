@@ -67,7 +67,7 @@ HEADROOM_FRACTION = 0.8
 
 DEFAULT_REPO_ID = "faithqin/pi05-tube-A-v3_2026-08-30_03-06-05"
 
-# The rig, per Eval Protocol -- ACT AB.md and the verified 19.3 Hz control loop.
+# The rig, per eval-protocol-act-ab.md and the verified 19.3 Hz control loop.
 DEFAULT_FPS = 20
 
 

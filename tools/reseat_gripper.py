@@ -4,7 +4,7 @@ Why this exists (Aug 29, 2026): after ACT-B episodes the jaws end in a
 relieved/faulted state and settle around 2.00, while v2 frame-0 across all 50
 training episodes is [1.14, 1.64] (mean 1.25, sd 0.09). `home_arm.py` does not
 correct it, because a residual of 0.7 is comfortably inside its flat 2.5
-tolerance — but 2.00 is roughly 8 sigma outside the distribution the policy
+tolerance, but 2.00 is roughly 8 sigma outside the distribution the policy
 actually saw, so the preflight gate refuses to launch.
 
 Commanding 1.3 again does not help; that is precisely what home_arm already
@@ -13,7 +13,7 @@ slowly. This is the remedy specified in the backlog task "Fix wrapper gripper
 creep path #2".
 
 Torque stays ON at the end: training frame-0s were captured with the jaw held,
-and a full release lets it drift back out of support — the same mistake as the
+and a full release lets it drift back out of support, the same mistake as the
 Aug 16 elbow-sag bug.
 
 Bus-only, no cameras. Needs the serial port to itself.
@@ -30,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _arms import FOLLOWER_CAL, FOLLOWER_PORT, open_bus  # noqa: E402
 
 # v2 frame-0 gripper range across all 50 training episodes. Must match
-# home_gate.SUPPORT["gripper"] — tests/test_home_gate.py re-derives it from the
+# home_gate.SUPPORT["gripper"], tests/test_home_gate.py re-derives it from the
 # parquet, so if the dataset changes, that test fails first.
 SUPPORT_LO, SUPPORT_HI = 1.14, 1.64
 TARGET = 1.3  # what home_arm commands; v2 frame-0 mean is 1.25

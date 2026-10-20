@@ -4,7 +4,7 @@
 READ-ONLY diagnostic. Answers: do the two extra sync_reads (Present_Load,
 Present_Current) fit inside the 33.3 ms budget of a 30 fps record loop?
 
-The patch's marginal cost is bus reads only — camera time is unchanged — so this
+The patch's marginal cost is bus reads only, camera time is unchanged, so this
 times the bus directly and needs no cameras, no calibration, and no TCC grant.
 
 Usage (12V on first, then USB, arms idle):
@@ -43,8 +43,8 @@ try:
         results["Present_Current"]
     )
     print(f"\npatch marginal cost (load + current): {patch_cost:.2f} ms per tick")
-    print(f"30 fps budget: {FPS_BUDGET_MS:.1f} ms — patch uses {100 * patch_cost / FPS_BUDGET_MS:.0f}%")
+    print(f"30 fps budget: {FPS_BUDGET_MS:.1f} ms, patch uses {100 * patch_cost / FPS_BUDGET_MS:.0f}%")
     if patch_cost > 10:
-        print("⚠️  >10 ms: consider dropping Present_Current, or the batched-read path.")
+        print("WARNING: >10 ms: consider dropping Present_Current, or the batched-read path.")
 finally:
     robot.bus.disconnect()

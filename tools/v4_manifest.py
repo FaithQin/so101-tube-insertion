@@ -74,7 +74,7 @@ class Manifest:
     def next_type(self, recorded: int) -> str | None:
         """The type the next recorded episode should carry.
 
-        Voided types come first — redo them while the setup is fresh — then the
+        Voided types come first, redo them while the setup is fresh, then the
         schedule's remaining order.
         """
         if self.redo_queue:                        # redos first, while the setup is fresh
@@ -120,7 +120,7 @@ class Manifest:
     def relabel(self, idx: int, actual: str) -> None:
         """Correct a recorded index to the type that was ACTUALLY recorded.
 
-        Sep 5 2026: the operator followed `Start Schedule — v4.md` by row
+        Sep 5 2026: the operator followed `start-schedule-v4.md` by row
         number while this manifest had 11-14 pencilled in as redos of 4/6/9/10.
         Nine episodes were judged against the wrong labels, one good CLEAN was
         voided, and the redos were reported done when none had been recorded.

@@ -1,16 +1,16 @@
 #!/usr/bin/env python
-"""Certification replay that writes an 18-channel telemetry CSV — the contact endpoint's baseline.
+"""Certification replay that writes an 18-channel telemetry CSV, the contact endpoint's baseline.
 
     python tools/replay_telemetry.py --episode 0                 # v4 ep 0, writes the baseline
     python tools/replay_telemetry.py --episode 0 --out tools/scored_logs/CERT-B1_telemetry.csv
 
-OPERATOR PRECONDITIONS — this MOVES THE ARM through a full demonstrated episode:
+OPERATOR PRECONDITIONS, this MOVES THE ARM through a full demonstrated episode:
   * hands clear of the workspace, and the tube on its mark exactly as for a scored trial;
-  * home first (`python tools/home_arm.py --pose v4`) — the replay refuses to start if the arm is
+  * home first (`python tools/home_arm.py --pose v4`), the replay refuses to start if the arm is
     more than `--max-start-gap` degrees from the episode's first action, because closing a large
     gap in one command is how a replay sweeps through the rack;
   * torque stays ON throughout and the arm is left holding at disconnect
-    (`disable_torque_on_disconnect=False`), the same discipline as `tools/home_arm.py` — a
+    (`disable_torque_on_disconnect=False`), the same discipline as `tools/home_arm.py`, a
     full-bus release lets the unpowered elbow sag out of training support (Aug 16).
 
 WHY THIS EXISTS (Sep 6 2026, bench morning). `tools/v4_contact_events.py:44` records the gap:
@@ -22,7 +22,7 @@ replays of that power cycle. No baseline, no endpoint.
 
 WHY NOT EXTEND replay_tracking.py. That tool drives the arm through `tools/_arms.py`, which is in
 RANGE mode; production runs in DEGREES (`SOFollowerConfig.use_degrees = True`). A baseline in one
-unit applied to trials recorded in the other is silently wrong in every z-score — the
+unit applied to trials recorded in the other is silently wrong in every z-score, the
 "plumbing, not policy" failure this project has already paid for once. So this tool drives the SAME
 patched `SOFollower` a trial drives (`lerobot/robots/so_follower/so_follower.py`, whose
 `_read_bus_state` adds `.load` and `.current` for all six joints unconditionally) and tees its
@@ -35,12 +35,12 @@ analysis time where they are not:
   * an observation carrying no load/current channels (the follower patch is not applied) aborts the
     replay instead of writing 12 columns of NaN;
   * after writing, the CSV is handed to `v4_contact_events.Baseline.from_csvs`, the exact consumer.
-    If it would be rejected later — too few rows, a NaN, a constant load column — this exits
+    If it would be rejected later, too few rows, a NaN, a constant load column, this exits
     non-zero now. A constant load column is the telemetry gate of handoff section 4: it means the
     sidecar is not seeing the servos.
 
 No cameras are opened: a replay is open-loop, so this needs no camera TCC grant and no Terminal
-bridge. It is therefore NOT a perception check — a replay that seats certifies the mechanical
+bridge. It is therefore NOT a perception check, a replay that seats certifies the mechanical
 plant, not the cameras (replay-as-arbiter).
 """
 from __future__ import annotations
@@ -107,7 +107,7 @@ def start_gap_deg(obs, first_action) -> float:
 
 
 def actions_for_episode(root, episode: int) -> np.ndarray:
-    """The episode's demonstrated actions, (n, 6), in frame order — what `lerobot-replay` streams."""
+    """The episode's demonstrated actions, (n, 6), in frame order, what `lerobot-replay` streams."""
     import pandas as pd
 
     files = sorted(glob.glob(str(Path(root) / "data" / "**" / "*.parquet"), recursive=True))
@@ -124,7 +124,7 @@ def replay_loop(robot, actions, sidecar, fps: int, sleep=None, clock=None,
                 max_start_gap_deg: float | None = None, log=print, stall_guard: bool = True) -> int:
     """Stream `actions` to `robot` at `fps`, teeing every observation through `sidecar`.
 
-    One row per action, and the row holds the observation taken BEFORE that tick's action — the
+    One row per action, and the row holds the observation taken BEFORE that tick's action, the
     same pairing a recorded frame has, so the baseline is not offset by a tick against the trials.
     """
     sleep = sleep or time.sleep
@@ -144,7 +144,7 @@ def replay_loop(robot, actions, sidecar, fps: int, sleep=None, clock=None,
             if gone:
                 raise ReplayTelemetryError(
                     f"the observation carries no {gone[0].split('.')[-1]} channels ({len(gone)} of 18 missing, "
-                    f"e.g. {gone[:3]}) — the so_follower load/current patch is not applied to this "
+                    f"e.g. {gone[:3]}), the so_follower load/current patch is not applied to this "
                     f"environment, so the sidecar would write NaN columns and the contact endpoint "
                     f"would have no baseline. Re-apply tools/so_follower_load.patch (the project notes)."
                 )
@@ -153,7 +153,7 @@ def replay_loop(robot, actions, sidecar, fps: int, sleep=None, clock=None,
                 if gap > max_start_gap_deg:
                     raise ReplayTelemetryError(
                         f"the arm is {gap:.1f} deg from the episode's first pose (limit "
-                        f"{max_start_gap_deg:.1f}) — home it first with `python tools/home_arm.py "
+                        f"{max_start_gap_deg:.1f}), home it first with `python tools/home_arm.py "
                         f"--pose v4`; closing a gap this large in one command sweeps the arm through "
                         f"the workspace"
                     )
@@ -172,7 +172,7 @@ def replay_loop(robot, actions, sidecar, fps: int, sleep=None, clock=None,
                             robot.send_action({f"{k2}.pos": float(here)})
                     raise Stalled(
                         f"{j} pushed at |load| {abs(float(load)):.0f} (> {STALL_LOAD:.0f}) without "
-                        f"moving for {STALL_TICKS} ticks at frame {i} of {len(actions)} — a JAM. "
+                        f"moving for {STALL_TICKS} ticks at frame {i} of {len(actions)}, a JAM. "
                         f"Episode aborted and the arm relieved, per the protocol's chamferless stop "
                         f"rule. Clear the obstruction before running anything else."
                     )
@@ -204,7 +204,7 @@ def verify_baseline(paths) -> "ce.Baseline":
 
 
 # ---------------------------------------------------------------------------
-# hardware — main() only; nothing above opens a bus
+# hardware, main() only; nothing above opens a bus
 # ---------------------------------------------------------------------------
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0],
@@ -261,7 +261,7 @@ def main(argv=None) -> int:
     except ce.TelemetryError as exc:
         print(f"BASELINE REJECTED: {exc}\n"
               f"  The CSV was written but cannot be used as a contact baseline. Fix this before the "
-              f"first scored trial — it is the telemetry gate.", file=sys.stderr)
+              f"first scored trial, it is the telemetry gate.", file=sys.stderr)
         return 4
     names = ce.state_columns()
     sigma = "  ".join(f"{names[k].split('.')[0][:5]} {base.std[k]:.1f}" for k in range(6, 12))

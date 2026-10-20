@@ -211,7 +211,7 @@ class TaskUnavailable(RuntimeError):
 
 
 # ---------------------------------------------------------------------------
-# The prompt — the bug that shipped in the pi0.5 path
+# The prompt, the bug that shipped in the pi0.5 path
 # ---------------------------------------------------------------------------
 
 
@@ -292,7 +292,7 @@ def prompt_survived_tokenization(decoded: str, task: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# State routing — a transcription of the LIVE rule, not the reference one
+# State routing, a transcription of the LIVE rule, not the reference one
 # ---------------------------------------------------------------------------
 
 
@@ -348,7 +348,7 @@ def routed_state_keys(
 
 
 # ---------------------------------------------------------------------------
-# The observation — built the way rtc.py builds it
+# The observation, built the way rtc.py builds it
 # ---------------------------------------------------------------------------
 
 
@@ -450,7 +450,7 @@ def check_chunk_sane(chunk, n_joints: int) -> tuple[bool, str]:
     if not np.all(np.isfinite(chunk)):
         return False, "action chunk is not finite (NaN or inf present)"
     if np.allclose(chunk.std(axis=0), 0.0):
-        return False, "action chunk is constant over time — degenerate output"
+        return False, "action chunk is constant over time, degenerate output"
     return True, "ok"
 
 
@@ -508,7 +508,7 @@ def chunk_verdict(chunk, n_joints: int) -> tuple[bool, str]:
     """
     if chunk is None:
         return False, (
-            "action queue unreadable — the policy exposes neither `_action_queue` nor "
+            "action queue unreadable, the policy exposes neither `_action_queue` nor "
             "`_queues[ACTION]`, so the chunk could not be checked for degeneracy"
         )
     return check_chunk_sane(chunk, n_joints)
@@ -569,7 +569,7 @@ def pick_probe_frames(n_episodes: int, episode_len: int, n: int, seed: int) -> l
 
 
 # ---------------------------------------------------------------------------
-# Metadata printing — the runner's single source of truth
+# Metadata printing, the runner's single source of truth
 # ---------------------------------------------------------------------------
 
 
@@ -640,7 +640,7 @@ def run(args) -> int:
     print(f"[dryrun] side {side.name}  policy {side.repo_id}", flush=True)
     print(f"[dryrun] prompt from {side.dataset}: {task!r}", flush=True)
 
-    # 2. Probe frames come from the 18-dim recording — the raw robot observation.
+    # 2. Probe frames come from the 18-dim recording, the raw robot observation.
     ds = LeRobotDataset(PROBE_DATASET, root=str(PROBE_DATASET_ROOT))
     state_names = ds.meta.features["observation.state"]["names"]
     n_eps = ds.meta.total_episodes

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""PROPOSAL for co-primary endpoint 2 — the RESISTANCE-RECOVERY response at the rack.
+"""PROPOSAL for co-primary endpoint 2, the RESISTANCE-RECOVERY response at the rack.
 
 STATUS: UNRATIFIED. This module is new and stands beside the frozen path; it is imported by
 nothing. `tools/v4_contact_events.py` and `tools/v4_bench_analysis.py` are untouched. Adopting
@@ -14,7 +14,7 @@ distal-load onset to first opposing command; impulse". Two measured facts break 
      distal-load excursion of the specified shape (|z| > 2 for >= 3 ticks) against the trial's
      own pre-rack baseline: 0/4 RESIST and 0/30 CLEAN. The pooled-baseline sweep has no
      operating point with positive Youden J (thr 2.0: TPR 1/4, FPR 18/30).
-  2. "Contact" is not the discriminandum. `Start Schedule — v4.md:16` says every episode, CLEAN
+  2. "Contact" is not the discriminandum. `start-schedule-v4.md:16` says every episode, CLEAN
      included, "continues to the seat", so EVERY rack window contains a real tube-meets-rack
      contact. Asking a detector to fire on RESIST and stay silent on CLEAN asks it not to detect
      a contact that is really there.
@@ -43,16 +43,16 @@ and is invariant to time-scaling, and both directions were measured on the train
     statistic stays 0.000 in every one. Length alone cannot manufacture a re-press.
   * compress all four RESIST windows to the median CLEAN length (21 ticks): 7.91/14.51/6.15/6.59
     -> 7.76/14.41/6.02/6.53. The statistic does not need length.
-Truncating both classes to a common 15-40 ticks instead sets every RESIST to 0.0 — that control
+Truncating both classes to a common 15-40 ticks instead sets every RESIST to 0.0, that control
 deletes the event rather than the confound, and is reported as such.
 
 THE WINDOW IS LOAD-BEARING, and it is NOT re-specified here. `v4_contact_events.rack_window` is
-reused verbatim — rack entry to the release edge — so this proposal changes what is measured in
+reused verbatim, rack entry to the release edge, so this proposal changes what is measured in
 the window, not where the window is. It has to be that window: cut at the release, the statistic
 is 0.0 in all 46 non-RESIST training episodes; run it to the end of `v4_audit.rack_slice` instead
 and 45 of those 46 fire, because after the release the arm withdraws and dips again on the way
-out. The one addition is a HORIZON_TICKS cap, so a trial that reaches T and never releases — a
-JAM, the case a contact endpoint most wants to speak about — is scored instead of being
+out. The one addition is a HORIZON_TICKS cap, so a trial that reaches T and never releases, a
+JAM, the case a contact endpoint most wants to speak about, is scored instead of being
 undefined. The cap binds on no training episode (longest window 74 ticks).
 
 THE LATENCY, and its limits. Resistance onset is KINEMATIC, not load-based: `stall_reference`
@@ -67,7 +67,7 @@ the one CLEAN and the one ROT-20 that stall give 0.05 s. n = 4 and the tick is 5
 component is quantised and weak, and it is reported as a secondary of the endpoint, not as its
 headline.
 
-WHAT IT DOES ON A TRIAL THAT SIMPLY SEATS — which is most trials. It returns 0.0, not "undefined"
+WHAT IT DOES ON A TRIAL THAT SIMPLY SEATS, which is most trials. It returns 0.0, not "undefined"
 and not "no event". That is the point: the scalar is defined for every trial that reaches the
 rack, so co-primary 2 needs no conditioning on a post-randomisation variable. On the 45 rollout
 datasets on disk with a defined rack window the statistic is > 0 in 8 (n_press 2 in six, 4 in one,
@@ -171,16 +171,16 @@ def repress(h, hysteresis: float = REPRESS_HYSTERESIS_DEG) -> tuple[int, float]:
 def rack_window(state, action=None, horizon: int = HORIZON_TICKS):
     """(start, end, truncated_by_horizon) or None.
 
-    The window itself is `v4_contact_events.rack_window` — rack entry (`v4_audit.rack_slice`:
-    wrist_flex < 20 and pan < 40) to the RELEASE edge — reused rather than re-specified, so this
+    The window itself is `v4_contact_events.rack_window`, rack entry (`v4_audit.rack_slice`:
+    wrist_flex < 20 and pan < 40) to the RELEASE edge, reused rather than re-specified, so this
     proposal changes what is MEASURED in the window and not where the window is. That function
     cuts on the commanded jaw's rising edge when an action stream is given and on the observed
     jaw otherwise; the two give the identical re-press amplitude on all 50 v4 training episodes,
     while the looser observed cut turns 1 spurious kinematic stall into 3 across the 30 CLEAN
     episodes, so the command is preferred where it exists.
 
-    The one thing added here is the HORIZON cap, so a trial that reaches T and never releases —
-    a JAM, the case a contact endpoint most wants to speak about — is scored instead of being
+    The one thing added here is the HORIZON cap, so a trial that reaches T and never releases, 
+    a JAM, the case a contact endpoint most wants to speak about, is scored instead of being
     undefined. It binds on 1 of the 50 training episodes (ep 20, 80 ticks) and changes no
     amplitude there.
     """

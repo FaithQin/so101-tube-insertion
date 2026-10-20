@@ -5,7 +5,7 @@ physically after two days of degrading replays. Every trial video begins at the
 same commanded home pose, so frame 0 is a physical posture record at identical
 commands: the slip must appear as a STEP CHANGE in the gripper's frame-0
 position somewhere in the chronology. Locating that step decides which trials
-ran on a bent plant — including whether Aug 29-30's Block 2 probes and
+ran on a bent plant, including whether Aug 29-30's Block 2 probes and
 Aug 31's two counted B trials survive.
 
 Pinned here:
@@ -13,7 +13,7 @@ Pinned here:
 1. The gripper-tip proxy is the centroid of vivid-red jaw pixels in the UPPER
    part of the frame only. The rack is also red and lives in the lower half;
    without the crop the rack dominates the centroid and every frame looks
-   identical (the rack never moves) — measuring exactly nothing.
+   identical (the rack never moves), measuring exactly nothing.
 2. Red detection must be chroma-based, not brightness-based, so day/night
    lighting shifts (which the v2 audit showed are real) do not read as motion.
 3. Step detection must find a sustained level change and ignore single-frame

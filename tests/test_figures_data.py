@@ -134,8 +134,8 @@ def test_skeleton_duration_table_matches_the_data():
 
 def test_a_v4_trial_never_enters_the_v3_scatter(tmp_path):
     """Sep 6 2026, caught by the suite the moment the first v4 trial landed. The v4 bench writes
-    into the same tools/scored_logs/trials.csv, so `faithqin/act-tube-A-v4` — a genuine ACT-A
-    policy — became a ninth point in a figure whose caption says eight, with 56 trials queued
+    into the same tools/scored_logs/trials.csv, so `faithqin/act-tube-A-v4`, a genuine ACT-A
+    policy, became a ninth point in a figure whose caption says eight, with 56 trials queued
     behind it. This is the same bug as `classify_policy`'s pi0.5 case, one level up: the question
     is not only WHICH ARM but WHICH GENERATION."""
     assert fd.policy_generation("faithqin/act-tube-A-v4") == "v4"

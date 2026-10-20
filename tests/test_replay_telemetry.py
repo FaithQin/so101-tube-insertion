@@ -117,7 +117,7 @@ def test_actions_are_sent_under_the_dataset_s_own_joint_names_in_order(tmp_path)
 
 class _FakeClock:
     """A clock and a sleep that agree with each other: sleeping advances time, and each tick of
-    work costs `work`, with `overshoot` extra seconds returned by every sleep — which is what
+    work costs `work`, with `overshoot` extra seconds returned by every sleep, which is what
     `time.sleep` really does (it sleeps AT LEAST the requested time, plus scheduling latency)."""
 
     def __init__(self, work=0.01, overshoot=0.0):
@@ -137,7 +137,7 @@ def test_the_loop_paces_at_the_dataset_fps(tmp_path):
     alone could not tell a paced loop from a bare `sleep(1 / fps)` (every sleep is exactly 1/20, so
     it passed); the elapsed-time assertion can. With 10 ms per clock read the deadline loop ends at
     0.21 s; a bare sleep(1/fps) ends at 4 x (0.02 + 0.05) = 0.28 s and the old relative form
-    `sleep(period - (clock() - t_start))` at 0.24 s — both red (mutation-checked Sep 14)."""
+    `sleep(period - (clock() - t_start))` at 0.24 s, both red (mutation-checked Sep 14)."""
     c = _FakeClock(work=0.01)
     robot, sidecar = FakeRobot(4), ts.Sidecar(str(tmp_path / "t.csv"))
     rt.replay_loop(robot, _actions(4), sidecar, fps=20, sleep=c.sleep, clock=c.clock)
@@ -151,7 +151,7 @@ def test_the_loop_does_not_accumulate_sleep_overshoot_into_drift(tmp_path):
     """DEFECT (Sep 7 2026): `sleep(max(0.0, period - (clock() - t_start)))` restarts the clock
     every tick, so every millisecond `time.sleep` overshoots by is kept. Measured on the five
     certification / gate replays it wrote: 18.523, 18.626, 18.601, 18.568, 18.546 Hz against the
-    dataset's 20 fps — a 7.4-8.0 % slow replay used as the mu/sigma baseline for trials that ran
+    dataset's 20 fps, a 7.4-8.0 % slow replay used as the mu/sigma baseline for trials that ran
     at 19.35-19.40 Hz. The deadline is absolute: an overshoot is absorbed by the NEXT sleep."""
     n, period = 60, 1 / 20
     c = _FakeClock(work=0.005, overshoot=0.004)      # 4 ms of scheduler latency per sleep
@@ -165,7 +165,7 @@ def test_the_loop_does_not_accumulate_sleep_overshoot_into_drift(tmp_path):
 
 def test_a_tick_that_overruns_a_whole_period_does_not_make_the_next_ticks_sprint(tmp_path):
     """The other half of a deadline schedule: after a genuine overrun the loop must NOT fire a
-    burst of zero-sleep ticks to catch up — a replay that sprints drives the arm faster than the
+    burst of zero-sleep ticks to catch up, a replay that sprints drives the arm faster than the
     demonstration it is reproducing."""
     c = _FakeClock(work=0.005)
     robot, sidecar = FakeRobot(6), ts.Sidecar(str(tmp_path / "t.csv"))
@@ -195,7 +195,7 @@ def test_a_late_tick_never_sleeps_a_negative_time(tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# 2. gate, don't narrate — a baseline that would be rejected later is rejected NOW
+# 2. gate, don't narrate, a baseline that would be rejected later is rejected NOW
 # ---------------------------------------------------------------------------
 def test_the_loop_refuses_an_observation_with_no_load_channels(tmp_path):
     """If the follower patch is not applied, get_observation carries only `.pos`, the sidecar fills
@@ -270,7 +270,7 @@ def test_importing_the_module_opens_no_bus_and_drives_nothing():
     )
     body = src.split("def main(")[0]
     for forbidden in ("SOFollower(", "make_robot", ".connect(", "open_bus("):
-        assert forbidden not in body, f"{forbidden} runs outside main() — importing this module would move the arm"
+        assert forbidden not in body, f"{forbidden} runs outside main(), importing this module would move the arm"
 
 
 def test_the_docstring_states_the_operator_preconditions():
@@ -303,10 +303,10 @@ def test_missing_channels_names_what_the_patch_would_have_supplied():
 
 
 # ---------------------------------------------------------------------------
-# 5. the stall guard — the protocol's chamferless stop rule, in code
+# 5. the stall guard, the protocol's chamferless stop rule, in code
 # ---------------------------------------------------------------------------
 class JammedRobot(FakeRobot):
-    """Tracks normally until `jam_at`, then stops moving while its load climbs — a jam."""
+    """Tracks normally until `jam_at`, then stops moving while its load climbs, a jam."""
 
     def __init__(self, n_ticks, jam_at, joint="elbow_flex", load=900.0):
         super().__init__(n_ticks)

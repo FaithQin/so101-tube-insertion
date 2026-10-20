@@ -1,13 +1,13 @@
 """Patch ONLY the gripper range_min/range_max in the calibration files.
 
-Everything else — homing offsets, all other joints — is left untouched. Writes a
+Everything else, homing offsets, all other joints, is left untouched. Writes a
 timestamped .bak of each file first.
 
 This exists so a bad gripper sweep does NOT require a full recalibration. Get the
 new endpoints from gripper_measure.py.
 
-⚠️ AFTER PATCHING: at the next lerobot-calibrate / lerobot-teleoperate prompt,
-press plain ENTER — NOT `c`. Plain ENTER writes the file's values into the
+WARNING: AFTER PATCHING: at the next lerobot-calibrate / lerobot-teleoperate prompt,
+press plain ENTER, NOT `c`. Plain ENTER writes the file's values into the
 motors, which is what you want. `c` throws the patch away and starts a fresh
 calibration.
 
@@ -76,7 +76,7 @@ for name, path in TARGETS.items():
 for name, path in TARGETS.items():
     dump(path, name.upper())
 
-print("\n⚠️  At the next lerobot prompt press plain ENTER, NOT `c`.")
-print("⚠️  Once teleop looks right, re-copy calibration-backup/:")
+print("\nWARNING: At the next lerobot prompt press plain ENTER, NOT `c`.")
+print("WARNING: Once teleop looks right, re-copy calibration-backup/:")
 print('    cp -R ~/.cache/huggingface/lerobot/calibration/. '
       '"<repo>/calibration-backup/"')

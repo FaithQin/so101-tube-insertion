@@ -12,7 +12,7 @@ without anyone touching an arrow key:
    into 2-3 s fragments.
 2. **terminal backend.** On macOS without Accessibility / Input Monitoring
    permission, `init_keyboard_listener` falls back to `TerminalKeyListener`,
-   which reads the TTY in raw mode — and a raw-mode terminal converts
+   which reads the TTY in raw mode, and a raw-mode terminal converts
    mouse-wheel scroll into arrow escape sequences (`ESC [ C`). Scrolling the
    session's own terminal pressed re-record/skip (shredded the Aug 18 00:52
    probe even after the pynput map was stripped).
@@ -24,7 +24,7 @@ cost three episodes.
 
 WHAT SURVIVES: `n` (next), `r` (re-record), `q` (quit) and `Esc`.
 `init_keyboard_listener` accepts those letters as equivalents of the arrows
-(`keyboard_input.py:426-436`), so the operator keeps every control — only the
+(`keyboard_input.py:426-436`), so the operator keeps every control, only the
 scroll-forgeable escape sequences are dropped. Use n / r / q / ESC.
 
 This module is the single source of truth for both entry points
@@ -38,7 +38,7 @@ import sys
 
 ARROWS = frozenset(("left", "right", "up", "down"))
 # Sep 17 2026 07:35: an "n -> end episode" translation lived here for 30 minutes and was REVERTED: the launcher's
-# Terminal window takes keyboard focus when it opens, so a letter typed for the chat ended a scored trial at 2.7 s
+# Terminal window takes keyboard focus when it opens, so a letter typed into the wrong window ended a scored trial at 2.7 s
 # (P28 trial 2, second run). Letters are ignored again; a scored trial runs its full 45 s.
 
 _INSTALLED_FLAG = "_capstone_arrow_guard_installed"
@@ -50,7 +50,7 @@ def install(kbi=None, *, filter_arrows: bool = True, announce: bool = True,
 
     `filter_arrows=False` leaves the arrows LIVE and installs nothing. Faith
     drives recording with the arrow keys and finds them easier than n/r/q
-    (Sep 5) — her workflow, her call. The two entry points therefore differ:
+    (Sep 5), her workflow, her call. The two entry points therefore differ:
 
       * ROLLOUT  (rollout_30hz_stale_ok.py) filters. It has since Aug 18, the
         keys are not used during a probe, and scroll-shredded probe sessions
@@ -76,7 +76,7 @@ def install(kbi=None, *, filter_arrows: bool = True, announce: bool = True,
 
     if not filter_arrows:
         if announce:
-            print("[arrow_guard] arrows LIVE — Left=re-record, Right=next, Esc=stop. "
+            print("[arrow_guard] arrows LIVE, Left=re-record, Right=next, Esc=stop. "
                   "Do not scroll this terminal: wheel-scroll forges arrow keys.",
                   file=sys.stderr)
         return False

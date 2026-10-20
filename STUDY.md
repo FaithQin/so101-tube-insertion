@@ -60,7 +60,7 @@ So only 15 episodes started in a staged bad state, and in those the arm never sa
 
 ![Episode durations, v2 vs v3](analysis/figures/fig3_durations.png)
 
-What I should have done is let the policy make the mistake and record only my correction, which is what DAgger does. I wrote a single-arm before-and-after design for it in [the DAgger design document](<Eval Design %E2%80%94 DAgger single-arm before-after.md>) and never ran it.
+What I should have done is let the policy make the mistake and record only my correction, which is what DAgger does. I wrote a single-arm before-and-after design for it in [the DAgger design document](eval-design-dagger-before-after.md) and never ran it.
 
 Once the plant was verified I ran two probe trials per arm on v3. The A policy grasped the tube both times and failed to insert it both times, and the B policy didn't grasp it in either trial. That fits the v2 split, and two trials per arm can't say more than that. No v3 trial was ever scored under its pre-registration.
 
@@ -141,7 +141,7 @@ The v2 result, 40 trials with live scoring:
 | ACT-A | 6 | 2 | 5 | 7 | 6 | 1 | 5 | 2 |
 | ACT-B | 5 | 0 | 0 | 15 | 12 | 1 | 1 (+1 undecided) | 0 |
 
-Stage columns count the furthest stage reached and mechanism columns count failures. One ACT-B trial was ruled "SLIP or NG, video decides", and the video pass was never recorded. The full sheet with every trial's notes is [the v2 trial sheet](<Eval Trials %E2%80%94 v2 paired blocks.md>).
+Stage columns count the furthest stage reached and mechanism columns count failures. One ACT-B trial was ruled "SLIP or NG, video decides", and the video pass was never recorded. The full sheet with every trial's notes is [the v2 trial sheet](eval-trials-v2.md).
 
 [^1]: FACTR 2, arXiv:2606.12406.
 [^2]: Phaser, arXiv:2605.29407.

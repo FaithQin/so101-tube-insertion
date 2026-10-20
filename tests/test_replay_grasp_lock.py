@@ -1,6 +1,6 @@
 """Offline falsification harness for the grasp-lock boundary race (Aug 27,
 2026, Faith's test design): replay recorded COMMANDED action traces through
-tools/grasp_lock.py and ask, per trial — would the lock have engaged BEFORE
+tools/grasp_lock.py and ask, per trial, would the lock have engaged BEFORE
 the chunk boundary nearest the closing onset? If the answer across the v2
 trial corpus is "rarely", the boundary race defeats the lock and it needs a
 redesign before any bench probe.

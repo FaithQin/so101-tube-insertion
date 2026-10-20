@@ -1,4 +1,4 @@
-"""A v4 policy is homed to, and gated on, v4's OWN training support — never v3's.
+"""A v4 policy is homed to, and gated on, v4's OWN training support, never v3's.
 
 The v2->v3 bug (Aug 29) and its recurrence (Sep 3: every v3 trial re-homed to v2) both came
 from a table that lacked the newest dataset. v4's frame-0 support, measured over the 50

@@ -1,13 +1,13 @@
 """Regression: the instrumented replay must isolate WHICH joint loses tracking, WHEN.
 
 Born Sep 1 2026. A deterministic replay of known-good episode 0 grasped the
-tube and then missed the rack badly — unprecedented (grasp-then-seat has been
+tube and then missed the rack badly, unprecedented (grasp-then-seat has been
 the invariant since Aug 15). Faith's live observation localized the fault to
 the LOADED phase: approach/grasp run the arm free, transport/insertion run it
 loaded. The elbow had shown degraded goal-closing under strain for two days.
 
 `lerobot-replay` logs nothing, so "which joint, and only-under-load?" was
-unanswerable — and that answer decides a servo swap, which is a plant change
+unanswerable, and that answer decides a servo swap, which is a plant change
 with study-comparability consequences. This tool replays while sampling
 Present_Position each tick and reports per-joint tracking error split by
 episode phase.
@@ -18,7 +18,7 @@ What is pinned here (pure functions; no hardware in tests/):
    guess. The episode's loaded phase begins where the demonstrated gripper
    closes on the tube. A hardcoded timestamp would rot the moment a different
    episode is used.
-2. Per-joint, per-phase error — a single pooled number would average the
+2. Per-joint, per-phase error, a single pooled number would average the
    elbow's loaded-phase lag away under five healthy joints (the same mistake
    as reporting the mean instead of p90 on latency).
 3. The verdict must name the joint and the phase, and must not fire on
@@ -133,7 +133,7 @@ def test_fault_threshold_is_declared_not_tuned():
 
 
 # --------------------------------------------------------------------------
-# 4. Fixes from the first live run (Sep 1) — fixtures had encoded assumptions
+# 4. Fixes from the first live run (Sep 1), fixtures had encoded assumptions
 # --------------------------------------------------------------------------
 #
 # The instrument's first live run produced a garbage verdict (5 joints FAULT,
@@ -146,7 +146,7 @@ def test_fault_threshold_is_declared_not_tuned():
 #     sustained open.
 # (b) A P-controlled servo legitimately lags a MOVING command by degrees at
 #     20 Hz. Scoring every tick against a static threshold flags healthy
-#     dynamics. Error must be scored on SETTLED ticks only — where the command
+#     dynamics. Error must be scored on SETTLED ticks only, where the command
 #     has been quasi-static long enough that a healthy joint has arrived.
 
 
@@ -197,7 +197,7 @@ def test_healthy_dynamic_lag_does_not_fault():
 
 
 def test_true_offset_still_faults_on_settled_ticks():
-    """A slipped/failed joint misses the plateau too — that must still flag."""
+    """A slipped/failed joint misses the plateau too, that must still flag."""
     cmd, act = _healthy_traj()
     act[:, 2] += 3.0        # constant offset, present when settled
     cmd[:, 5] = 30.0
@@ -211,7 +211,7 @@ def test_true_offset_still_faults_on_settled_ticks():
 # --------------------------------------------------------------------------
 #
 # The gripper-overload run raised inside the streaming loop, before the
-# disconnect line — so torque stayed ON across the whole arm, with the jammed
+# disconnect line, so torque stayed ON across the whole arm, with the jammed
 # gripper straining at raw ~1611, and Faith found the jaws locked when asked
 # to free them by hand. Cleanup that only runs on success is not cleanup.
 

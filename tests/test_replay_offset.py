@@ -1,4 +1,4 @@
-"""tools/replay_offset.py — replay a recorded episode with a per-joint command
+"""tools/replay_offset.py, replay a recorded episode with a per-joint command
 offset, on the production path (sync_write at the dataset fps).
 
 Born Sep 2, 2026: the elbow lands a constant +3.07 deg above its goal at two

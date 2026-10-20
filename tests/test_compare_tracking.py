@@ -1,7 +1,7 @@
-"""tools/compare_tracking.py — live replay tracking vs the recording-time
+"""tools/compare_tracking.py, live replay tracking vs the recording-time
 baseline, per joint, over the motion window (rest poses excluded: at rest the
 leader presses the follower past its limits, so end-pose errors are structure,
-not tracking — measured Sep 2: elbow -9 deg, wrist_flex -5 deg at rest in every
+not tracking, measured Sep 2: elbow -9 deg, wrist_flex -5 deg at rest in every
 v3 episode)."""
 
 import sys

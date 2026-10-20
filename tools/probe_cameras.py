@@ -15,7 +15,7 @@ No writes to any camera setting that persists. Nothing touches the arms.
 macOS notes that cost an evening on Aug 8, 2026:
   - Camera access is a per-app permission. Grant it to Terminal (or iTerm, or
     Code) under System Settings > Privacy & Security > Camera, then FULLY QUIT
-    and relaunch that app — TCC is evaluated at process launch, so a new tab
+    and relaunch that app, TCC is evaluated at process launch, so a new tab
     keeps the old denial. Without it every index fails and lerobot reports
     "No cameras were detected", which reads exactly like a USB fault.
   - Disconnect the iPhone first. Continuity Camera occupies an index and shifts
@@ -57,7 +57,7 @@ for idx in range(MAX_INDEX):
     # WARMUP. Auto-exposure has not converged on the first frame after opening,
     # so reading immediately reports a brightness the camera never actually
     # settles at. lerobot waits warmup_s=1 for the same reason
-    # (cameras/opencv/camera_opencv.py:180). Without this the mean is fiction —
+    # (cameras/opencv/camera_opencv.py:180). Without this the mean is fiction, 
     # it read 248 here while the settled value was 171.
     ok, frame = False, None
     for _ in range(WARMUP_FRAMES):
@@ -87,7 +87,7 @@ for idx in range(MAX_INDEX):
     cap.release()
 
 print(f"\n{found} camera(s) responded. Open {OUT_DIR} to see which is which.")
-print("640x480 is the 300K (wrist). ~1920x1080 is the 2MP (fixed) — or the")
+print("640x480 is the 300K (wrist). ~1920x1080 is the 2MP (fixed), or the")
 print("MacBook's built-in, so confirm by looking at the saved frames.")
 
 # Which modes does each camera ACTUALLY support, and what do they cost on the bus?
@@ -130,9 +130,9 @@ print(f"\nRaw-bandwidth budget: ~{USB2_CEILING_MB:.0f} MB/s per USB 2.0 controll
 print("A high mode that streams fine is proof that camera is compressing (MJPG),")
 print("so compressed high-res can cost LESS bus than uncompressed low-res.")
 print()
-print("⚠️  BUT compression does NOT let both kit cameras share one controller.")
+print("WARNING: BUT compression does NOT let both kit cameras share one controller.")
 print("   Tested Aug 8, 2026: they fail together in lerobot at EVERY resolution")
-print("   combination, and halving the wrist's bandwidth changed nothing — which")
+print("   combination, and halving the wrist's bandwidth changed nothing, which")
 print("   rules out throughput as the mechanism. Pairing one with the MacBook's")
 print("   camera (a different controller) works. The fix is a USB-C→USB-A adapter")
 print("   to split them, not a bitrate you can tune.")

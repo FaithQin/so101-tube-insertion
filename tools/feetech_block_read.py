@@ -1,6 +1,6 @@
 """One-transaction telemetry read for Feetech STS servos: registers 56-70 are
 contiguous, so a single GroupSyncRead of 15 bytes returns position, velocity,
-load, voltage, temperature, and current for every motor on the bus — instead
+load, voltage, temperature, and current for every motor on the bus, instead
 of one bus transaction per register.
 
 Context: upstream lerobot PR #3456 (optional SO-follower telemetry) stalled on
@@ -44,7 +44,7 @@ def read_telemetry_block(bus, motors=None, num_retry: int = 0, decode_sign: bool
 
     With decode_sign=True (default) each field is sign-decoded exactly as
     lerobot's sync_read does (bus._decode_sign against the model's
-    sign-magnitude encoding table — e.g. Present_Load uses sign bit 10), so
+    sign-magnitude encoding table, e.g. Present_Load uses sign bit 10), so
     values are drop-in identical to per-register sync_read(..., normalize=False).
     Uses only bus internals already exercised by sync_read: _sync_read + the
     sdk sync_reader.getData sub-window extraction.

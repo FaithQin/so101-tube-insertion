@@ -16,7 +16,7 @@ Two jobs, both about the one camera setting lerobot cannot control.
    field, and the ACT literature warns that auto-exposure makes brightness
    inconsistent between episodes. This probes whether the AVFoundation backend
    honours CAP_PROP_AUTO_EXPOSURE / CAP_PROP_EXPOSURE anyway. It does not trust
-   the read-back — it measures whether the picture actually changes.
+   the read-back, it measures whether the picture actually changes.
 
     conda activate lerobot
     python check_exposure.py 0
@@ -105,7 +105,7 @@ if args.test_exposure:
     raise SystemExit(0)
 
 
-print("live readability check — put the object in the gripper's view. q quits, s saves.")
+print("live readability check, put the object in the gripper's view. q quits, s saves.")
 cv2.namedWindow(f"camera {args.index}", cv2.WINDOW_NORMAL)
 
 while True:

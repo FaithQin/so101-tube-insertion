@@ -3,10 +3,10 @@ sync_read transactions cost, and what does the one-transaction block read
 (tools/feetech_block_read.py) buy?
 
 Paths measured (N iterations each, after warmup):
-  pos1    position only                      (1 transaction)  — today's default
-  patch3  position + load + current          (3 transactions) — the local capstone patch
-  pr4     position + velocity + load + temp  (4 transactions) — upstream PR #3456 shape
-  block1  registers 56-70 in ONE transaction — this proposal
+  pos1    position only                      (1 transaction) , today's default
+  patch3  position + load + current          (3 transactions), the local capstone patch
+  pr4     position + velocity + load + temp  (4 transactions), upstream PR #3456 shape
+  block1  registers 56-70 in ONE transaction, this proposal
 
 Also verifies value equivalence: block-read raw values must equal the
 per-register sync_read raw values taken back-to-back on an idle arm.

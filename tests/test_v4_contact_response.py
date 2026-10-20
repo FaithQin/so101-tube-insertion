@@ -1,4 +1,4 @@
-"""tools/v4_contact_response.py — the OPTION A contact-response endpoint (a PROPOSAL).
+"""tools/v4_contact_response.py, the OPTION A contact-response endpoint (a PROPOSAL).
 
 These tests pin the four engineering defects that were measured in the existing endpoint
 (`tools/v4_contact_events.py`) on Sep 7, and the honest confound that the duration-matched

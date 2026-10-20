@@ -98,7 +98,7 @@ def test_the_v4_carry_pose_is_refused_and_wrist_roll_is_the_reason(cal):
 
 def test_shoulder_lift_is_exempt_because_it_is_commanded_past_its_stop(cal):
     """Its training value (-105) is beyond the -100 goal clamp and it settles passively, so its
-    computed error is not a pose error — home_gate.passive_joints says the same."""
+    computed error is not a pose error, home_gate.passive_joints says the same."""
     assert abs(nu.unit_error_deg("shoulder_lift", -105.3, cal)) > nu.MAX_UNIT_ERROR_DEG
     assert "shoulder_lift" not in nu.offenders(_table("v4"), cal)
 
@@ -117,7 +117,7 @@ def test_home_arm_refuses_an_unreachable_pose_before_touching_the_bus():
     guard = re.search(r"norm_units\.offenders\(", src)
     assert guard, "home_arm never calls norm_units.offenders"
     assert guard.start() < src.index("open_bus("), (
-        "the unit-error guard runs AFTER the bus is opened — by then the arm can already be commanded"
+        "the unit-error guard runs AFTER the bus is opened, by then the arm can already be commanded"
     )
 
 

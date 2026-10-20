@@ -4,7 +4,7 @@ Nothing here is wired into the frozen analysis path. `tools/v4_recovery_response
 module; `tools/v4_bench_analysis.py` and `tools/v4_contact_events.py` are untouched. Faith
 ratifies (or refuses) the method change; until then this is evidence, not the endpoint.
 
-WHY a different discriminandum. `Start Schedule — v4.md:16` says every episode, CLEAN included,
+WHY a different discriminandum. `start-schedule-v4.md:16` says every episode, CLEAN included,
 "continues to the seat", so every rack window contains a genuine tube-meets-rack contact and
 "did contact occur" cannot separate anything. The same line describes what RESIST actually is:
 "brought down at a wrong position or angle so the tip meets resistance ... backs off, re-aligns,
@@ -58,7 +58,7 @@ DOUBLE = np.r_[np.linspace(20, 0, 12), np.linspace(0, 9, 6),
 # --- the statistic -------------------------------------------------------------------------
 
 def test_single_press_scores_exactly_zero():
-    """A trial that seats cleanly is not 'undefined' and not 'small' — it is 0.0."""
+    """A trial that seats cleanly is not 'undefined' and not 'small', it is 0.0."""
     r = rr.recovery_response(_trace(SINGLE), None)
     assert r["reached_rack"] is True
     assert r["n_press"] == 1
@@ -92,7 +92,7 @@ def test_compressing_a_resisted_press_preserves_the_amplitude():
 
 def test_window_ends_at_the_release_and_the_withdrawal_is_excluded():
     """Running the window past the release makes every episode fire: the arm withdraws and
-    descends again on the way out. Measured on the 50 v4 training episodes — cutting at the
+    descends again on the way out. Measured on the 50 v4 training episodes, cutting at the
     rack-slice end fires 45/46 non-RESIST. The jaw edge is what makes the statistic mean
     anything, so the module must cut there."""
     depth = np.r_[SINGLE, np.linspace(18, 2, 8), np.linspace(2, 25, 8)]   # + a post-release dip
@@ -199,8 +199,8 @@ def test_the_commanded_release_edge_is_preferred_when_an_action_stream_exists():
     """The observed jaw opens ~4 ticks after the command that opens it (`v4_contact_events.
     rack_window` docstring, measured on v4 ep 0). Those extra ticks are the release itself, and
     on the 30 training CLEAN episodes they turn 1 spurious kinematic stall into 3. The window
-    therefore cuts on the COMMAND when there is one, and falls back to the observed jaw — which
-    gives the identical re-press amplitude on all 50 training episodes — when there is not."""
+    therefore cuts on the COMMAND when there is one, and falls back to the observed jaw, which
+    gives the identical re-press amplitude on all 50 training episodes, when there is not."""
     depth = np.r_[SINGLE, np.linspace(18, 4, 6), np.linspace(4, 24, 6)]
     jaw = np.r_[np.full(len(SINGLE) + 4, 5.0), np.full(8, 30.0)]      # observed jaw opens late
     st = _trace(depth, jaw=jaw)

@@ -77,7 +77,7 @@ cv2_case(args.wrist, "480p, fps never set     ", 640, 480, None)
 cv2_case(args.wrist, "no props at all         ")
 
 print("\n=== PyAV / AVFoundation with an explicit 30 fps demand ===")
-print("(a refusal here prints the device's REAL supported rates — that's data, not failure)")
+print("(a refusal here prints the device's REAL supported rates, that's data, not failure)")
 import av  # noqa: E402
 import av.logging  # noqa: E402
 

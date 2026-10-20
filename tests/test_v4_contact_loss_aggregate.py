@@ -1,4 +1,4 @@
-"""Aggregating contact-frame pairs over noise seeds, per episode — the unit that settled π0.5 (Sep 6 03:05).
+"""Aggregating contact-frame pairs over noise seeds, per episode, the unit that settled π0.5 (Sep 6 03:05).
 
 One flow-matching draw put π0.5-B better on 63 % of contact frames, another on 48 %; averaging
 three draws per frame and then per episode gave −0.0062 ± 0.0012 with B better in 8/8 episodes.

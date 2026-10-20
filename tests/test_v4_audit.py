@@ -215,14 +215,14 @@ def test_the_A2_detector_has_a_CONTROL_and_does_not_fire_on_v3():
     """False-positive control on a dataset the detector was never tuned on.
 
     "A threshold without a control" is a named bug class here, and the A2 gate
-    is the one behavioural check this tool actually gates on — so it needs one.
+    is the one behavioural check this tool actually gates on, so it needs one.
     v3 (50 episodes, Aug 27, hand-staged recovery, also 18-dim) is independent
     of every number in v4_audit.py.
 
     Measured Sep 5: **0/50 v3 episodes fire.** With 1/1 on the true positive
     (v4 ep 9) and 0/10 on the other v4 episodes, that is zero false positives in
     sixty episodes. If this ever starts firing on v3, the pick-site/jaw
-    thresholds have drifted and the gate is no longer specific — do not raise
+    thresholds have drifted and the gate is no longer specific, do not raise
     the threshold to silence it without re-deriving from the data.
     """
     import glob
@@ -244,6 +244,6 @@ def test_the_A2_detector_has_a_CONTROL_and_does_not_fire_on_v3():
             fired.append(int(e))
     assert not fired, (
         f"the A2 gate fires on {len(fired)}/{df['episode_index'].nunique()} ordinary v3 "
-        f"episodes {fired[:10]} — it is no longer specific to a closing-jaw graze, and "
+        f"episodes {fired[:10]}, it is no longer specific to a closing-jaw graze, and "
         f"would make Faith re-record good takes"
     )

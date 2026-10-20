@@ -4,7 +4,7 @@ COMMANDED gripper and shoulder_lift values (no vision, no extra sensors).
 Motivation (Aug 25, 2026, measured on the 40-trial v2 baseline): the dominant
 failure mode was a correct descent discarded at the moment of clamping by the
 next action chunk's re-plan, which veered left. The lock detects closing onset
-and — via the rollout wrapper — lets the CURRENT chunk run to its end instead
+and, via the rollout wrapper, lets the CURRENT chunk run to its end instead
 of re-planning mid-close. It re-arms after every completed or abandoned close,
 so each re-grasp attempt is protected independently.
 
@@ -15,7 +15,7 @@ States: IDLE -> ARMED (gripper open, lift inside the grasp band)
 Thresholds mirror the measured v2 command ranges: gripper 0..47 with open >15 /
 closed <8 (the eval sheet's hysteresis), grasp band = commanded lift < 50
 (demos close at lift ~37; transport/retreat run higher).
-Pure Python, no dependencies — unit-tested in tests/test_grasp_lock.py.
+Pure Python, no dependencies, unit-tested in tests/test_grasp_lock.py.
 """
 
 OPEN_T = 15.0

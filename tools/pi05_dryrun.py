@@ -3,8 +3,8 @@
 
 Replay as arbiter, applied offline. Feed pi0.5 frames it was TRAINED on and
 check it roughly reproduces the demonstrated action. A fitted policy should not
-be far off on its own training data. If it is, the plumbing is wrong — camera
-mapping, state width, normalization — and no amount of bench time fixes that.
+be far off on its own training data. If it is, the plumbing is wrong, camera
+mapping, state width, normalization, and no amount of bench time fixes that.
 
 Why this exists (Aug 31 2026)
 -----------------------------
@@ -15,7 +15,7 @@ conclusion in this project turned out to be plumbing:
 * the elbow homing 1.4 deg below the training floor (Aug 29)
 * `SOFollower.connect()` moving wrist_roll ~1.62 deg (Aug 29)
 * `.load`/`.current` being routed into a 6-dim policy's state (found tonight,
-  by reading the rollout path — it does not crash, it just silently feeds
+  by reading the rollout path, it does not crash, it just silently feeds
   pi0.5 real values in coordinates it trained as zero)
 
 Bench time before Sep 6 is the scarcest resource in the project. This burns
@@ -103,7 +103,7 @@ def check_chunk_sane(chunk: np.ndarray, n_joints: int) -> tuple[bool, str]:
     if not np.all(np.isfinite(chunk)):
         return False, "action chunk is not finite (NaN or inf present)"
     if np.allclose(chunk.std(axis=0), 0.0):
-        return False, "action chunk is constant over time — degenerate output"
+        return False, "action chunk is constant over time, degenerate output"
     return True, "ok"
 
 
@@ -217,7 +217,7 @@ def main() -> int:
     ep_len = ds.meta.total_frames // max(n_eps, 1)
     print(f"[dryrun] {n_eps} episodes, ~{ep_len} frames each", flush=True)
 
-    # Per-joint action spread over the whole dataset — the scale everything is
+    # Per-joint action spread over the whole dataset, the scale everything is
     # judged against.
     stats = ds.meta.stats["action"]
     spread = np.asarray(stats["max"], dtype=float) - np.asarray(stats["min"], dtype=float)

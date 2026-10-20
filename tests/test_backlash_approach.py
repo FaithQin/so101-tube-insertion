@@ -12,7 +12,7 @@ Measured on the follower, Aug 30 2026 ~00:05, elbow_flex at a steady 45 C:
        79.7      81.6    +1.9    ABOVE  (came down from 85.4)
 
 The same command lands **1.5 degrees apart** depending on which side it is
-approached from. That is backlash plus friction, and it is not a fault — the
+approached from. That is backlash plus friction, and it is not a fault, the
 published STS3215 figure is 0.87 deg of backlash plus a 0.88 deg firmware dead
 zone, so a ~1.5 deg spread is exactly what the hardware does.
 
@@ -39,7 +39,7 @@ SRC = (TOOLS / "home_arm.py").read_text()
 def test_home_arm_has_an_anti_backlash_approach():
     assert "APPROACH_FROM_BELOW" in SRC or "BACKLASH" in SRC, (
         "home_arm interpolates from the current pose, so the landing point depends "
-        "on which side it comes from — measured 1.5 deg of spread on the elbow"
+        "on which side it comes from, measured 1.5 deg of spread on the elbow"
     )
 
 
@@ -78,7 +78,7 @@ def test_measured_evidence_is_recorded_in_the_source():
 def test_the_return_converges_rather_than_being_commanded_once():
     """The first version of the anti-backlash pass undershot 3 deg and then wrote
     the target once. On wrist_flex that landed 1.0 deg short (72.80 against a
-    73.80 target) — inside home_arm's own 2.5 residual tolerance, so it reported
+    73.80 target), inside home_arm's own 2.5 residual tolerance, so it reported
     HOMED, while the gate correctly refused the pose. Undershooting is only half
     the technique; the return has to be driven until it arrives."""
     assert "BACKLASH_SETTLE_TOL" in SRC, "no convergence tolerance for the return pass"
@@ -95,7 +95,7 @@ def test_the_return_converges_rather_than_being_commanded_once():
 def test_the_return_to_target_precedes_any_correction():
     """Measured Aug 30: wrist_roll tracks commands to +/-0.2 deg, yet homed to
     -3.6 against a -1.9 target. Cause: the correction loop read the arm right
-    after the 3 deg undershoot, computed err=3.0, and commanded target+3.0 — a
+    after the 3 deg undershoot, computed err=3.0, and commanded target+3.0, a
     full overshoot the other way, then back, oscillating. The plain return to
     target must happen and settle BEFORE any error-proportional correction."""
     block = SRC[SRC.index("BACKLASH_MARGIN"):SRC.index("residuals:")]

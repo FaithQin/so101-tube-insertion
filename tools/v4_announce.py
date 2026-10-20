@@ -3,10 +3,10 @@
 
     python tools/v4_announce.py            # tails the recorder's bridge output
 
-Sep 5 2026: nine episodes were recorded against `Start Schedule — v4.md` by row
+Sep 5 2026: nine episodes were recorded against `start-schedule-v4.md` by row
 number while `tools/v4_manifest.json` had 11-14 pencilled in as redos. The
 manifest is the only label the training data has, and nothing put it in front
-of the operator at the moment she needed it — she is holding the leader with
+of the operator at the moment she needed it, she is holding the leader with
 her eyes on the arm, not on a JSON file. So: when lerobot logs
 "Recording episode N", look N up in the manifest and SAY it (the runners
 already use `say` for gates), and print it large.

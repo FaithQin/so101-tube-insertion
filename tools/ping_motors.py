@@ -1,28 +1,28 @@
 """Which servos are alive, and is any of them faulted? Read-only.
 
 Answers the two questions you actually have when something stops responding:
-"is the motor there at all?" and "is it there but latched?" — which look
+"is the motor there at all?" and "is it there but latched?", which look
 identical from teleop, and have completely different fixes.
 
     conda activate lerobot
     python ping_motors.py                 # both arms
     python ping_motors.py follower
 
-⚠️ Needs the serial port to itself. Stop teleop / record / watch_load first.
+WARNING: Needs the serial port to itself. Stop teleop / record / watch_load first.
 12V ON BEFORE USB, or the board enumerates and the servo bus stays dark.
 
 READING THE OUTPUT
 ------------------
 no response        The motor is not on the bus. Power, wiring, or a dead servo.
-                   If NO motor responds, the bus is dark — that is the
+                   If NO motor responds, the bus is dark, that is the
                    12V-after-USB failure, not six dead servos.
 Status != 0        The motor is present and reporting a fault. Overload latches
                    here and will refuse writes until a full power cycle:
                    USB out -> 12V out -> 12V in -> USB in.
-Torque_Enable 0    Not a fault — the joint is simply released and will backdrive
+Torque_Enable 0    Not a fault, the joint is simply released and will backdrive
                    (stiffly; 1/345 gearing is hard to move by hand even limp).
 
-Never run `lerobot-setup-motors` on this pre-assembled kit — manual §3.5, it
+Never run `lerobot-setup-motors` on this pre-assembled kit, manual §3.5, it
 requires disassembly. Nothing here writes to a motor.
 """
 
@@ -33,7 +33,7 @@ from _arms import FOLLOWER_PORT, JOINTS, LEADER_PORT, open_bus
 
 # Standard Feetech STS/SCS status bits (Status register, addr 65). A nonzero
 # value means a fault regardless of whether the label below is exact for this
-# firmware — treat the number as authoritative and the name as a hint.
+# firmware, treat the number as authoritative and the name as a hint.
 STATUS_BITS = [
     (0x01, "voltage"),
     (0x02, "sensor"),
@@ -81,7 +81,7 @@ def check_arm(label: str, port: str) -> int:
             found = {}
 
         if found:
-            print(f"  broadcast: {len(found)}/6 responded — ids {sorted(found)}")
+            print(f"  broadcast: {len(found)}/6 responded, ids {sorted(found)}")
         else:
             print("  broadcast: nothing responded")
 
@@ -138,11 +138,11 @@ def main() -> int:
 
     if total:
         print(f"\n{total} problem(s). In order:")
-        print("  1. Any FAULT line — full power cycle of that arm:")
+        print("  1. Any FAULT line, full power cycle of that arm:")
         print("       USB out -> 12V out -> 12V in -> USB in")
         print("     A USB reconnect alone does NOT clear a latched overload.")
-        print("  2. Every motor silent — the bus is dark. Same power cycle, same order.")
-        print("  3. One motor silent, others fine — check that servo's cable at both")
+        print("  2. Every motor silent, the bus is dark. Same power cycle, same order.")
+        print("  3. One motor silent, others fine, check that servo's cable at both")
         print("     ends. Do NOT run lerobot-setup-motors; it needs disassembly.")
     return 0 if total == 0 else 1
 

@@ -52,7 +52,7 @@ def test_seat_region_matches_the_live_checker():
     src = (TOOLS / "seat_check.py").read_text()
     nums = [int(n) for n in re.findall(r"(\d+)\s*<\s*[xy]\s*<\s*(\d+)", src)[0]] if False else None
     assert "470" in src and "640" in src and "400" in src and "540" in src, (
-        "seat_check.py region constants changed — update score_episode.py to match"
+        "seat_check.py region constants changed, update score_episode.py to match"
     )
     assert score_episode.SEAT_X == (470, 640)
     assert score_episode.SEAT_Y == (400, 540)
@@ -121,7 +121,7 @@ def test_clean_start_is_not_flagged():
 
 
 def test_verdict_is_none_when_infra():
-    """An invalid episode must not also carry a scoreable verdict — that is how
+    """An invalid episode must not also carry a scoreable verdict, that is how
     a bad trial sneaks into a block."""
     frames = [_frame(*SEATED)] * 126 + [_frame(*START)] * 900
     r = score_episode.score_frames(frames, fps=FPS)

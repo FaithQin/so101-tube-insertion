@@ -1,9 +1,9 @@
-"""tools/dump_registers.py — the Sep 2, 2026 register audit.
+"""tools/dump_registers.py, the Sep 2, 2026 register audit.
 
 Born from the Sep 1–2 calibration debacle: "EEPROM verified equal" covered only
 Homing_Offset and the two position limits, while raw register writes during the
 day touched other EEPROM fields (Protection_Time had been left at 0 before). The
-elbow then showed a constant +3.07° settle error at two poses — the signature of
+elbow then showed a constant +3.07° settle error at two poses, the signature of
 a control-parameter register, not of calibration. This tool reads EVERY EEPROM
 register on every servo and flags the ones that differ across servos.
 

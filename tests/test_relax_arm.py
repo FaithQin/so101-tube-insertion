@@ -7,7 +7,7 @@ then FAILED with "Missing motor IDs: 4" -- it needs every servo to answer, which
 browning-out servo does not do, at exactly the moment torque has to come off. What worked, by hand:
 `FeetechMotorsBus(...).connect(handshake=False)` then `disable_torque(motor, num_retry=5)`,
 wrist_flex first, then a readback of Torque_Enable on all six. This file pins that recipe so the
-next thermal event is one command, not a chat.
+next thermal event is one command.
 
 Everything runs against a fake bus: no port is opened. The bench check is the arm (memory:
 "for anything physical, the test is the arm").

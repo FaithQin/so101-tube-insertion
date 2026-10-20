@@ -3,7 +3,7 @@ must reject start poses outside the training distribution.
 
 Born from the Aug 29 2026 session. `home_arm.py` warns when a joint's residual
 exceeds a flat 2.5 deg, and that warning was repeatedly observed and then
-ignored — three policy episodes and one priming replay were run on an arm whose
+ignored, three policy episodes and one priming replay were run on an arm whose
 elbow sat 5.6 deg low, i.e. at 74.1 deg, BELOW the v2 training floor of 75.47.
 The deterministic replay then sailed past without touching the tube at all,
 which is what finally exposed it.
@@ -39,13 +39,13 @@ ELBOW_OBSERVED_PASS = 79.7
 def test_elbow_failure_pose_is_rejected():
     assert not home_gate.in_training_support("elbow_flex", ELBOW_OBSERVED_FAILURE), (
         f"elbow {ELBOW_OBSERVED_FAILURE} is below the v2 training floor and produced a "
-        f"total replay miss on Aug 29 — the gate must reject it"
+        f"total replay miss on Aug 29, the gate must reject it"
     )
 
 
 def test_elbow_ordinary_low_pose_is_accepted():
     assert home_gate.in_training_support("elbow_flex", ELBOW_OBSERVED_PASS), (
-        f"elbow {ELBOW_OBSERVED_PASS} is the v2 frame-0 mean — rejecting it would be "
+        f"elbow {ELBOW_OBSERVED_PASS} is the v2 frame-0 mean, rejecting it would be "
         f"the flat-2.5-deg mistake in a new costume"
     )
 

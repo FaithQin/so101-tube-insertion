@@ -5,7 +5,7 @@ CAPSTONE_GRASP_LOCK probe, replay the COMMANDED action traces of recorded
 rollout trials through the pure GraspLock state machine and ask, per trial:
 
     would the lock have engaged BEFORE the chunk boundary nearest the
-    closing onset — or does the re-plan win the race?
+    closing onset, or does the re-plan win the race?
 
 Verdicts per trace:
     PROTECTED     lock engaged strictly before the next chunk boundary

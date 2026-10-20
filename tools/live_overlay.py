@@ -43,7 +43,7 @@ def main() -> int:
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
     cap.set(cv2.CAP_PROP_FPS, 30)
     if not cap.isOpened():
-        print("front camera failed to open (index 1) — is another process holding it?")
+        print("front camera failed to open (index 1), is another process holding it?")
         return 3
     cv2.namedWindow("LIVE REGISTRATION  (ghost = recorded)  q to quit", cv2.WINDOW_NORMAL)
     import time

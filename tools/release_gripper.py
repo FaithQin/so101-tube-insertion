@@ -1,7 +1,7 @@
 """Get the jaws open again. Run this when the gripper is stuck clamped.
 
 `watch_load.py --close` deliberately leaves torque ON at the end so a held object
-does not drop. That is correct during a measurement and useless afterwards — it
+does not drop. That is correct during a measurement and useless afterwards, it
 leaves the jaws clamped with no way out. This is the way out.
 
     conda activate lerobot
@@ -19,7 +19,7 @@ help. Full power cycle of the FOLLOWER, in this order:
     USB out  ->  12V out  ->  12V in  ->  USB in
 
 A USB reconnect alone does NOT clear the latch. Neither does replugging 12V while
-USB stays connected — that leaves the board enumerated and the servo bus dark.
+USB stays connected, that leaves the board enumerated and the servo bus dark.
 """
 
 import argparse
@@ -33,7 +33,7 @@ parser.add_argument("arm", nargs="?", default="follower",
 parser.add_argument("--motor", default="gripper")
 parser.add_argument("--all", action="store_true",
                     help="release EVERY joint, not just --motor. Use when the whole arm "
-                         "is locked — e.g. after growbot-arm/arm.py, whose exit freezes "
+                         "is locked, e.g. after growbot-arm/arm.py, whose exit freezes "
                          "the pose and thereby engages torque on all six.")
 parser.add_argument("--open", action="store_true",
                     help="drive the jaws open in small steps before releasing torque")
@@ -75,7 +75,7 @@ try:
         now = bus.read("Present_Position", args.motor, normalize=False)
         print(f"  opened to {now} (commanded {goal})")
         if abs(now - pos) < args.counts // 4:
-            print("  ⚠️  barely moved — likely latched. Power cycle:")
+            print("  WARNING: barely moved, likely latched. Power cycle:")
             print("      USB out -> 12V out -> 12V in -> USB in")
 
     # Use lerobot's own API. It clears Torque_Enable AND Lock; writing only
@@ -101,13 +101,13 @@ try:
             print(f"  after:  Torque_Enable={te}  Lock={lk}")
 
     if not stuck:
-        print(f"\n✅ torque is genuinely OFF on {len(targets)} joint(s) "
+        print(f"\nOK: torque is genuinely OFF on {len(targets)} joint(s) "
               "(both registers confirmed).")
-        print("   It will STILL feel stiff — the follower is 1/345 geared and is hard")
+        print("   It will STILL feel stiff, the follower is 1/345 geared and is hard")
         print("   to backdrive unpowered even when released. That stiffness is normal")
         print("   and is NOT the servo holding. Move it firmly by hand.")
     else:
-        print(f"\n❌ registers did not clear on {stuck} — latched. Power cycle:")
+        print(f"\nFAIL: registers did not clear on {stuck}, latched. Power cycle:")
         print("   USB out -> 12V out -> 12V in -> USB in")
 
 except Exception as exc:

@@ -51,7 +51,7 @@ cd "$PROJ" || exit 1
 
 if [ -z "${CAPSTONE_ALLOW_WORKTREE:-}" ]; then
   $B/python -c "import sys; sys.path.insert(0,'tools'); import preflight, sys as s; s.exit(0 if preflight.is_main_checkout('$PROJ') else 1)" || {
-    say "abort. worktree."; echo "ABORT: running from a git worktree — use the main checkout"; exit 2; }
+    say "abort. worktree."; echo "ABORT: running from a git worktree, use the main checkout"; exit 2; }
 fi
 
 STAMP=$(date +%Y%m%d_%H%M%S)
@@ -124,18 +124,18 @@ for attempt in 1 2 3; do
   if [ "$RC" -eq 0 ]; then GATED=1; break; fi
   REASON="$OUT"
   case "$OUT" in
-    *placement*|*thermal*) echo "  (human-only gate — not retrying)"; break ;;
+    *placement*|*thermal*) echo "  (human-only gate, not retrying)"; break ;;
   esac
   case "$OUT" in
     *gripper*)
       if [ "$START_POSE" = "$DATASET_TAG" ]; then
-        echo "  REPAIRED: gripper outside training support — reseating the jaw"
+        echo "  REPAIRED: gripper outside training support, reseating the jaw"
         $B/python tools/reseat_gripper.py 2>&1 | sed 's/^/    /'
       else
-        echo "  (carry start: the jaw is holding the tube, not reseated on nothing — re-place the tube when prompted)"
+        echo "  (carry start: the jaw is holding the tube, not reseated on nothing, re-place the tube when prompted)"
       fi ;;
     *elbow_flex*)
-      echo "  REPAIRED: elbow outside training support — re-homing" ;;
+      echo "  REPAIRED: elbow outside training support, re-homing" ;;
   esac
   echo "  (attempt $attempt did not gate; retrying)"
 done
@@ -150,7 +150,7 @@ if [ "$GATED" != "1" ]; then
     *evaluate*)    SPOKEN="abort. a check could not be read." ;;
   esac
   say "$SPOKEN"
-  echo "TRIAL ABORTED — nothing launched, no trial consumed."
+  echo "TRIAL ABORTED, nothing launched, no trial consumed."
   exit 3
 fi
 

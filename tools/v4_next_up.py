@@ -4,7 +4,7 @@
     python tools/v4_next_up.py            # next 12
     python tools/v4_next_up.py --all      # everything still to record
 
-Read THIS at the bench, never `Start Schedule — v4.md` by row number (A6).
+Read THIS at the bench, never `start-schedule-v4.md` by row number (A6).
 The table's positional index stops being the recorded index at the first void;
 this list is derived from `tools/v4_manifest.json`, the only label the
 training data has. The one-line spec is the schedule's own text for that type.
@@ -24,11 +24,11 @@ import v4_manifest  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = ROOT / "tools" / "v4_manifest.json"
-SCHEDULE = ROOT / "Start Schedule — v4.md"
+SCHEDULE = ROOT / "start-schedule-v4.md"
 
 
 def specs() -> tuple[dict[str, str], dict[int, str]]:
-    """(by type: first row's 'what to do'; by ROW: every row's) — a redo must show
+    """(by type: first row's 'what to do'; by ROW: every row's), a redo must show
     the VOIDED row's own variant (ep 4 was the ANGLE-miss RESIST, not the LATERAL)."""
     by_type: dict[str, str] = {}
     by_row: dict[int, str] = {}

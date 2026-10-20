@@ -4,7 +4,7 @@ Born from the Aug 29 2026 session, where the failure mode was not a missing
 check but a check that only printed. In one block:
 
   * ran `home_arm`, saw "WARNING: adjusted residual exceeds 2.5", wrote "one
-    thing I'm watching", and launched anyway — three times. The elbow was at
+    thing I'm watching", and launched anyway, three times. The elbow was at
     74.1 deg, below the v2 training floor; a deterministic replay then missed
     the tube entirely.
   * emitted the tube placement delta into a summary without enforcing it, and
@@ -110,9 +110,9 @@ def test_parse_tube_delta_missing_is_an_error_not_a_pass(tmp_path):
 
     The raise has to become a non-zero EXIT, and that conversion lives in the
     `except` handler at the bottom of preflight.py, which nothing used to
-    exercise. Turn its exit(1) into exit(0) — the plausible "the message
-    already says ABORT" edit — and a capture the gate cannot read prints
-    "PREFLIGHT ABORT — could not evaluate a gate: ..." and gates GREEN. That is
+    exercise. Turn its exit(1) into exit(0), the plausible "the message
+    already says ABORT" edit, and a capture the gate cannot read prints
+    "PREFLIGHT ABORT, could not evaluate a gate: ..." and gates GREEN. That is
     the measured Aug 30 case (the arm parked over the tube, scene_check
     reported it missing) and it reverses this module's own promise never to
     degrade to pass.
@@ -122,7 +122,7 @@ def test_parse_tube_delta_missing_is_an_error_not_a_pass(tmp_path):
 
     rc, out = _preflight_cli(tmp_path, "homography inliers: 12/400\n", HOME_OK, PING_OK)
     assert rc == 1, (
-        f"preflight.py printed {out!r} and exited {rc} on a capture it could not read — "
+        f"preflight.py printed {out!r} and exited {rc} on a capture it could not read, "
         "the wrapper branches on $? alone, so a 0 here launches a scored trial with the "
         "placement gate never evaluated at all"
     )
@@ -163,7 +163,7 @@ def test_tube_out_of_place_aborts(tmp_path):
     """The refusal has to reach the launcher, and the only wire is the exit status.
 
     `sys.exit(0 if ok else 1)` collapsing to `sys.exit(0)` is a one-token edit
-    that leaves the module still PRINTING "PREFLIGHT ABORT — placement: ..."
+    that leaves the module still PRINTING "PREFLIGHT ABORT, placement: ..."
     while the wrapper sets GATED=1 and runs the trial with the tube 10.2 px
     off. That is the pre-fix "narrate" form of this whole module, and the
     in-process (ok, reasons) assertions below cannot see it.
@@ -173,7 +173,7 @@ def test_tube_out_of_place_aborts(tmp_path):
     assert any("placement" in r for r in reasons)
 
     rc, out = _preflight_cli(tmp_path, SCENE_TUBE_OFF, HOME_OK, PING_OK)
-    assert rc == 1, f"preflight.py printed {out!r} but exited {rc} — the launcher gates on $?"
+    assert rc == 1, f"preflight.py printed {out!r} but exited {rc}, the launcher gates on $?"
     assert "ABORT" in out
     # ...and the other direction, or a gate that always exits 1 would look fine here
     assert _preflight_cli(tmp_path, SCENE_OK, HOME_OK, PING_OK) == (0, "PREFLIGHT PASS (v2)")
@@ -291,7 +291,7 @@ def test_elbow_below_training_support_aborts(tmp_path):
     pose is judged against. Nothing else in the suite covers that call site:
     drop the 4th argv from the preflight call and the gate silently falls back
     to home_gate.DEFAULT_DATASET ("v2") while home_arm.py --pose v3 homed to
-    v3 — the Sep 3 "gated on one version, homed to another" bug in its mirror
+    v3, the Sep 3 "gated on one version, homed to another" bug in its mirror
     image. The windows barely overlap (v2 elbow [77.53, 81.93], v3
     [79.51, 85.17]), so the fallback refuses an in-distribution v3 start of
     84.5 three times and admits a 78.0 that v3 never saw.
@@ -313,7 +313,7 @@ def test_elbow_below_training_support_aborts(tmp_path):
     assert homed and homed[-1].split()[-1] == "v3", f"the loop homed with {homed!r}"
     assert gated, f"the gate loop never ran preflight.py: {ran.calls!r}"
     assert gated[-1].split()[-1] == "v3", (
-        f"run_scored_trial.sh homed to v3 but gated with argv {gated[-1].split()[1:]!r} — "
+        f"run_scored_trial.sh homed to v3 but gated with argv {gated[-1].split()[1:]!r}, "
         "without the dataset tag preflight falls back to v2 bounds and judges a v3 start "
         "against the wrong training support"
     )
@@ -350,14 +350,14 @@ def test_worktree_path_is_refused(tmp_path):
 
       * the literal worktree path is refused;
       * refusal survives a path that merely RESOLVES into a worktree. Both
-        worktree fixtures — this one and test_main_checkout_is_accepted — fed
+        worktree fixtures, this one and test_main_checkout_is_accepted, fed
         already-absolute, already-resolved strings, so dropping the
         `Path(path).resolve()` was invisible to them. That drops every
         relative, symlinked or `$(pwd -L)` spelling straight through, which is
         how Aug 27 happened in the first place;
       * run_scored_trial.sh EXITS on the refusal. Delete `exit 2` and the
         script says "abort. worktree.", prints the ABORT line, and then runs
-        the whole scored trial from the stale copy anyway — a probe that is not
+        the whole scored trial from the stale copy anyway, a probe that is not
         obviously wrong, just quietly invalid.
     """
     import os
@@ -370,7 +370,7 @@ def test_worktree_path_is_refused(tmp_path):
     link = tmp_path / "tools"
     link.symlink_to(real)
     assert not preflight.is_main_checkout(link), (
-        f"{link} was accepted — it points at {real}, so is_main_checkout is judging the "
+        f"{link} was accepted, it points at {real}, so is_main_checkout is judging the "
         "spelling of the path instead of where it lands"
     )
 
@@ -384,10 +384,10 @@ def test_worktree_path_is_refused(tmp_path):
     )
     assert stale.rc == 2 and "REACHED_THE_END" not in stale.out, (
         f"the worktree guard printed {stale.out.strip()!r} and then kept going "
-        f"(rc={stale.rc}) — a full scored trial runs from the stale worktree tools"
+        f"(rc={stale.rc}), a full scored trial runs from the stale worktree tools"
     )
     good = _run_shell(tmp_path, f'PROJ="{PROJECT}"\n{guard}', bin_dir=real_bin, cwd=PROJECT)
-    assert good.rc == 0, f"the guard refuses the MAIN checkout too (rc={good.rc}) — nothing runs"
+    assert good.rc == 0, f"the guard refuses the MAIN checkout too (rc={good.rc}), nothing runs"
 
 
 def test_main_checkout_is_accepted():
@@ -408,7 +408,7 @@ def test_scored_trial_uses_a_rollout_prefixed_repo_id(tmp_path):
 
     Grading the `REPO=` assignment graded the wrong end of the wire. Inline a
     bare `--dataset.repo_id="faithqin/${LABEL}"` at the call site and the
-    assignment — and the grep — survive untouched while the launch hands
+    assignment, and the grep, survive untouched while the launch hands
     lerobot a name with no prefix. So read the argv the rollout wrapper is
     actually given.
     """
@@ -420,12 +420,12 @@ def test_scored_trial_uses_a_rollout_prefixed_repo_id(tmp_path):
     m = re.search(r"--dataset\.repo_id=(\S+)", launch[0])
     assert m, f"no --dataset.repo_id in the launch argv: {launch[0]!r}"
     assert m.group(1).startswith("faithqin/rollout_"), (
-        f"the scored trial launches with repo_id={m.group(1)!r} — lerobot aborts at dataset "
+        f"the scored trial launches with repo_id={m.group(1)!r}, lerobot aborts at dataset "
         "setup, after preflight has passed, the arm has been homed up to three times and the "
         "cameras are open"
     )
     assert "P001-A" in m.group(1), (
-        f"repo_id={m.group(1)!r} does not carry the trial label — trials would overwrite "
+        f"repo_id={m.group(1)!r} does not carry the trial label, trials would overwrite "
         "each other's dataset and the scoring glob would find the wrong episode"
     )
 
@@ -444,8 +444,8 @@ def test_scored_trial_retries_homing_before_aborting(tmp_path):
 
     `"for attempt in 1 2 3" in src` proved the loop was written, never that it
     works, and two one-line edits kept it green. Moving `RC=$?` behind the
-    `echo` — the classic $? clobber, on the ONE line where preflight's verdict
-    enters the wrapper — makes RC the echo's status, i.e. always 0, and every
+    `echo`, the classic $? clobber, on the ONE line where preflight's verdict
+    enters the wrapper, makes RC the echo's status, i.e. always 0, and every
     gate in this file becomes narration again. Deleting the `break` latches
     GATED on attempt 1 and then launches from attempt 3's unvetted pose. So run
     the loop and count what it did.
@@ -456,7 +456,7 @@ def test_scored_trial_retries_homing_before_aborting(tmp_path):
     hard = _run_shell(
         tmp_path,
         loop,
-        gate_out="PREFLIGHT ABORT — home: elbow_flex=74.10 outside [77.53, 81.93]",
+        gate_out="PREFLIGHT ABORT, home: elbow_flex=74.10 outside [77.53, 81.93]",
         gate_rc="1 1 1",
     )
     assert hard.rc == 3 and "REACHED_THE_END" not in hard.out, (
@@ -464,7 +464,7 @@ def test_scored_trial_retries_homing_before_aborting(tmp_path):
         f"RC must be captured from preflight itself, not from whatever ran last.\n{hard.out}"
     )
     assert sum("home_arm.py" in c for c in hard.calls) == 3, (
-        f"home was attempted {sum('home_arm.py' in c for c in hard.calls)}x, expected 3 — "
+        f"home was attempted {sum('home_arm.py' in c for c in hard.calls)}x, expected 3, "
         "one home is not reliable enough to spend a scored trial on"
     )
 
@@ -472,7 +472,7 @@ def test_scored_trial_retries_homing_before_aborting(tmp_path):
     quick = _run_shell(tmp_path, loop, gate_out="PREFLIGHT PASS (v2)", gate_rc="0 1 1")
     assert "REACHED_THE_END" in quick.out and quick.rc == 0, "a clean gate did not reach the launch"
     assert sum("home_arm.py" in c for c in quick.calls) == 1, (
-        f"the loop re-homed {sum('home_arm.py' in c for c in quick.calls)}x after gating green — "
+        f"the loop re-homed {sum('home_arm.py' in c for c in quick.calls)}x after gating green, "
         "GATED is latched, so the rollout starts from a pose nothing checked, and it burns two "
         "extra elbow holds against a documented thermal budget"
     )
@@ -480,12 +480,12 @@ def test_scored_trial_retries_homing_before_aborting(tmp_path):
 
 def test_abort_speaks_the_cause_not_the_category(tmp_path):
     """'abort, preflight' tells the operator nothing and the TTS mangles it.
-    The spoken message must name the failing gate — and then stop the trial.
+    The spoken message must name the failing gate, and then stop the trial.
 
     Grepping for the cue strings let the abort path rot while every cue stayed
     in the file. Deleting `REASON="$OUT"` (it looks redundant beside the echo
     two lines up) leaves REASON empty, every `case` arm misses, and every abort
-    speaks "abort. unknown gate." — the same non-information this test exists
+    speaks "abort. unknown gate.", the same non-information this test exists
     to forbid, one costume over. Deleting `exit 3` leaves the abort speaking
     the right cause and then falling through into the launch: a 45 s scored
     episode from the pose the gate just rejected, written into trials.csv as if
@@ -495,23 +495,23 @@ def test_abort_speaks_the_cause_not_the_category(tmp_path):
     loop = _section("GATED=0", "# --- launch")
     for reason, expected in (
         (
-            "PREFLIGHT ABORT — home: elbow_flex=74.10 outside [77.53, 81.93]",
+            "PREFLIGHT ABORT, home: elbow_flex=74.10 outside [77.53, 81.93]",
             "abort. elbow out of range.",
         ),
-        ("PREFLIGHT ABORT — placement: tube |d|=10.2 px > 8 px", "abort. tube placement."),
-        ("PREFLIGHT ABORT — thermal: elbow temp 62C > 60C", "abort. elbow too hot."),
+        ("PREFLIGHT ABORT, placement: tube |d|=10.2 px > 8 px", "abort. tube placement."),
+        ("PREFLIGHT ABORT, thermal: elbow temp 62C > 60C", "abort. elbow too hot."),
         (
-            "PREFLIGHT ABORT — could not evaluate a gate: no tube |d| in scene_check output",
+            "PREFLIGHT ABORT, could not evaluate a gate: no tube |d| in scene_check output",
             "abort. a check could not be read.",
         ),
     ):
         ran = _run_shell(tmp_path, loop, gate_out=reason, gate_rc="1")
         assert ran.spoken == [expected], (
-            f"the gate said {reason!r} and the operator heard {ran.spoken!r} — expected "
+            f"the gate said {reason!r} and the operator heard {ran.spoken!r}, expected "
             f"[{expected!r}]. 'abort. unknown gate.' means the reason never reached the case."
         )
         assert ran.rc == 3 and "REACHED_THE_END" not in ran.out, (
-            f"the wrapper spoke {expected!r} and then kept going (rc={ran.rc}) — a scored "
+            f"the wrapper spoke {expected!r} and then kept going (rc={ran.rc}), a scored "
             f"trial launches from the pose the gate just rejected\n{ran.out}"
         )
 
@@ -519,7 +519,7 @@ def test_abort_speaks_the_cause_not_the_category(tmp_path):
 def test_scene_is_captured_after_the_arm_is_homed():
     """Aug 30: scene_check reported the tube NOT FOUND because the arm had been
     parked over it since the previous session. The parser raises rather than
-    passing, so it failed safe — but it burns a trial slot and reads as a
+    passing, so it failed safe, but it burns a trial slot and reads as a
     placement problem when it is an occlusion problem. Home first, then look."""
     src = (TOOLS / "run_scored_trial.sh").read_text()
     home_i = src.index("home_arm.py")
@@ -556,7 +556,7 @@ def test_parse_joint_temps_reads_every_joint_from_its_own_line():
 # the Sep 6 bug restored, green. They now gate on HOME_OK (v2), which needs no data at all.
 def test_a_hot_wrist_aborts_even_when_the_elbow_is_cool():
     """Measured Sep 6: the arm was parked holding the v4 home pose during software work and
-    wrist_flex reached 68C — one degree under the 69C brownout on the ledger — while the elbow sat
+    wrist_flex reached 68C, one degree under the 69C brownout on the ledger, while the elbow sat
     at 57C. The old gate read the elbow only: it would have passed this trial and named the
     elbow's 57C as the reason it was safe. The brownout is a property of the servo, not the joint."""
     ok, reasons = preflight.gate(SCENE_OK, HOME_OK, PING_ALL)
@@ -609,7 +609,7 @@ def test_a_joint_whose_temperature_cannot_be_read_is_a_refusal_naming_it(joint, 
     ok, reasons = preflight.gate(SCENE_OK, HOME_OK, ping)
     thermal = [r for r in reasons if r.startswith("thermal:")]
     assert not ok and thermal, (
-        f"{joint} ({shape}) gated {ok}, reasons {reasons} — every other servo on the Sep 6 receipt "
+        f"{joint} ({shape}) gated {ok}, reasons {reasons}, every other servo on the Sep 6 receipt "
         f"is at 44-52C, so this is a PASS on a servo nobody read"
     )
     assert joint in thermal[0], f"the refusal does not name {joint}: {thermal}"
@@ -630,14 +630,14 @@ def test_an_unread_servo_stops_the_launcher_without_a_repair(tmp_path):
     for joint in ("gripper", "elbow_flex"):
         rc, out = _preflight_cli(tmp_path, SCENE_OK, HOME_OK, _unread(PING_OK, joint, "no response"))
         assert rc == 1 and "ABORT" in out and joint in out, (
-            f"{joint} did not answer and preflight.py printed {out!r}, exit {rc} — the runner "
+            f"{joint} did not answer and preflight.py printed {out!r}, exit {rc}, the runner "
             "branches on $? alone, so 0 launches a scored trial on a servo nobody read"
         )
         ran = _run_shell(tmp_path, loop, gate_out=out, gate_rc=str(rc))
         assert ran.rc == 3 and "REACHED_THE_END" not in ran.out, f"{joint} unread and it launched: {ran!r}"
         assert not [c for c in ran.calls if "reseat_gripper.py" in c], f"{joint} unread ran a reseat: {ran!r}"
         assert sum("home_arm.py" in c for c in ran.calls) == 1, (
-            f"{joint} unread and the loop re-homed — an unreadable servo is a human-only gate: {ran!r}"
+            f"{joint} unread and the loop re-homed, an unreadable servo is a human-only gate: {ran!r}"
         )
 
 

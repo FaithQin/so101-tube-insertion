@@ -88,7 +88,7 @@ def test_the_operators_real_controls_still_work():
 
 def test_letters_are_ignored_there_is_no_early_end_key():
     """Sep 17 2026 07:35: an 'n -> end episode' translation was added at 07:06 and reverted 30 minutes later --
-    the launcher's Terminal window takes focus when it opens, so a letter typed for the chat ended a scored
+    the launcher's Terminal window takes focus when it opens, so a letter typed into the wrong window ended a scored
     trial at 2.7 s. Letters pass through untouched (lerobot's dispatcher ignores them); the arrow is dropped."""
     k = _fake_kbi()
     arrow_guard.install(k)
@@ -158,7 +158,7 @@ def test_the_rollout_wrapper_is_guarded():
 
 
 def test_recording_leaves_the_ARROWS_LIVE():
-    """Faith drives recording with the arrow keys (Sep 5) — her workflow.
+    """Faith drives recording with the arrow keys (Sep 5), her workflow.
 
     Left = re-record, Right = next. Filtering them out of the recorder would
     silently take away the controls she actually uses, which is worse than the
@@ -168,10 +168,10 @@ def test_recording_leaves_the_ARROWS_LIVE():
     """
     out = _probe("record_arrow_safe")
     assert "DISPATCHED=['left', 'right', 'up', 'down', 'n', 'r', 'q', 'esc']" in out, (
-        f"the recorder is swallowing arrow keys — Left/Right must reach lerobot\n{out}"
+        f"the recorder is swallowing arrow keys, Left/Right must reach lerobot\n{out}"
     )
     assert "ARROWS_IN_MAP=[]" not in out, (
-        f"the recorder stripped the pynput arrow map — Left/Right would not work "
+        f"the recorder stripped the pynput arrow map, Left/Right would not work "
         f"under the pynput backend either\n{out}"
     )
 
@@ -227,8 +227,8 @@ print("GUARD_FLAG=" + repr(getattr(kbi, "_capstone_arrow_guard_installed", False
 def test_the_guard_works_even_if_the_recorder_was_imported_first():
     """Checked on the ROLLOUT wrapper, the entry point that still filters.
 
-    (Recording deliberately leaves the arrows live — see
-    test_recording_leaves_the_ARROWS_LIVE — so it is not the subject here.)"""
+    (Recording deliberately leaves the arrows live, see
+    test_recording_leaves_the_ARROWS_LIVE, so it is not the subject here.)"""
     r = subprocess.run([PYBIN, "-c", _ORDER_PROBE.format(tools=str(TOOLS))],
                        capture_output=True, text=True, timeout=300)
     assert r.returncode == 0, f"import-order probe failed:\n{r.stdout}\n{r.stderr[-1500:]}"
@@ -238,7 +238,7 @@ def test_the_guard_works_even_if_the_recorder_was_imported_first():
 
 ENV_PYTHON = "/opt/homebrew/Caskroom/miniforge/base/envs/lerobot/bin/python"
 DOCS_WITH_RECORD_COMMANDS = [
-    "Start Schedule — v4.md",
+    "start-schedule-v4.md",
     "working notes (private)",
     "working notes (private)",
 ]
@@ -267,7 +267,7 @@ def test_the_documented_record_command_pins_the_interpreter():
                 offenders.append(f"{rel}:{i}: {stripped[:80]}")
     assert not offenders, (
         "documented record command uses a bare `python`, which is miniforge base "
-        f"and cannot import lerobot — use {ENV_PYTHON}:\n  " + "\n  ".join(offenders)
+        f"and cannot import lerobot, use {ENV_PYTHON}:\n  " + "\n  ".join(offenders)
     )
 
 
@@ -282,7 +282,7 @@ def test_the_wrapper_says_which_interpreter_to_use_when_lerobot_is_missing():
     inside main(), but `install()` runs at module import and imports
     lerobot.utils.keyboard_input itself, so the real failure was always a naked
     traceback from arrow_guard.py:53. Grepping proved the words were present,
-    not that they were ever printed — the same bug class as everything else
+    not that they were ever printed, the same bug class as everything else
     fixed tonight. Execute it instead.
     """
     if not os.path.exists(BASE_PYTHON):
@@ -298,7 +298,7 @@ def test_the_wrapper_says_which_interpreter_to_use_when_lerobot_is_missing():
 
 
 def test_the_wrapper_still_runs_under_the_right_interpreter():
-    """The control for the test above — otherwise 'it errors' proves nothing."""
+    """The control for the test above, otherwise 'it errors' proves nothing."""
     r = subprocess.run([ENV_PYTHON, str(TOOLS / "record_arrow_safe.py"), "--help"],
                        capture_output=True, text=True, timeout=300)
     assert "usage:" in (r.stdout + r.stderr), (r.stdout + r.stderr)[-600:]
@@ -309,10 +309,10 @@ def test_every_documented_record_command_carries_the_task_string():
 
     Episodes 0-2 carry "Pick up the test tube and insert it into the rack";
     3-19 carry "". The run crashed after ep 2 (phantom arrow), was resumed, and
-    the resume command in the Sep 4 handoff had no --dataset.single_task — so
+    the resume command in the Sep 4 handoff had no --dataset.single_task, so
     every episode recorded on a resume, yesterday and this morning, got the
     empty prompt. ACT ignores language; SmolVLA is language-conditioned and
-    would train on "" then be evaluated on the real prompt — the pi0.5
+    would train on "" then be evaluated on the real prompt, the pi0.5
     empty-prompt bug, baked into the training data this time. Found Sep 5.
     """
     root = TOOLS.parent

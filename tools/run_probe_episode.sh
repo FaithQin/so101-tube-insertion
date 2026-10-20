@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Usage: run_probe_episode.sh on|off  — one ACT-A-v2 probe episode from the
+# Usage: run_probe_episode.sh on|off , one ACT-A-v2 probe episode from the
 # MAIN checkout with the grasp lock armed or not. Logs to tools/probe_logs/
 # for banner/loop-rate/engagement verification. Promoted from the Aug 27
 # session (tests pending).

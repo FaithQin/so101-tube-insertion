@@ -79,7 +79,7 @@ def parse_tube_delta(scene_text: str) -> float:
     # carry-start tests; the Aug 30 arm-over-the-tube case had no rack line to fall into).
     m = re.search(r"tube \(blue cap\)[^\n]*?\|d\|=\s*([\d.]+)", scene_text)
     if not m:
-        raise ValueError("no tube |d| in scene_check output — cannot gate placement")
+        raise ValueError("no tube |d| in scene_check output, cannot gate placement")
     return float(m.group(1))
 
 
@@ -87,7 +87,7 @@ def parse_tube_live(scene_text: str) -> tuple[float, float]:
     """The live cap centroid in reference px, from the tube line. Same-line match, like parse_tube_delta."""
     m = re.search(r"tube \(blue cap\)[^\n]*?live=\(\s*([\d.]+),\s*([\d.]+)\)", scene_text)
     if not m:
-        raise ValueError("no live tube centroid in scene_check output — cannot gate placement against a target")
+        raise ValueError("no live tube centroid in scene_check output, cannot gate placement against a target")
     return float(m.group(1)), float(m.group(2))
 
 
@@ -96,21 +96,21 @@ def parse_rack_delta(scene_text: str) -> float:
     then, so its placement mark says nothing; the rack must be where training had it."""
     m = re.search(r"rack \(orange funnel\)[^\n]*?\|d\|=\s*([\d.]+)", scene_text)
     if not m:
-        raise ValueError("no rack |d| in scene_check output — cannot gate the rack for a carry start")
+        raise ValueError("no rack |d| in scene_check output, cannot gate the rack for a carry start")
     return float(m.group(1))
 
 
 def parse_settled_pose(home_text: str) -> dict:
     m = re.search(r"settled:\s*(\{[^}]*\})", home_text)
     if not m:
-        raise ValueError("no 'settled:' line in home_arm output — cannot gate the pose")
+        raise ValueError("no 'settled:' line in home_arm output, cannot gate the pose")
     return {k: float(v) for k, v in ast.literal_eval(m.group(1)).items()}
 
 
 def parse_elbow_temp(ping_text: str) -> int:
     m = re.search(r"elbow_flex.*?(\d+)C", ping_text)
     if not m:
-        raise ValueError("no elbow temperature in ping_motors output — cannot gate thermal")
+        raise ValueError("no elbow temperature in ping_motors output, cannot gate thermal")
     return int(m.group(1))
 
 
@@ -133,7 +133,7 @@ def parse_joint_temps(ping_text: str) -> dict:
         joint = m.group(1)
         if joint in seen:
             raise ValueError(
-                f"{joint} appears twice in ping_motors output (both arms captured?) — cannot tell "
+                f"{joint} appears twice in ping_motors output (both arms captured?), cannot tell "
                 "which reading is the follower's; cannot gate thermal"
             )
         seen.add(joint)
@@ -141,7 +141,7 @@ def parse_joint_temps(ping_text: str) -> dict:
         if t:
             out[joint] = int(t.group(1))
     if not out:
-        raise ValueError("no joint temperatures in ping_motors output — cannot gate thermal")
+        raise ValueError("no joint temperatures in ping_motors output, cannot gate thermal")
     return out
 
 
@@ -159,7 +159,7 @@ def gate(
     scene_text: str, home_text: str, ping_text: str, dataset: str = home_gate.DEFAULT_DATASET,
     tube_target: tuple | None = None,
 ) -> tuple[bool, list]:
-    """Return (ok, reasons). Reports EVERY failure, not just the first — a
+    """Return (ok, reasons). Reports EVERY failure, not just the first, a
     one-at-a-time gate costs an extra trip to the bench per problem.
 
     `dataset` selects WHICH training distribution the pose is gated against.
@@ -193,7 +193,7 @@ def gate(
 
     # Gate the pose the POLICY will observe, not the one home_arm leaves behind.
     # SOFollower.connect() shifts wrist_roll by about -1.62 deg (measured Aug 30),
-    # and home_arm now pre-compensates for that — so its settled pose is
+    # and home_arm now pre-compensates for that, so its settled pose is
     # deliberately outside the training band and only lands inside after connect.
     # Judging the pre-connect pose rejects a correct setup and, worse, accepts an
     # uncompensated one that will drift out of band the moment the rollout starts.
@@ -206,7 +206,7 @@ def gate(
     # from being read.
     unread_pose = [j for j in home_gate.support_for(dataset) if j not in pose]
     if unread_pose:
-        reasons.append(f"home: {', '.join(unread_pose)} not in the settled line — unread, not in band")
+        reasons.append(f"home: {', '.join(unread_pose)} not in the settled line, unread, not in band")
     pose = home_arm_shift.predict_post_connect(pose)
     ok_pose, offenders = home_gate.check_pose(pose, dataset=dataset)
     if not ok_pose:
@@ -225,7 +225,7 @@ def gate(
     # (run_scored_trial.sh:102-104). A servo off the bus needs the power cycle, not a reseat.
     unread = [j for j in SERVO_JOINTS if j not in temps]
     if unread:
-        reasons.append(f"thermal: {', '.join(unread)} temperature unreadable — an unread servo is not a cool one")
+        reasons.append(f"thermal: {', '.join(unread)} temperature unreadable, an unread servo is not a cool one")
 
     return (not reasons), reasons
 
@@ -240,7 +240,7 @@ if __name__ == "__main__":
         tname = os.environ.get("CAPSTONE_TUBE_TARGET")
         if tname:
             if tname not in TUBE_TARGETS:
-                print(f"PREFLIGHT ABORT — unknown tube target '{tname}' (CAPSTONE_TUBE_TARGET); known: "
+                print(f"PREFLIGHT ABORT, unknown tube target '{tname}' (CAPSTONE_TUBE_TARGET); known: "
                       f"{sorted(TUBE_TARGETS)}")
                 sys.exit(1)
             target = TUBE_TARGETS[tname]
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     except (ValueError, OSError) as exc:
         # A malformed or missing capture aborts. Never degrade to "pass": a
         # check that reads green on broken input is worse than no check.
-        print(f"PREFLIGHT ABORT — could not evaluate a gate: {exc}")
+        print(f"PREFLIGHT ABORT, could not evaluate a gate: {exc}")
         sys.exit(1)
-    print(f"PREFLIGHT PASS ({ds})" if ok else "PREFLIGHT ABORT — " + "; ".join(reasons))
+    print(f"PREFLIGHT PASS ({ds})" if ok else "PREFLIGHT ABORT, " + "; ".join(reasons))
     sys.exit(0 if ok else 1)

@@ -77,7 +77,7 @@ def v2_frame0_stats():
 
 @pytest.fixture(scope="session")
 def v3_frame0_stats():
-    """Same, for v3. NOT interchangeable with v2 — measured Aug 29, v3's elbow
+    """Same, for v3. NOT interchangeable with v2, measured Aug 29, v3's elbow
     frame-0 range is [78.11, 90.42] against v2's [75.47, 84.44], and its gripper
     is [0.79, 1.57] against [1.14, 1.64]. Gating a v3 policy on v2's bounds
     rejects perfectly in-distribution poses and admits out-of-distribution ones."""

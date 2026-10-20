@@ -76,7 +76,7 @@ for idx, size in targets.items():
     if cap is None:
         continue
     # Opening is not the same as streaming. Prove it yields a frame before
-    # claiming it works — two cameras on one USB 2.0 bus can open fine and
+    # claiming it works, two cameras on one USB 2.0 bus can open fine and
     # then starve, which looks exactly like a dead camera.
     got = any(cap.read()[0] for _ in range(10))
     if not got:

@@ -46,7 +46,7 @@ def joint_offsets(recorded: dict, reported: dict) -> dict:
 
 def consistency_verdict(per_pose: list[dict], tol_deg: float) -> dict:
     """CALIBRATION_CONSTANT if every joint's offset agrees across poses within
-    tol_deg of its median; POSE_DEPENDENT otherwise — the discriminator between
+    tol_deg of its median; POSE_DEPENDENT otherwise, the discriminator between
     a fixable calibration constant and a servo/gear fault."""
     if len(per_pose) < 2:
         raise ValueError("consistency needs at least two poses")

@@ -76,7 +76,7 @@ def test_roundtrip_through_disk_preserves_voids_and_assignments(tmp_path):
 
 def test_redo_queue_replays_each_voided_type_exactly_once_in_order():
     """Voiding four episodes of three different types must yield those four
-    types back, in the order they were voided — not the same type repeatedly.
+    types back, in the order they were voided, not the same type repeatedly.
 
     First implementation asked "is this type still owed?", which is true for any
     type the schedule still has unrecorded copies of, so voiding one RESIST out
@@ -107,7 +107,7 @@ def test_after_redos_it_resumes_the_schedule_order_not_the_commonest_type():
 
     First implementation picked whichever type had the most still owed, which is
     always CLEAN, so after a redo it queued six CLEANs in a row and the recovery
-    episodes all bunched at the end — exactly the fatigue-clustering the
+    episodes all bunched at the end, exactly the fatigue-clustering the
     schedule's seeded interleave exists to prevent.
     """
     planned = ["CLEAN", "RESIST", "CLEAN", "LEFT-MIMIC", "CLEAN", "ROT-20°", "CLEAN", "NUDGE"]
@@ -219,9 +219,9 @@ def test_the_schedule_table_IS_the_manifest():
     from v4_manifest import Manifest
     import v4_render_schedule as r
     m = Manifest.load(PROJECT / "tools" / "v4_manifest.json")
-    rows = r.parse_rows((PROJECT / "Start Schedule — v4.md").read_text())
+    rows = r.parse_rows((PROJECT / "start-schedule-v4.md").read_text())
     table = {i: t for i, t, *_ in rows}
-    assert table == m.assigned, "run tools/v4_render_schedule.py — the table has drifted from the manifest"
+    assert table == m.assigned, "run tools/v4_render_schedule.py, the table has drifted from the manifest"
     flags = {i: f for i, _, f, *_ in rows}
     for v in m.voided:
         assert flags[v].startswith("VOID"), f"voided ep {v} is not marked in the table"

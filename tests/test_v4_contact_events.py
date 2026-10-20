@@ -57,7 +57,7 @@ def _live(s, seed=7, scale=0.01):
     small enough (0.01 vs the unit baseline sigma -> |z| ~ 0.03) that it cannot make an event.
 
     Needed because `check_channels_live` refuses a frozen load/current column everywhere a contact
-    number is computed, and `np.zeros((n, 18))` is twelve frozen columns — a state the sidecar
+    number is computed, and `np.zeros((n, 18))` is twelve frozen columns, a state the sidecar
     cannot produce. Do not "simplify" these canvases back to zeros or to a constant marker: that
     reintroduces exactly the input the gate exists to reject."""
     s = np.asarray(s, dtype=float)
@@ -66,7 +66,7 @@ def _live(s, seed=7, scale=0.01):
 
 
 def _marker(n, base):
-    """A column marker that uniquely identifies a channel WITHOUT being constant — a constant
+    """A column marker that uniquely identifies a channel WITHOUT being constant, a constant
     marker is what the loader now refuses on the load/current channels."""
     return base + np.arange(n, dtype=float)
 
@@ -122,8 +122,8 @@ def test_adapter_dataset_state_to_sidecar_layout_roundtrips(tmp_path):
 
 
 def test_loader_refuses_a_csv_missing_a_channel_or_with_a_constant_load_column(tmp_path):
-    """Named for the loader, and until Sep 6 its second half exercised `Baseline.from_csvs` — the
-    BASELINE path — which is how "the loader refuses a constant load column" read as covered while
+    """Named for the loader, and until Sep 6 its second half exercised `Baseline.from_csvs`, the
+    BASELINE path, which is how "the loader refuses a constant load column" read as covered while
     a dead TRIAL went through. Both halves now go through the loader."""
     s = _quiet(30)
     p = tmp_path / "bad_telemetry.csv"
@@ -337,7 +337,7 @@ def test_analyze_labels_each_event_with_the_windows_it_falls_in():
 def _dead_instrument(n=200, seed=3, how="nan"):
     """A sidecar-shaped trial with REAL positions and a dead instrument on all 12 load/current
     channels. `how="nan"` is what the sidecar writes when the observation carries no `.load` /
-    `.current` key (telemetry_sidecar.py:27, "a missing key is NaN in its column") — i.e. the
+    `.current` key (telemetry_sidecar.py:27, "a missing key is NaN in its column"), i.e. the
     so_follower load patch is not in place. `how="flat"` is a bus that stopped updating and left
     the last good value repeated. Neither is a measurement, and gate G-T names the second one
     ("load and current are non-constant across the episode")."""
@@ -349,7 +349,7 @@ def _dead_instrument(n=200, seed=3, how="nan"):
 @pytest.mark.parametrize("how,pattern", [("nan", "NaN"), ("flat", "constant")])
 def test_analyze_refuses_a_trial_whose_load_current_channels_are_dead(how, pattern):
     """The hole this closes: `load_z` on a dead trial is NaN, `z > CONTACT_Z` is False at every
-    frame (every NaN comparison is False), and `analyze` returned "0 events" — which is exactly
+    frame (every NaN comparison is False), and `analyze` returned "0 events", which is exactly
     what a trial that never touched the rack looks like. The refusal existed for the BASELINE
     only (Baseline.from_states, v4_contact_events.py:197-209)."""
     s = _dead_instrument(how=how)
@@ -358,7 +358,7 @@ def test_analyze_refuses_a_trial_whose_load_current_channels_are_dead(how, patte
 
 
 def test_the_refusal_names_the_offending_columns_not_just_the_fact():
-    """One frozen channel out of twelve, and the message has to say WHICH — the operator's next
+    """One frozen channel out of twelve, and the message has to say WHICH, the operator's next
     move is to look at that servo (mutation: report a bare count)."""
     s = _quiet(200, seed=4)
     s[:, 10] = 7.0                                  # wrist_roll load frozen; the other eleven live
@@ -394,7 +394,7 @@ def test_analyze_refuses_a_nan_action_stream():
     """Same silent shape on the other input: `(A[t] - P[t]) · û <= -deadband` is False at every
     tick when A is NaN, so every latency comes back None with the ordinary reason "no opposing
     command before the end of the trace" and the trial drops out of the median unremarked.
-    Constant action COLUMNS are deliberately not gated — a joint that never moves is a real
+    Constant action COLUMNS are deliberately not gated, a joint that never moves is a real
     trajectory, and gate G-T's non-constant clause is about the instrument, not the motion."""
     s = _quiet(60, seed=5)
     a = np.zeros((60, 6)); a[:, 2] = np.nan

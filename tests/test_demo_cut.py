@@ -158,8 +158,8 @@ def test_v2_sheet_parser_reads_run_id_stage_and_forensic_close(tmp_path):
     sheet = tmp_path / "sheet.md"
     sheet.write_text(
         SHEET_HEADER
-        + "|  6 | 2 | ACT-B | 25 | primed | S | | — | seated | trial_B_v2_20260825_171233 / ep0 | 2.6 s (lift +40.1, 3.0° high) | 9.8 s |\n"
-        + "| 29 | 6 | ACT-B | 25 | primed | INFRA — re-run | | INFRA | camera | trial_B_v2_20260825_201626 / ep0 | 2.7 s (lift +39.7, 2.6° high) | n/a (INFRA) |\n"
+        + "|  6 | 2 | ACT-B | 25 | primed | S | |, | seated | trial_B_v2_20260825_171233 / ep0 | 2.6 s (lift +40.1, 3.0° high) | 9.8 s |\n"
+        + "| 29 | 6 | ACT-B | 25 | primed | INFRA, re-run | | INFRA | camera | trial_B_v2_20260825_201626 / ep0 | 2.7 s (lift +39.7, 2.6° high) | n/a (INFRA) |\n"
     )
     rows = dc.v2_sheet_rows(sheet)
     assert rows["6"]["run_id"] == "trial_B_v2_20260825_171233"
@@ -178,8 +178,8 @@ def test_seated_fraction_counts_S_rows_over_valid_trials_and_drops_infra_reruns(
     sheet.write_text(
         SHEET_HEADER
         + "|  1 | 1 | ACT-A | 25 | primed | R | | PECK | pecked | trial_A_v2_20260825_164252 / ep0 | 2.4 s | never |\n"
-        + "|  6 | 2 | ACT-B | 25 | primed | S | | — | seated | trial_B_v2_20260825_171233 / ep0 | 2.6 s | 9.8 s |\n"
-        + "| 29 | 6 | ACT-B | 25 | primed | INFRA — re-run | | INFRA | camera | trial_B_v2_20260825_201626 / ep0 | 2.7 s | n/a (INFRA) |\n"
+        + "|  6 | 2 | ACT-B | 25 | primed | S | |, | seated | trial_B_v2_20260825_171233 / ep0 | 2.6 s | 9.8 s |\n"
+        + "| 29 | 6 | ACT-B | 25 | primed | INFRA, re-run | | INFRA | camera | trial_B_v2_20260825_201626 / ep0 | 2.7 s | n/a (INFRA) |\n"
         + "| 29b | 6 | ACT-B | 25 | primed | R | | PECK | re-run | trial_B_v2_20260825_202049 / ep0 | 2.7 s | never |\n"
     )
     assert dc.seated_fraction(dc.v2_sheet_rows(sheet)) == (1, 3)

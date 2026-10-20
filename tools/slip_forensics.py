@@ -18,7 +18,7 @@ Method, and its deliberate constraints:
   dominates and the metric measures nothing (the rack never moves).
 * Red is chroma-based (R dominant over G and B), never brightness, so the
   day/night lighting differences the v2 audit documented cannot read as motion.
-* v2-homed and v3-homed trials are separate groups — their commanded homes
+* v2-homed and v3-homed trials are separate groups, their commanded homes
   differ by design, so pooling would manufacture a fake step at the boundary.
 * Step detection compares MEDIANS of a trailing and leading window and demands
   the jump be sustained: one noisy detection is not a slip event.
@@ -83,7 +83,7 @@ def find_step(values: list[float], min_jump: float, min_run: int):
         after = float(np.median(v[k : k + min_run]))
         if abs(after - before) >= min_jump:
             # The median flips as soon as a majority of the leading window has
-            # shifted — one index early for a run-of-3. Refine to the first
+            # shifted, one index early for a run-of-3. Refine to the first
             # value actually on the far side, which is the true onset.
             while k < len(v) and abs(v[k] - before) < min_jump / 2:
                 k += 1
@@ -92,7 +92,7 @@ def find_step(values: list[float], min_jump: float, min_run: int):
 
 
 def group_key(name: str) -> str:
-    """v2-homed vs v3-homed trials — different commanded homes by design.
+    """v2-homed vs v3-homed trials, different commanded homes by design.
 
     v2 group: every rollout with the `_v2_` tag (Aug 25 trials, lock probes).
     v3 group: the B2* families (Block 2 probes, B2R/B2V re-runs, Block 2B).

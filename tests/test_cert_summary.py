@@ -3,7 +3,7 @@
 Sep 14 2026. The bench record and the the lab notebook (private) (Sep 14 12:37) carry three numbers per
 certification pass -- loop rate, the end-effector height proxy over the last 100 frames, and the
 minimum jaw opening through the carry window -- and until this file they were computed by an
-ad-hoc snippet in the chat. A number in the record that no tool reproduces is a number nobody can
+ad-hoc one-off snippet. A number in the record that no tool reproduces is a number nobody can
 check. This pins the definitions to the ones already published:
 
   * loop_hz    = (rows - 1) / (t_mono[last] - t_mono[first])            (the receipts' definition)

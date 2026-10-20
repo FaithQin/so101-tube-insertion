@@ -1,6 +1,6 @@
 """Feetech telemetry block read (Aug 25, 2026): registers 56-70 are contiguous
 on STS servos, so ONE sync-read transaction of 15 bytes yields position,
-velocity, load, voltage, temperature, and current for every motor — the answer
+velocity, load, voltage, temperature, and current for every motor, the answer
 to upstream PR #3456's latency objection (3 extra sync_reads ~15-30 ms)."""
 
 import sys

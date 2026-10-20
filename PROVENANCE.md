@@ -1,31 +1,31 @@
 # Provenance
 
-This repository is a snapshot of a private working repository, copied on 2026-10-07 from its commit `2f27e70` by an allowlist. It has fresh history on purpose: the private history holds working notes, home camera frames and the blinding key of a study that is still sealed. Nothing here was written for this copy except `README.md`, `LICENSE`, `.gitignore` and this file.
+This repository is a snapshot of a private working repository, copied on 2026-10-07 from its commit `2f27e70` by an allowlist. It has fresh history on purpose: the private history holds working notes, home camera frames and the blinding key of a study that is still sealed. Nothing here was written for this copy except `README.md`, `STUDY.md`, `LICENSE`, `.gitignore` and this file.
 
 **Copied:** 228 tracked files. **Left out:** 513 tracked files, in these classes: the blinding key and everything derived from it (schedules, ledgers, sealed consoles, raw rollouts, six tests, the v4 bench sheet, the v4 protocol text), working notes, personal and machine-specific files, bulk diagnostic frames, home camera frames, and every video (the demo video ships as a release asset).
 
 ## Edits made in this copy
 
-Local paths were replaced with `<repo>` or `~`, citations of private notes with a generic description that keeps the line reference, references to development tooling with a generic word or a neutral rewrite, and one account URL with a placeholder. Two dated notes were inserted (an erratum in the DAgger design, a wording note on the v2 sheet) and two device serials were masked. Every edit, by file:
+Local paths were replaced with `<repo>` or `~`, citations of private notes with a generic description that keeps the line reference, references to machine-specific tooling with a generic word or a neutral rewrite, and one account URL with a placeholder. Two dated notes were inserted (an erratum in the DAgger design, a wording note on the v2 sheet) and two device serials were masked. Every edit, by file:
 
 | file | edit | count |
 |---|---|---:|
-| `Eval Design — DAgger single-arm before-after.md` | dated note inserted | 1 |
-| `Eval Protocol — ACT AB.md` | tooling reference | 1 |
-| `Eval Trials — v2 paired blocks.md` | tooling reference | 1 |
-| `Eval Trials — v2 paired blocks.md` | private-notes citation | 2 |
-| `Eval Trials — v2 paired blocks.md` | dated note inserted | 1 |
-| `Eval Trials — v3 paired blocks.md` | tooling reference | 1 |
-| `Eval Trials — v3 paired blocks.md` | private-notes citation | 1 |
-| `Methodology — recording protocols from the literature.md` | tooling reference | 1 |
-| `Methodology — recording protocols from the literature.md` | tooling reference | 1 |
-| `Methodology — recording protocols from the literature.md` | tooling reference | 1 |
-| `Methodology — recording protocols from the literature.md` | tooling reference | 1 |
-| `Methodology — recording protocols from the literature.md` | tooling reference | 1 |
-| `Methodology — recording protocols from the literature.md` | private-notes citation | 4 |
-| `Start Schedule — v4.md` | tooling reference | 1 |
-| `Start Schedule — v4.md` | device serial | 1 |
-| `Start Schedule — v4.md` | device serial | 1 |
+| `eval-design-dagger-before-after.md` | dated note inserted | 1 |
+| `eval-protocol-act-ab.md` | tooling reference | 1 |
+| `eval-trials-v2.md` | tooling reference | 1 |
+| `eval-trials-v2.md` | private-notes citation | 2 |
+| `eval-trials-v2.md` | dated note inserted | 1 |
+| `eval-trials-v3.md` | tooling reference | 1 |
+| `eval-trials-v3.md` | private-notes citation | 1 |
+| `methodology-recording-protocols.md` | tooling reference | 1 |
+| `methodology-recording-protocols.md` | tooling reference | 1 |
+| `methodology-recording-protocols.md` | tooling reference | 1 |
+| `methodology-recording-protocols.md` | tooling reference | 1 |
+| `methodology-recording-protocols.md` | tooling reference | 1 |
+| `methodology-recording-protocols.md` | private-notes citation | 4 |
+| `start-schedule-v4.md` | tooling reference | 1 |
+| `start-schedule-v4.md` | device serial | 1 |
+| `start-schedule-v4.md` | device serial | 1 |
 | `TESTING.md` | repo path | 1 |
 | `TESTING.md` | tooling reference | 1 |
 | `TESTING.md` | tooling reference | 3 |
@@ -100,4 +100,8 @@ Local paths were replaced with `<repo>` or `~`, citations of private notes with 
 | `tools/v4_verdict_checkpoint.py` | private-notes citation | 1 |
 | `tools/watch_hf_job.sh` | local path | 2 |
 | `tools/watch_hf_job.sh` | tooling reference | 1 |
+
+## Edits made on 2026-10-19
+
+The README was rewritten as a landing page and the write-up it carried moved to `STUDY.md`. The record documents at the top level, `TESTING.md`, `tools/README.md` and `analysis/demo_cut/EDL.md` had their punctuation edited for readability (em-dashes and semicolons replaced), with no change to any number, date, table, path or claim. A few references to private notes in `TESTING.md`, the methodology notes and `tools/README.md` were reworded, and one citation in `analysis/demo_cut/EDL.md` was given the same generic form as the citations above. The eight record documents at the top level were then given plain lowercase file names, and the tools, tests and documents that name them were updated to match.
 

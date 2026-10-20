@@ -18,7 +18,7 @@ verdict is what separates "seated and held" from "cap passed over the funnel".
 It also enforces the start-state guard. That same trial BEGAN with the tube
 already seated and was reset ~7 s into recording with a hand in frame, so the
 policy observed 7 s of a scene that exists nowhere in training. Nothing in the
-harness caught it — the operator did. An episode that opens seated is INFRA and
+harness caught it, the operator did. An episode that opens seated is INFRA and
 carries no verdict at all, so it cannot slip into a block.
 
 The classifier is deliberately identical to seat_check.py (blue-cap HSV mask,
@@ -124,7 +124,7 @@ def score_video(path: str) -> dict:
 def render(r: dict) -> str:
     lines = [f"  frames={r['n']} dur={r['duration_s']:.1f}s"]
     if r["infra_start_seated"]:
-        lines.append("  *** INFRA: episode BEGAN with the cap in the rack region — invalid start state, NOT scoreable ***")
+        lines.append("  *** INFRA: episode BEGAN with the cap in the rack region, invalid start state, NOT scoreable ***")
     lines.append(f"  FINAL: cap={r['final_cap']} -> {r['final']}")
     for a, b, d in r["seat_runs"]:
         tag = "holds to end" if abs(b - (r["duration_s"] - 1 / 20)) < 0.2 else "LOST"

@@ -11,7 +11,7 @@ you reach by hand. Feed the result to patch_gripper.py.
 
 Frame note: range_min/max are RAW positions recorded AFTER homing offsets are
 written (motors_bus.py:822). Endpoints from an older calibration are in a
-different frame and can NEVER be transplanted. Compare WIDTHS instead — widths
+different frame and can NEVER be transplanted. Compare WIDTHS instead, widths
 are offset-invariant.
 
   Known-good widths:  leader ~1216-1230,  follower ~1393-1401
@@ -34,7 +34,7 @@ max_samples = int(sys.argv[1]) if len(sys.argv) > 1 else 0
 buses, seen = {}, {}
 for label, (port, cal_path) in ARMS.items():
     bus = open_bus(port, cal_path)
-    bus.disable_torque("gripper")          # gripper only — arm keeps holding
+    bus.disable_torque("gripper")          # gripper only, arm keeps holding
     buses[label] = bus
     seen[label] = [10**9, -10**9]
     g = json.loads(Path(cal_path).read_text())["gripper"]
@@ -62,7 +62,7 @@ try:
 except KeyboardInterrupt:
     pass
 finally:
-    print("\n=== RAW RANGE REACHED BY HAND — use as range_min / range_max ===")
+    print("\n=== RAW RANGE REACHED BY HAND, use as range_min / range_max ===")
     for label, (lo, hi) in seen.items():
         if lo <= hi:
             w = hi - lo

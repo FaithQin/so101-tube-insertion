@@ -10,19 +10,19 @@ a rollout does, three runs:
     wrist_flex    -0.10 / -0.10 / -0.10
     gripper        0.00
 
-The arm is rock steady on its own — held wrist_roll at -2.08 for 30 s with torque
-on — so this is caused by the connect/configure path relaxing the joint, and
+The arm is rock steady on its own, held wrist_roll at -2.08 for 30 s with torque
+on, so this is caused by the connect/configure path relaxing the joint, and
 backlash then takes it.
 
 Why it mattered and why nothing caught it: the preflight gate measures the pose
 `home_arm` leaves behind, but the POLICY observes the pose after the rollout has
 connected. Rollout frame-0 for B2R-A-01 was wrist_roll -4.7, which is -2.3 sigma
-against v3 training — outside the band the gate had just certified. Every v3
+against v3 training, outside the band the gate had just certified. Every v3
 trial so far started out of distribution on that joint.
 
 shoulder_lift's -5.69 is NOT drift and must not be compensated: it settles
 passively against its stop beyond the -100 command clamp, reads -99.6 clamped,
-and after connect reads -105.3 — which is v3's actual training value (-105.19).
+and after connect reads -105.3, which is v3's actual training value (-105.19).
 Compensating it would break the one joint that was already right.
 """
 
@@ -62,7 +62,7 @@ def test_shoulder_lift_is_not_compensated():
     import home_arm_shift
 
     assert "shoulder_lift" not in home_arm_shift.CONNECT_SHIFT, (
-        "shoulder_lift must NOT be compensated — it settles to its correct "
+        "shoulder_lift must NOT be compensated, it settles to its correct "
         "training value after connect"
     )
 
@@ -112,14 +112,14 @@ _PING = (
 def test_compensated_home_passes_because_post_connect_is_in_band():
     """home_arm now targets -0.28 so that connect's -1.62 lands it at -1.9.
     Gating the PRE-connect -0.28 against the training band rejects a correct
-    setup — which is exactly what blocked B2V-A-01."""
+    setup, which is exactly what blocked B2V-A-01."""
     ok, reasons = preflight.gate(_SCENE, _PRE.format(roll=-0.28), _PING, dataset="v3")
     assert ok, reasons
 
 
 def test_uncompensated_home_still_fails():
     """A pre-connect -2.1 becomes -3.7 after connect, which is out of band. The
-    gate must still catch that — this is the bug it exists to prevent."""
+    gate must still catch that, this is the bug it exists to prevent."""
     ok, reasons = preflight.gate(_SCENE, _PRE.format(roll=-2.1), _PING, dataset="v3")
     assert not ok
     assert any("wrist_roll" in r for r in reasons)

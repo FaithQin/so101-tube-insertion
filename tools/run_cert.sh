@@ -13,12 +13,12 @@
 #   6. retract to home, then relax torque -- ALWAYS, before anyone is asked anything (a replay leaves
 #      the arm holding at the rack; Sep 14 12:47: 70 C after 15 min of exactly that; 14:47: 6 C in
 #      3 min waiting for a typed verdict)
-#   7. print the one command that records the operator's verdict, called to the chat:
+#   7. print the one command that records the operator's verdict:
 #        python tools/cert_gate.py record tools/scored_logs/<label>_<stamp> SEAT|MISS   -> <run>.seat
 #   exit 0 when the replay completed (verdict pending), 3 gate abort, 5 replay failed.
 #
 # WHY (Sep 14 2026). G-R needs a replay to SEAT before every block and after any failed episode
-# (Eval Protocol -- v4 merged (Sep 6).md :245, :291). By hand this was six chat round trips per
+# (Eval Protocol -- v4 merged (Sep 6).md :245, :291). By hand this was six manual round trips per
 # pass, and the morning's one miss was the pass that skipped the scene check. Gate, don't narrate.
 set -u
 LABEL="${1:-}"
@@ -44,7 +44,7 @@ OUT=$($B/python tools/cert_gate.py temps "${RUN}.ping"); RC=$?
 echo "  $OUT"
 if [ "$RC" -ne 0 ]; then
   say "abort. too hot for certification."
-  echo "CERT ABORTED ($LABEL) — nothing moved. Wait for <= 52 C, then re-run."
+  echo "CERT ABORTED ($LABEL), nothing moved. Wait for <= 52 C, then re-run."
   exit 3
 fi
 
@@ -67,7 +67,7 @@ for attempt in 1 2 3 4 5; do
 done
 if [ "$RC" -ne 0 ]; then
   say "abort. elbow would not settle in band."
-  echo "CERT ABORTED ($LABEL) — the elbow did not settle in the certification band in $HOME_BUDGET homes (${RUN}.home); arm relieved."
+  echo "CERT ABORTED ($LABEL), the elbow did not settle in the certification band in $HOME_BUDGET homes (${RUN}.home); arm relieved."
   echo "       This is the worn gearbox. Let the arm rest, then re-run; if it never lands, the plant cannot be certified today."
   relieve
   exit 3
@@ -80,7 +80,7 @@ OUT=$($B/python tools/preflight.py "${RUN}.scene" "${RUN}.home" "${RUN}.ping" v4
 echo "  $OUT"
 if [ "$RC" -ne 0 ]; then
   say "abort. scene."
-  echo "CERT ABORTED ($LABEL) — no replay; arm relieved. Fix the cause above (nudge the tube / rack), then re-run."
+  echo "CERT ABORTED ($LABEL), no replay; arm relieved. Fix the cause above (nudge the tube / rack), then re-run."
   relieve
   exit 3
 fi
@@ -92,7 +92,7 @@ $B/python tools/replay_telemetry.py --episode 0 --out "${RUN}_telemetry.csv" 2>&
 RC=${pipestatus[1]}
 if [ "$RC" -ne 0 ]; then
   say "replay failed"
-  echo "CERT FAILED ($LABEL) — replay exit $RC (${RUN}.replay); no seat call taken; arm relieved."
+  echo "CERT FAILED ($LABEL), replay exit $RC (${RUN}.replay); no seat call taken; arm relieved."
   relieve
   exit 5
 fi
@@ -107,8 +107,8 @@ echo "  $SUMMARY"
 # the arm's retreat cannot change it.
 relieve
 
-# --- 7. the verdict is the operator's, called to the chat; one command lands it in the receipt -----
+# --- 7. the verdict is the operator's, given by hand. One command lands it in the receipt --------
 say "call the seat"
-echo "CERT $LABEL ran ($STAMP). The operator calls seat or miss to the chat; then:"
+echo "CERT $LABEL ran ($STAMP). The operator calls seat or miss, then:"
 echo "  python tools/cert_gate.py record tools/scored_logs/${LABEL}_${STAMP} SEAT|MISS"
 exit 0

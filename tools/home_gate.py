@@ -35,11 +35,11 @@ parquet, so they cannot quietly go stale.
 # The gripper is gated on CLOSED, not on its frame-0 min/max, and that is a
 # measurement, not a convenience. Calibration span is 1401 raw ticks; the jaw
 # bottoms out on command at raw 2074, while v3's frame-0 range 0.79-1.57 is raw
-# 2059-2070 — a gap of FOUR raw ticks, 0.29% of jaw travel. The arm cannot close
+# 2059-2070, a gap of FOUR raw ticks, 0.29% of jaw travel. The arm cannot close
 # those last ticks by commanding a position because during recording the jaw is
 # driven by the leader's TRIGGER, which pushes past the point where the jaws
 # touch. So the frame-0 gripper distribution encodes operator pressure, not a
-# reachable target — the same reason shoulder_lift is exempt for settling
+# reachable target, the same reason shoulder_lift is exempt for settling
 # against its stop.
 #
 # What must still be caught is a jaw left genuinely OPEN, which changes the whole
@@ -100,7 +100,7 @@ FRAME0 = {
 # Gate on mean +/- 1 sigma rather than the full observed range. Min/max is enough
 # for VALIDITY (is this a pose the policy ever saw?) but not for CONSISTENCY,
 # which a paired comparison also needs. On Aug 29 three v3 trials started at
-# 78.3, 83.2 and 86.3 — all legitimately inside v3's wide [78.11, 90.42] range —
+# 78.3, 83.2 and 86.3, all legitimately inside v3's wide [78.11, 90.42] range, 
 # and the 86.3 one was observed approaching too high. A pair whose two halves
 # start 8 degrees apart is not controlled for start pose.
 SIGMAS = 1.0
@@ -184,7 +184,7 @@ def support_for(dataset: str = DEFAULT_DATASET) -> dict:
 def in_training_support(joint: str, value: float, dataset: str = DEFAULT_DATASET) -> bool:
     """Is this joint's homed position one the policy saw at episode start?
 
-    Raises KeyError on an unknown joint or dataset — a typo must abort the
+    Raises KeyError on an unknown joint or dataset, a typo must abort the
     launch, not silently pass it.
     """
     table = support_for(dataset)
@@ -218,5 +218,5 @@ if __name__ == "__main__":
 
     ds = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_DATASET
     ok, bad = check_pose(json.loads(sys.argv[1]), dataset=ds)
-    print(f"HOME_GATE PASS ({ds})" if ok else f"HOME_GATE FAIL ({ds}) — {describe(bad)}")
+    print(f"HOME_GATE PASS ({ds})" if ok else f"HOME_GATE FAIL ({ds}), {describe(bad)}")
     sys.exit(0 if ok else 1)

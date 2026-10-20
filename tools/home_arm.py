@@ -3,7 +3,7 @@
 
 Why: lerobot-rollout captures "initial_position" from whatever pose the arm
 holds at connect. Our procedure runs warmup replays first, which end at the
-rack and drop torque — so the rollout's notion of "home" can be a slumped
+rack and drop torque, so the rollout's notion of "home" can be a slumped
 arbitrary pose, and every between-episode reset then returns to THAT
 (observed Aug 15: episode 2+ started from a hover, overreached into walls).
 Fix: home the arm to the pose the dataset actually starts from, measured
@@ -22,7 +22,7 @@ from _arms import FOLLOWER_CAL, FOLLOWER_PORT, JOINTS, open_bus
 import v4_carry  # the PRE-GRASPED pose's scripted close + settle rule (bus passed in, never opened there)
 
 # Frame-0 pose per training dataset, measured across every episode's first
-# frame (v1: Aug 15; v2: Aug 16 — parquet-derived, see
+# frame (v1: Aug 15; v2: Aug 16, parquet-derived, see
 # tests/test_home_pose_matches_training.py, which enforces this table).
 HOME_POSES = {
     "v1": [2.4, -105.2, 82.9, 73.4, -2.2, 1.1],
@@ -31,7 +31,7 @@ HOME_POSES = {
     # same start as v2: the elbow mean differs by 2.6 deg (82.3 vs 79.7), more
     # than one sd on the joint with the widest start spread, and the gripper
     # sits lower (1.00 vs 1.25). Homing a v3 policy to the v2 pose starts it
-    # outside its own training mean — caught Aug 29 when a v2-based gate
+    # outside its own training mean, caught Aug 29 when a v2-based gate
     # rejected an elbow of 85.30 that is squarely inside v3's range.
     "v3": [1.9, -105.2, 82.3, 73.8, -1.9, 1.0],
     # v4 (Sep 4-5 dataset), frame-0 means over its 50 TRAINING episodes (Sep 6 2026).
@@ -89,7 +89,7 @@ if _bad:
     )
 print(f"homing to {args.pose} training pose")
 
-# `SOFollower.connect()` itself moves the arm — wrist_roll by about -1.62 deg,
+# `SOFollower.connect()` itself moves the arm, wrist_roll by about -1.62 deg,
 # measured Aug 30 2026. The table lives in home_arm_shift so this script and the
 # preflight gate cannot drift apart: home_arm drives to HOME - shift so the arm
 # lands on HOME after connect, and the gate adds the shift back so it judges the
@@ -101,7 +101,7 @@ HOME = dict(zip(JOINTS, HOME_POSES[args.pose]))
 if not args.no_compensate:
     # post = pre + shift, so drive to HOME - shift to land on HOME after connect.
     HOME = {j: v - CONNECT_SHIFT.get(j, 0.0) for j, v in HOME.items()}
-# shoulder_lift's training home (-105.2) sits BEYOND the -100 goal clamp — the
+# shoulder_lift's training home (-105.2) sits BEYOND the -100 goal clamp, the
 # arm settles there passively against its stop, so its residual runs ~5.
 TOL = {"shoulder_lift": 7.0}
 TOL_DEFAULT = 2.5
@@ -126,7 +126,7 @@ for s in range(1, steps + 1):
 
 # ---------------------------------------------------------------------------
 # Anti-backlash approach. Measured Aug 30 2026 on the follower at 45 C: the same
-# elbow command lands 1.5 deg apart depending on approach direction —
+# elbow command lands 1.5 deg apart depending on approach direction, 
 # 79.7 -> 80.1 coming up from 74.0, but 79.7 -> 81.7 coming down from 86.7.
 # That is backlash plus friction (published STS3215: 0.87 deg backlash + 0.88 deg
 # dead zone), not a fault. Because this routine interpolates from wherever the
@@ -135,12 +135,12 @@ for s in range(1, steps + 1):
 # and was very nearly diagnosed as a failing servo.
 #
 # Fix: undershoot past the target, let it settle, then come back UP to it, so
-# every home approaches from the same side. shoulder_lift is excluded — it
+# every home approaches from the same side. shoulder_lift is excluded, it
 # settles against a mechanical stop beyond the goal clamp, so undershooting it
 # only fights the stop.
 BACKLASH_MARGIN = 3.0
 
-# Undershooting is only half the technique — the return has to be driven until
+# Undershooting is only half the technique, the return has to be driven until
 # it ARRIVES. Writing the target once left wrist_flex 1.0 deg short (72.80 for a
 # 73.80 target), which is inside this routine's own 2.5 residual tolerance, so it
 # reported HOMED while the pose was outside the training band. Converge instead.
@@ -180,7 +180,7 @@ time.sleep(0.6)
 
 # 2. RETURN to the target and let it settle. This step is not optional: without
 # it the correction below reads the arm at the undershoot position, computes a
-# 3 deg error, and commands 3 deg PAST the target — then back — oscillating.
+# 3 deg error, and commands 3 deg PAST the target, then back, oscillating.
 # Measured Aug 30 on wrist_roll, which tracks commands to +/-0.2 deg and still
 # homed to -3.6 against a -1.9 target because of exactly that oscillation.
 BACKLASH_RETURN = True
@@ -188,7 +188,7 @@ for j in _backlash_joints:
     bus.write("Goal_Position", j, HOME[j], normalize=True)
 time.sleep(BACKLASH_RETURN_SETTLE_S)
 
-# 3. Only now, nudge any joint still short — damped, and ONLY the short ones,
+# 3. Only now, nudge any joint still short, damped, and ONLY the short ones,
 # because re-commanding a joint already on target can push it off.
 for _ in range(4):
     actual = {j: float(bus.read("Present_Position", j, normalize=True)) for j in _backlash_joints}
@@ -217,7 +217,7 @@ for attempt in range(2):
 
 print("residuals:", {j: round(r, 1) for j, r in residuals.items()})
 print(f"HOMED (worst adjusted residual {worst:.1f})" if worst <= TOL_DEFAULT
-      else f"WARNING: adjusted residual {worst:.1f} exceeds {TOL_DEFAULT} — check for obstruction")
+      else f"WARNING: adjusted residual {worst:.1f} exceeds {TOL_DEFAULT}, check for obstruction")
 
 # PRE-GRASPED (v4-carry, a MODIFIED TASK): the tube goes into the open jaws by hand, the jaws
 # close on it, and only a jaw that reads the tube's width AND contact load gets a 'settled:'
@@ -252,6 +252,6 @@ with contextlib.suppress(Exception):
     time.sleep(0.5)
     final = {j: float(bus.read("Present_Position", j, normalize=True)) for j in JOINTS}
     print("settled:", {j: round(v, 1) for j, v in final.items()})
-# disable_torque defaults to True on disconnect — that full release is the
+# disable_torque defaults to True on disconnect, that full release is the
 # OTHER half of the Aug 16 elbow-sag bug. Keep the held joints holding.
 bus.disconnect(disable_torque=False)
